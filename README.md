@@ -39,7 +39,7 @@ Select p
   - constant
   - procedure
 - ### Abstractions
-  - Next/Next*
+  - Next/Next* (possible to use linked list to implement workflow)
   - Parent/Parent*
   - Uses
   - Modifies
