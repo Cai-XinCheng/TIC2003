@@ -1,3 +1,9 @@
 # ignore Visual Studio cache files
 .vs/
-Debug/
+
+# Build results
+[Dd]ebug/
+
+# Test results
+database.db
+Tests/out.xml
