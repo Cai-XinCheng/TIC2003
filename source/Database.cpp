@@ -32,6 +32,24 @@ void Database::insertProcedure(string procedureName) {
 	sqlite3_exec(dbConnection, insertProcedureSQL.c_str(), NULL, 0, &errorMessage);
 }
 
+// method to insert a constant into the database
+void Database::insertConstant(unsigned int constantValue) {
+    string insertConstantSQL = "INSERT INTO constants ('value') VALUES(" + std::to_string(constantValue) + ");";
+    sqlite3_exec(dbConnection, insertConstantSQL.c_str(), NULL, 0, &errorMessage);
+}
+
+// method to insert a variable into the database
+void Database::insertVariable(string variableName, unsigned int statementNo) {
+    string insertVariableSQL = "INSERT INTO variables ('name', 'stmtNo') VALUES('" + variableName + "', " + std::to_string(statementNo) + ");";
+    sqlite3_exec(dbConnection, insertVariableSQL.c_str(), NULL, 0, &errorMessage);
+}
+
+// method to insert a statement into the database
+void Database::insertStatement(unsigned int statementNo, string type) {
+    string insertStatementSQL = "INSERT INTO statements ('stmtNo', 'type') VALUES(" + std::to_string(statementNo) + ", '" + type + "');";
+    sqlite3_exec(dbConnection, insertStatementSQL.c_str(), NULL, 0, &errorMessage);
+}
+
 // method to get all the procedures from the database
 void Database::getProcedures(vector<string>& results){
 	// clear the existing results
