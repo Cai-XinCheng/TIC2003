@@ -1,3 +1,9 @@
 # ignore Visual Studio cache files
 .vs/
-Debug/
+
+# User-specific files
+*.user
+
+# Build results
+[Dd]ebug/
+

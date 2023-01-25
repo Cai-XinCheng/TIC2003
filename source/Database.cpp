@@ -9,13 +9,28 @@ void Database::initialize() {
 	// open a database connection and store the pointer into dbConnection
 	sqlite3_open("database.db", &dbConnection);
 
-	// drop the existing procedure table (if any)
-	string dropProcedureTableSQL = "DROP TABLE IF EXISTS procedures";
-	sqlite3_exec(dbConnection, dropProcedureTableSQL.c_str(), NULL, 0, &errorMessage);
+    // map to store CREATE TABLE queries
+    // key: table name; value: query
+    map<string, string> map;
+    map["procedures"] = "CREATE TABLE procedures (procedureName VARCHAR(255) PRIMARY KEY);";
+    map["constants"] = "CREATE TABLE constants (value INTEGER PRIMARY KEY);";
+    map["variables"] = "CREATE TABLE variables (stmtNo INTEGER PRIMARY KEY, name VARCHAR(255));";
+    map["statements"] = "CREATE TABLE statements (stmtNo INTEGER PRIMARY KEY, type VARCHAR(255));";
 
-	// create a procedure table
-	string createProcedureTableSQL = "CREATE TABLE procedures ( procedureName VARCHAR(255) PRIMARY KEY);";
-	sqlite3_exec(dbConnection, createProcedureTableSQL.c_str(), NULL, 0, &errorMessage);
+    for (auto it = map.begin(); it != map.end(); it++) {
+        // result of sqlite3_exe()
+        int execResult = 0;
+
+        // drop the existing table (if any)
+        string dropTableSQL = "DROP TABLE IF EXISTS " + it->first;
+        execResult = sqlite3_exec(dbConnection, dropTableSQL.c_str(), NULL, 0, &errorMessage);
+        checkSqlExecResult(execResult, errorMessage);
+
+        // create table
+        string createTableSQL = it->second;
+        execResult = sqlite3_exec(dbConnection, createTableSQL.c_str(), NULL, 0, &errorMessage);
+        checkSqlExecResult(execResult, errorMessage);
+    }
 
 	// initialize the result vector
 	dbResults = vector<vector<string>>();
@@ -67,4 +82,11 @@ int Database::callback(void* NotUsed, int argc, char** argv, char** azColName) {
 	dbResults.push_back(dbRow);
 
 	return 0;
+}
+
+// check SQL query execution result, print error message if any
+void Database::checkSqlExecResult(int execResult, char* errMessage) {
+    if (execResult != SQLITE_OK) {
+        printf("**********SQL Error: %s \n", errMessage);
+    }
 }

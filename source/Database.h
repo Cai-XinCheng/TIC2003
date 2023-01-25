@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "sqlite3.h"
+#include <map>
 
 using namespace std;
 
@@ -32,5 +33,7 @@ private:
 	// callback method to put one row of results from the database into the dbResults vector
 	// This method is called each time a row of results is returned from the database
 	static int callback(void* NotUsed, int argc, char** argv, char** azColName);
+    // check SQL query execution result, print error message if any
+    static void checkSqlExecResult(int execResult, char* errMessage);
 };
 
