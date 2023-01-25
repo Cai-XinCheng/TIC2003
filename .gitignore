@@ -7,3 +7,6 @@
 # Build results
 [Dd]ebug/
 
+# Test results
+database.db
+Tests/out.xml
