@@ -14,7 +14,7 @@ void Database::initialize() {
 	map<string, string> createTableSQLs;
     createTableSQLs["procedures"] = "CREATE TABLE procedures (procedureName VARCHAR(255) PRIMARY KEY);";
     createTableSQLs["constants"] = "CREATE TABLE constants (value INTEGER PRIMARY KEY);";
-    createTableSQLs["variables"] = "CREATE TABLE variables (stmtNo INTEGER PRIMARY KEY, name VARCHAR(255));";
+    createTableSQLs["variables"] = "CREATE TABLE variables (name VARCHAR(255) PRIMARY KEY);";
     createTableSQLs["statements"] = "CREATE TABLE statements (stmtNo INTEGER PRIMARY KEY, type VARCHAR(255));";
 
 	for (auto it = createTableSQLs.begin(); it != createTableSQLs.end(); it++) {
@@ -54,8 +54,8 @@ void Database::insertConstant(unsigned int constantValue) {
 }
 
 // method to insert a variable into the database
-void Database::insertVariable(string variableName, unsigned int statementNo) {
-	string insertVariableSQL = "INSERT INTO variables ('name', 'stmtNo') VALUES('" + variableName + "', " + std::to_string(statementNo) + ");";
+void Database::insertVariable(string variableName) {
+	string insertVariableSQL = "INSERT INTO variables ('name') VALUES('" + variableName + "');";
 	sqlite3_exec(dbConnection, insertVariableSQL.c_str(), NULL, 0, &errorMessage);
 }
 

@@ -24,7 +24,7 @@ public:
 	static void insertConstant(unsigned int constantValue);
 
 	// method to insert a variable into the database
-	static void insertVariable(string variableName, unsigned int statementNo);
+	static void insertVariable(string variableName);
 
 	// method to insert a statement into the database
 	static void insertStatement(unsigned int statementNo, string type);

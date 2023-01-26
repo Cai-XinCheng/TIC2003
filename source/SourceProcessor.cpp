@@ -1,4 +1,5 @@
 #include "SourceProcessor.h"
+#include<set>
 
 // method for processing the source program
 // This method currently only inserts the procedure name into the database
@@ -13,10 +14,48 @@ void SourceProcessor::process(string program) {
 	vector<string> tokens;
 	tk.tokenize(program, tokens);
 
-	// This logic is highly simplified based on iteration 1 requirements and 
-	// the assumption that the programs are valid.
-	string procedureName = tokens.at(1);
+    // logic to parse program for Iteration 1
+    // statement number
+    int stmtNo = 1;
 
-	// insert the procedure into the database
-	Database::insertProcedure(procedureName);
+    // insert the procedure into the database
+    Database::insertProcedure(tokens.at(1));
+   
+    vector<string> statement;
+    // set to store all variables in order to check duplication
+    set<string> vars;
+    // iterate tokens from 3th element(first statement)
+    auto it = tokens.begin();
+    for (advance(it, 3); it != tokens.end(); it++) {
+        if (*it != "}" && *it != ";") { 
+            statement.push_back(*it);
+        }
+        else if (statement.size() > 0) { // end of a statement
+            if (statement.at(0) == "read") {
+                Database::insertStatement(stmtNo, "read");
+                Database::insertVariable(statement.at(1));
+                vars.insert(statement.at(1));
+            }
+            else if (statement.at(0) == "print") {
+                Database::insertStatement(stmtNo, "print");
+            }
+            else { // assignment, e.g., index = num1, con1 = 10
+                Database::insertStatement(stmtNo, "assign");
+
+                // check if variable is declared
+                auto it = vars.find(statement.at(0));
+                if (it == vars.end()) { // not declared
+                    Database::insertVariable(statement.at(0));
+                }
+
+                // check if RHS is integer
+                char c = statement.at(2)[0];
+                if (isdigit(c)) { // constant statement
+                    Database::insertConstant(atoi(statement.at(2).c_str()));
+                }
+            }
+            stmtNo++;
+            statement.clear();
+        }
+    }
 }
