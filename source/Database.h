@@ -20,14 +20,14 @@ public:
 	// method to insert a procedure into the database
 	static void insertProcedure(string procedureName);
 
-    // method to insert a constant into the database
-    static void insertConstant(unsigned int constantValue);
+	// method to insert a constant into the database
+	static void insertConstant(unsigned int constantValue);
 
-    // method to insert a variable into the database
-    static void insertVariable(string variableName, unsigned int statementNo);
+	// method to insert a variable into the database
+	static void insertVariable(string variableName, unsigned int statementNo);
 
-    // method to insert a statement into the database
-    static void insertStatement(unsigned int statementNo, string type);
+	// method to insert a statement into the database
+	static void insertStatement(unsigned int statementNo, string type);
 
 	// method to get all the procedures from the database
 	static void getProcedures(vector<string>& results);
@@ -42,7 +42,7 @@ private:
 	// callback method to put one row of results from the database into the dbResults vector
 	// This method is called each time a row of results is returned from the database
 	static int callback(void* NotUsed, int argc, char** argv, char** azColName);
-    // check SQL query execution result, print error message if any
-    static void checkSqlExecResult(int execResult, char* errMessage);
+	// check SQL query execution result, print error message if any
+	static void checkSqlExecResult(int execResult, char* errMessage);
 };
 

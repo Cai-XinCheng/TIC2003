@@ -9,28 +9,28 @@ void Database::initialize() {
 	// open a database connection and store the pointer into dbConnection
 	sqlite3_open("database.db", &dbConnection);
 
-    // map to store CREATE TABLE queries
-    // key: table name; value: query
-    map<string, string> map;
-    map["procedures"] = "CREATE TABLE procedures (procedureName VARCHAR(255) PRIMARY KEY);";
-    map["constants"] = "CREATE TABLE constants (value INTEGER PRIMARY KEY);";
-    map["variables"] = "CREATE TABLE variables (stmtNo INTEGER PRIMARY KEY, name VARCHAR(255));";
-    map["statements"] = "CREATE TABLE statements (stmtNo INTEGER PRIMARY KEY, type VARCHAR(255));";
+	// map to store CREATE TABLE queries
+	// key: table name; value: query
+	map<string, string> createTableSQLs;
+    createTableSQLs["procedures"] = "CREATE TABLE procedures (procedureName VARCHAR(255) PRIMARY KEY);";
+    createTableSQLs["constants"] = "CREATE TABLE constants (value INTEGER PRIMARY KEY);";
+    createTableSQLs["variables"] = "CREATE TABLE variables (stmtNo INTEGER PRIMARY KEY, name VARCHAR(255));";
+    createTableSQLs["statements"] = "CREATE TABLE statements (stmtNo INTEGER PRIMARY KEY, type VARCHAR(255));";
 
-    for (auto it = map.begin(); it != map.end(); it++) {
-        // result of sqlite3_exe()
-        int execResult = 0;
+	for (auto it = createTableSQLs.begin(); it != createTableSQLs.end(); it++) {
+		// result of sqlite3_exe()
+		int execResult = 0;
 
-        // drop the existing table (if any)
-        string dropTableSQL = "DROP TABLE IF EXISTS " + it->first;
-        execResult = sqlite3_exec(dbConnection, dropTableSQL.c_str(), NULL, 0, &errorMessage);
-        checkSqlExecResult(execResult, errorMessage);
+		// drop the existing table (if any)
+		string dropTableSQL = "DROP TABLE IF EXISTS " + it->first;
+		execResult = sqlite3_exec(dbConnection, dropTableSQL.c_str(), NULL, 0, &errorMessage);
+		checkSqlExecResult(execResult, errorMessage);
 
-        // create table
-        string createTableSQL = it->second;
-        execResult = sqlite3_exec(dbConnection, createTableSQL.c_str(), NULL, 0, &errorMessage);
-        checkSqlExecResult(execResult, errorMessage);
-    }
+		// create table
+		string createTableSQL = it->second;
+		execResult = sqlite3_exec(dbConnection, createTableSQL.c_str(), NULL, 0, &errorMessage);
+		checkSqlExecResult(execResult, errorMessage);
+	}
 
 	// initialize the result vector
 	dbResults = vector<vector<string>>();
@@ -49,20 +49,20 @@ void Database::insertProcedure(string procedureName) {
 
 // method to insert a constant into the database
 void Database::insertConstant(unsigned int constantValue) {
-    string insertConstantSQL = "INSERT INTO constants ('value') VALUES(" + std::to_string(constantValue) + ");";
-    sqlite3_exec(dbConnection, insertConstantSQL.c_str(), NULL, 0, &errorMessage);
+	string insertConstantSQL = "INSERT INTO constants ('value') VALUES(" + std::to_string(constantValue) + ");";
+	sqlite3_exec(dbConnection, insertConstantSQL.c_str(), NULL, 0, &errorMessage);
 }
 
 // method to insert a variable into the database
 void Database::insertVariable(string variableName, unsigned int statementNo) {
-    string insertVariableSQL = "INSERT INTO variables ('name', 'stmtNo') VALUES('" + variableName + "', " + std::to_string(statementNo) + ");";
-    sqlite3_exec(dbConnection, insertVariableSQL.c_str(), NULL, 0, &errorMessage);
+	string insertVariableSQL = "INSERT INTO variables ('name', 'stmtNo') VALUES('" + variableName + "', " + std::to_string(statementNo) + ");";
+	sqlite3_exec(dbConnection, insertVariableSQL.c_str(), NULL, 0, &errorMessage);
 }
 
 // method to insert a statement into the database
 void Database::insertStatement(unsigned int statementNo, string type) {
-    string insertStatementSQL = "INSERT INTO statements ('stmtNo', 'type') VALUES(" + std::to_string(statementNo) + ", '" + type + "');";
-    sqlite3_exec(dbConnection, insertStatementSQL.c_str(), NULL, 0, &errorMessage);
+	string insertStatementSQL = "INSERT INTO statements ('stmtNo', 'type') VALUES(" + std::to_string(statementNo) + ", '" + type + "');";
+	sqlite3_exec(dbConnection, insertStatementSQL.c_str(), NULL, 0, &errorMessage);
 }
 
 // method to get all the procedures from the database
@@ -104,7 +104,7 @@ int Database::callback(void* NotUsed, int argc, char** argv, char** azColName) {
 
 // check SQL query execution result, print error message if any
 void Database::checkSqlExecResult(int execResult, char* errMessage) {
-    if (execResult != SQLITE_OK) {
-        printf("**********SQL Error: %s \n", errMessage);
-    }
+	if (execResult != SQLITE_OK) {
+		printf("**********SQL Error: %s \n", errMessage);
+	}
 }
