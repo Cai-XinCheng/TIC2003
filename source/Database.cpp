@@ -47,16 +47,16 @@ void Database::insertProcedure(string procedureName) {
 	sqlite3_exec(dbConnection, insertProcedureSQL.c_str(), NULL, 0, &errorMessage);
 }
 
-// method to insert a constant into the database
-void Database::insertConstant(unsigned int constantValue) {
-	string insertConstantSQL = "INSERT INTO constants ('value') VALUES(" + std::to_string(constantValue) + ");";
-	sqlite3_exec(dbConnection, insertConstantSQL.c_str(), NULL, 0, &errorMessage);
-}
-
 // method to insert a variable into the database
 void Database::insertVariable(string variableName) {
 	string insertVariableSQL = "INSERT INTO variables ('name') VALUES('" + variableName + "');";
 	sqlite3_exec(dbConnection, insertVariableSQL.c_str(), NULL, 0, &errorMessage);
+}
+
+// method to insert a constant into the database
+void Database::insertConstant(unsigned int constantValue) {
+    string insertConstantSQL = "INSERT INTO constants ('value') VALUES(" + std::to_string(constantValue) + ");";
+    sqlite3_exec(dbConnection, insertConstantSQL.c_str(), NULL, 0, &errorMessage);
 }
 
 // method to insert a statement into the database
@@ -81,6 +81,78 @@ void Database::getProcedures(vector<string>& results){
 		result = dbRow.at(0);
 		results.push_back(result);
 	}
+}
+
+// method to get all the variable from the database
+void Database::getVariables(vector<string>& results) {
+    // clear the existing results
+    dbResults.clear();
+
+    // retrieve the variables from the constants table
+    // The callback method is only used when there are results to be returned.
+    string getVariablesSQL = "SELECT name FROM constants;";
+    sqlite3_exec(dbConnection, getVariablesSQL.c_str(), callback, 0, &errorMessage);
+
+    // postprocess the results from the database so that the output is just a vector of variable names
+    for (vector<string> dbRow : dbResults) {
+        string result;
+        result = dbRow.at(0);
+        results.push_back(result);
+    }
+}
+
+// method to get all the procedures from the database
+void Database::getConstants(vector<string>& results) {
+    // clear the existing results
+    dbResults.clear();
+
+    // retrieve the constants from the constants table
+    // The callback method is only used when there are results to be returned.
+    string getConstantsSQL = "SELECT value FROM constants;";
+    sqlite3_exec(dbConnection, getConstantsSQL.c_str(), callback, 0, &errorMessage);
+
+    // postprocess the results from the database so that the output is just a vector of constant values
+    for (vector<string> dbRow : dbResults) {
+        string result;
+        result = dbRow.at(0);
+        results.push_back(result);
+    }
+}
+
+// method to get all the statements from the database
+void Database::getStatements(vector<string>& results) {
+    // clear the existing results
+    dbResults.clear();
+
+    // retrieve the statements from the constants table
+    // The callback method is only used when there are results to be returned.
+    string getStatementsSQL = "SELECT stmtNo FROM statements;";
+    sqlite3_exec(dbConnection, getStatementsSQL.c_str(), callback, 0, &errorMessage);
+
+    // postprocess the results from the database so that the output is just a vector of statement number
+    for (vector<string> dbRow : dbResults) {
+        string result;
+        result = dbRow.at(0);
+        results.push_back(result);
+    }
+}
+
+// method to get all the statements of the specific type from the database
+void Database::getStatementsByType(const string& type, vector<string>& results) {
+    // clear the existing results
+    dbResults.clear();
+
+    // retrieve the statements from the constants table
+    // The callback method is only used when there are results to be returned.
+    string getStatementsSQL = "SELECT stmtNo FROM statements where type='" + type + "';";
+    sqlite3_exec(dbConnection, getStatementsSQL.c_str(), callback, 0, &errorMessage);
+
+    // postprocess the results from the database so that the output is just a vector of statement number
+    for (vector<string> dbRow : dbResults) {
+        string result;
+        result = dbRow.at(0);
+        results.push_back(result);
+    }
 }
 
 // callback method to put one row of results from the database into the dbResults vector

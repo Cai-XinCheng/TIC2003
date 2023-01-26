@@ -30,8 +30,16 @@ void QueryProcessor::evaluate(string query, vector<string>& output) {
 	// This logic is highly simplified based on iteration 1 requirements and 
 	// the assumption that the queries are valid.
 	if (synonymType == "procedure") {
-		Database::getProcedures(databaseResults);
-	}
+	    Database::getProcedures(databaseResults);
+    } else if (synonymType == "variable") {
+        Database::getVariables(databaseResults);
+    } else if (synonymType == "constant") {
+        Database::getConstants(databaseResults);
+    } else if (synonymType == "assign" || synonymType == "print" || synonymType == "read") {
+        Database::getStatementsByType(synonymType, databaseResults);
+    } else if (synonymType == "stmt") {
+        Database::getStatements(databaseResults);
+    }
 
 	// post process the results to fill in the output vector
 	for (string databaseResult : databaseResults) {
