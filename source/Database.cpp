@@ -90,7 +90,7 @@ void Database::getVariables(vector<string>& results) {
 
     // retrieve the variables from the constants table
     // The callback method is only used when there are results to be returned.
-    string getVariablesSQL = "SELECT name FROM constants;";
+    string getVariablesSQL = "SELECT name FROM variables;";
     sqlite3_exec(dbConnection, getVariablesSQL.c_str(), callback, 0, &errorMessage);
 
     // postprocess the results from the database so that the output is just a vector of variable names
