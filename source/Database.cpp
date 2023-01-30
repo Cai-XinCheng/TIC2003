@@ -12,10 +12,10 @@ void Database::initialize() {
 	// map to store CREATE TABLE queries
 	// key: table name; value: query
 	map<string, string> createTableSQLs;
-    createTableSQLs["procedures"] = "CREATE TABLE procedures (procedureName VARCHAR(255) PRIMARY KEY);";
-    createTableSQLs["constants"] = "CREATE TABLE constants (value INTEGER PRIMARY KEY);";
-    createTableSQLs["variables"] = "CREATE TABLE variables (name VARCHAR(255) PRIMARY KEY);";
-    createTableSQLs["statements"] = "CREATE TABLE statements (stmtNo INTEGER PRIMARY KEY, type VARCHAR(255));";
+    createTableSQLs["procedures"] = "CREATE TABLE procedures (procedureName VARCHAR(255) NOT NULL PRIMARY KEY);";
+    createTableSQLs["constants"] = "CREATE TABLE constants (value INTEGER NOT NULL PRIMARY KEY);";
+    createTableSQLs["variables"] = "CREATE TABLE variables (name VARCHAR(255) NOT NULL PRIMARY KEY);";
+    createTableSQLs["statements"] = "CREATE TABLE statements (stmtNo INTEGER NOT NULL PRIMARY KEY, type NOT NULL VARCHAR(255));";
 
 	for (auto it = createTableSQLs.begin(); it != createTableSQLs.end(); it++) {
 		// result of sqlite3_exe()
