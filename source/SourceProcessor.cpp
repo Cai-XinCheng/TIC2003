@@ -22,8 +22,9 @@ void SourceProcessor::process(string program) {
     Database::insertProcedure(tokens.at(1));
    
     vector<string> statement;
-    // set to store all variables in order to check duplication
+    // set to store all variables and constants in order to check duplication
     set<string> vars;
+    set<string> cons;
     // iterate tokens from 3th element(first statement)
     auto it = tokens.begin();
     for (advance(it, 3); it != tokens.end(); it++) {
@@ -43,15 +44,19 @@ void SourceProcessor::process(string program) {
                 Database::insertStatement(stmtNo, "assign");
 
                 // check if variable is declared
-                auto it = vars.find(statement.at(0));
-                if (it == vars.end()) { // not declared
+                auto itVars = vars.find(statement.at(0));
+                if (itVars == vars.end()) { // not declared
                     Database::insertVariable(statement.at(0));
                 }
 
                 // check if RHS is integer
                 char c = statement.at(2)[0];
                 if (isdigit(c)) { // constant statement
-                    Database::insertConstant(atoi(statement.at(2).c_str()));
+                    auto itCons = cons.find(statement.at(2));
+                    if (itCons == cons.end()) { // not declared
+                        cons.insert(statement.at(2));
+                        Database::insertConstant(atoi(statement.at(2).c_str()));
+                    }
                 }
             }
             stmtNo++;
