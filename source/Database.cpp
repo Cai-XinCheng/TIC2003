@@ -1,3 +1,4 @@
+#include <map>
 #include "Database.h"
 
 SQLiteWrapper Database::db;
@@ -36,26 +37,26 @@ void Database::close() {
 
 // method to insert a procedure into the database
 void Database::insertProcedure(string procedureName) {
-    string insertProcedureSQL = "INSERT INTO procedures ('procedureName') VALUES ('" + procedureName + "');";
-    db.execute(insertProcedureSQL);
+    string insertProcedureSQL = "INSERT INTO procedures ('procedureName') VALUES (?);";
+    db.execute(insertProcedureSQL, procedureName);
 }
 
 // method to insert a variable into the database
 void Database::insertVariable(string variableName) {
-    string insertVariableSQL = "INSERT INTO variables ('name') VALUES('" + variableName + "');";
-    db.execute(insertVariableSQL);
+    string insertVariableSQL = "INSERT INTO variables ('name') VALUES(?);";
+    db.execute(insertVariableSQL, variableName);
 }
 
 // method to insert a constant into the database
 void Database::insertConstant(unsigned int constantValue) {
-    string insertConstantSQL = "INSERT INTO constants ('value') VALUES(" + std::to_string(constantValue) + ");";
-    db.execute(insertConstantSQL);
+    string insertConstantSQL = "INSERT INTO constants ('value') VALUES(?);";
+    db.execute(insertConstantSQL, constantValue);
 }
 
 // method to insert a statement into the database
 void Database::insertStatement(unsigned int statementNo, string type) {
-    string insertStatementSQL = "INSERT INTO statements ('stmtNo', 'type') VALUES(" + std::to_string(statementNo) + ", '" + type + "');";
-    db.execute(insertStatementSQL);
+    string insertStatementSQL = "INSERT INTO statements ('stmtNo', 'type') VALUES(?, ?);";
+    db.execute(insertStatementSQL, statementNo, type);
 }
 
 // method to get all the procedures from the database
@@ -122,8 +123,8 @@ void Database::getStatements(vector<string>& results) {
 void Database::getStatementsByType(const string& type, vector<string>& results) {
     // retrieve the statements from the constants table
     // The callback method is only used when there are results to be returned.
-    string getStatementsSQL = "SELECT stmtNo FROM statements where type='" + type + "';";
-    vector<vector<string>> dbResults = db.select(getStatementsSQL);;
+    string getStatementsSQL = "SELECT stmtNo FROM statements where type = ?;";
+    vector<vector<string>> dbResults = db.select(getStatementsSQL, type);;
 
     // postprocess the results from the database so that the output is just a vector of statement number
     for (vector<string> dbRow : dbResults) {

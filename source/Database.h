@@ -1,6 +1,5 @@
 #pragma once
 
-#include <map>
 #include "SQLiteWrapper.h"
 
 using namespace std;
