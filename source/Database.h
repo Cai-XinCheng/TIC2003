@@ -45,7 +45,7 @@ private:
     // the instance of SQLiteWrapper
     static SQLiteWrapper db;
 
-    // filter input and fill into output by the column index
+    // method to filter input and fill into output by the column index
     static void filterByColumnIndex(const vector<vector<string>>& input, vector<string>& output, int columnIndex);
 };
 

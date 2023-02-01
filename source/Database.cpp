@@ -17,9 +17,6 @@ void Database::initialize() {
     createTableSQLs["statements"] = "CREATE TABLE statements (stmtNo INTEGER NOT NULL PRIMARY KEY, type VARCHAR(255) NOT NULL);";
 
     for (auto const& pair : createTableSQLs) {
-        // result of sqlite3_exe()
-        int execResult = 0;
-
         // drop the existing table (if any)
         string dropTableSQL = "DROP TABLE IF EXISTS " + pair.first;
         db.execute(dropTableSQL);
@@ -114,7 +111,7 @@ void Database::getStatementsByType(const string& type, vector<string>& results) 
     filterByColumnIndex(dbResults, results, 0);
 }
 
-// filter input and fill into output by the column index
+// method to filter input and fill into output by the column index
 void Database::filterByColumnIndex(const vector<vector<string>>& input, vector<string>& output, int columnIndex) {
     for (vector<string> dbRow : input) {
         output.push_back(dbRow.at(columnIndex));
