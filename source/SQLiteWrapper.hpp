@@ -43,7 +43,7 @@ inline void SQLiteWrapper::execute(const string& sql, Args&&... args) {
 
     try {
         prepare(db, sql, &statement);
-        bind_parameters(statement, 1, forward<Args>(args)...);
+        bindParameters(statement, 1, forward<Args>(args)...);
         step(statement);
     }
     catch (...) {
@@ -61,7 +61,7 @@ inline vector<vector<string>> SQLiteWrapper::select(const string& sql) {
 
     try {
         prepare(db, sql, &statement);
-        steps(statement, dbResults);
+        stepAll(statement, dbResults);
     }
     catch (...) {
         if (statement != nullptr) {
@@ -80,8 +80,8 @@ inline vector<vector<string>> SQLiteWrapper::select(const string& sql, Args&&...
 
     try {
         prepare(db, sql, &statement);
-        bind_parameters(statement, 1, forward<Args>(args)...);
-        steps(statement, dbResults);
+        bindParameters(statement, 1, forward<Args>(args)...);
+        stepAll(statement, dbResults);
     }
     catch (...) {
         if (statement != nullptr) {
@@ -93,7 +93,7 @@ inline vector<vector<string>> SQLiteWrapper::select(const string& sql, Args&&...
     return dbResults;
 }
 
-inline void SQLiteWrapper::ensure_sqlite3_success(sqlite3* db, int resultCode) {
+inline void SQLiteWrapper::ensureNonerror(sqlite3* db, int resultCode) {
     // https://www.sqlite.org/rescode.html#result_codes_versus_error_codes
     if (resultCode != SQLITE_OK && resultCode != SQLITE_ROW && resultCode != SQLITE_DONE) {
         const char* errorMessage = sqlite3_errmsg(db);
@@ -101,64 +101,64 @@ inline void SQLiteWrapper::ensure_sqlite3_success(sqlite3* db, int resultCode) {
     }
 }
 
-inline void SQLiteWrapper::ensure_sqlite3_success(sqlite3_stmt* statement, int resultCode) {
+inline void SQLiteWrapper::ensureNonerror(sqlite3_stmt* statement, int resultCode) {
     sqlite3* db = sqlite3_db_handle(statement);
-    ensure_sqlite3_success(db, resultCode);
+    ensureNonerror(db, resultCode);
 }
 
 inline void SQLiteWrapper::prepare(sqlite3* db, const string& sql, sqlite3_stmt** statement) {
     int ret = sqlite3_prepare_v2(db, sql.c_str(), static_cast<int>(sql.size()), statement, nullptr);
-    ensure_sqlite3_success(db, ret);
+    ensureNonerror(db, ret);
 }
 
-inline void SQLiteWrapper::bind_parameter(sqlite3_stmt* preparedStatement, int index, const int32_t value) {
+inline void SQLiteWrapper::bindParameter(sqlite3_stmt* preparedStatement, int index, const int32_t value) {
     const int ret = sqlite3_bind_int(preparedStatement, index, value);
-    ensure_sqlite3_success(preparedStatement, ret);
+    ensureNonerror(preparedStatement, ret);
 }
 
-inline void SQLiteWrapper::bind_parameter(sqlite3_stmt* preparedStatement, int index, const uint32_t value) {
+inline void SQLiteWrapper::bindParameter(sqlite3_stmt* preparedStatement, int index, const uint32_t value) {
     const int ret = sqlite3_bind_int64(preparedStatement, index, value);
-    ensure_sqlite3_success(preparedStatement, ret);
+    ensureNonerror(preparedStatement, ret);
 }
 
-inline void SQLiteWrapper::bind_parameter(sqlite3_stmt* preparedStatement, int index, const int64_t value) {
+inline void SQLiteWrapper::bindParameter(sqlite3_stmt* preparedStatement, int index, const int64_t value) {
     const int ret = sqlite3_bind_int64(preparedStatement, index, value);
-    ensure_sqlite3_success(preparedStatement, ret);
+    ensureNonerror(preparedStatement, ret);
 }
 
-inline void SQLiteWrapper::bind_parameter(sqlite3_stmt* preparedStatement, int index, const double value) {
+inline void SQLiteWrapper::bindParameter(sqlite3_stmt* preparedStatement, int index, const double value) {
     const int ret = sqlite3_bind_double(preparedStatement, index, value);
-    ensure_sqlite3_success(preparedStatement, ret);
+    ensureNonerror(preparedStatement, ret);
 }
 
-inline void SQLiteWrapper::bind_parameter(sqlite3_stmt* preparedStatement, int index, const string& value) {
+inline void SQLiteWrapper::bindParameter(sqlite3_stmt* preparedStatement, int index, const string& value) {
     const int ret = sqlite3_bind_text(preparedStatement, index, value.c_str(), static_cast<int>(value.size()), SQLITE_TRANSIENT);
-    ensure_sqlite3_success(preparedStatement, ret);
+    ensureNonerror(preparedStatement, ret);
 }
 
-inline void SQLiteWrapper::bind_parameter(sqlite3_stmt* preparedStatement, int index, const char* value) {
+inline void SQLiteWrapper::bindParameter(sqlite3_stmt* preparedStatement, int index, const char* value) {
     const int ret = sqlite3_bind_text(preparedStatement, index, value, -1, SQLITE_TRANSIENT);
-    ensure_sqlite3_success(preparedStatement, ret);
+    ensureNonerror(preparedStatement, ret);
 }
 
 template<typename T, typename... Args>
-inline void SQLiteWrapper::bind_parameters(sqlite3_stmt* preparedStatement, int index, T&& first) {
-    bind_parameter(preparedStatement, index, first);
+inline void SQLiteWrapper::bindParameters(sqlite3_stmt* preparedStatement, int index, T&& first) {
+    bindParameter(preparedStatement, index, first);
 }
 
 template<typename T, typename... Args>
-inline void SQLiteWrapper::bind_parameters(sqlite3_stmt* preparedStatement, int index, T&& first, Args&&... args) {
-    bind_parameter(preparedStatement, index, first);
-    bind_parameters(preparedStatement, index + 1, forward<Args>(args)...);
+inline void SQLiteWrapper::bindParameters(sqlite3_stmt* preparedStatement, int index, T&& first, Args&&... args) {
+    bindParameter(preparedStatement, index, first);
+    bindParameters(preparedStatement, index + 1, forward<Args>(args)...);
 }
 
 inline bool SQLiteWrapper::step(sqlite3_stmt* preparedStatement) {
     const int ret = sqlite3_step(preparedStatement);
-    ensure_sqlite3_success(preparedStatement, ret);
+    ensureNonerror(preparedStatement, ret);
     return ret == SQLITE_ROW;
 }
 
-inline void SQLiteWrapper::steps(sqlite3_stmt* preparedStatement, vector<vector<string>>& dbResults) {
+inline void SQLiteWrapper::stepAll(sqlite3_stmt* preparedStatement, vector<vector<string>>& dbResults) {
     int columnsCount = -1;
     for (;;) {
         if (!step(preparedStatement)) {
@@ -167,6 +167,7 @@ inline void SQLiteWrapper::steps(sqlite3_stmt* preparedStatement, vector<vector<
         if (columnsCount == -1) {
             columnsCount = sqlite3_data_count(preparedStatement);
         }
+
         vector<string> dbRow;
         for (int i = 0; i < columnsCount; i++) {
             const string columnValue = string(reinterpret_cast<const char*>(sqlite3_column_text(preparedStatement, i)));
@@ -176,9 +177,10 @@ inline void SQLiteWrapper::steps(sqlite3_stmt* preparedStatement, vector<vector<
     }
 }
 
+
 inline void SQLiteWrapper::finalize(sqlite3_stmt* preparedStatement) {
     const int ret = sqlite3_finalize(preparedStatement);
-    ensure_sqlite3_success(preparedStatement, ret);
+    ensureNonerror(preparedStatement, ret);
 }
 
 #endif // !SQLITE_WRAPPER_HPP
