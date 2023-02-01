@@ -16,16 +16,16 @@ void Database::initialize() {
     createTableSQLs["variables"] = "CREATE TABLE variables (name VARCHAR(255) NOT NULL PRIMARY KEY);";
     createTableSQLs["statements"] = "CREATE TABLE statements (stmtNo INTEGER NOT NULL PRIMARY KEY, type VARCHAR(255) NOT NULL);";
 
-    for (auto it = createTableSQLs.begin(); it != createTableSQLs.end(); it++) {
+    for (auto const& pair : createTableSQLs) {
         // result of sqlite3_exe()
         int execResult = 0;
 
         // drop the existing table (if any)
-        string dropTableSQL = "DROP TABLE IF EXISTS " + it->first;
+        string dropTableSQL = "DROP TABLE IF EXISTS " + pair.first;
         db.execute(dropTableSQL);
 
         // create table
-        string createTableSQL = it->second;
+        string createTableSQL = pair.second;
         db.execute(createTableSQL);
     }
 }
@@ -67,11 +67,7 @@ void Database::getProcedures(vector<string>& results) {
     vector<vector<string>> dbResults = db.select(getProceduresSQL);
 
     // postprocess the results from the database so that the output is just a vector of procedure names
-    for (vector<string> dbRow : dbResults) {
-        string result;
-        result = dbRow.at(0);
-        results.push_back(result);
-    }
+    filterByColumnIndex(dbResults, results, 0);
 }
 
 // method to get all the variable from the database
@@ -82,11 +78,7 @@ void Database::getVariables(vector<string>& results) {
     vector<vector<string>> dbResults = db.select(getVariablesSQL);
 
     // postprocess the results from the database so that the output is just a vector of variable names
-    for (vector<string> dbRow : dbResults) {
-        string result;
-        result = dbRow.at(0);
-        results.push_back(result);
-    }
+    filterByColumnIndex(dbResults, results, 0);
 }
 
 // method to get all the procedures from the database
@@ -97,11 +89,7 @@ void Database::getConstants(vector<string>& results) {
     vector<vector<string>> dbResults = db.select(getConstantsSQL);
 
     // postprocess the results from the database so that the output is just a vector of constant values
-    for (vector<string> dbRow : dbResults) {
-        string result;
-        result = dbRow.at(0);
-        results.push_back(result);
-    }
+    filterByColumnIndex(dbResults, results, 0);
 }
 
 // method to get all the statements from the database
@@ -112,11 +100,7 @@ void Database::getStatements(vector<string>& results) {
     vector<vector<string>> dbResults = db.select(getStatementsSQL);
 
     // postprocess the results from the database so that the output is just a vector of statement number
-    for (vector<string> dbRow : dbResults) {
-        string result;
-        result = dbRow.at(0);
-        results.push_back(result);
-    }
+    filterByColumnIndex(dbResults, results, 0);
 }
 
 // method to get all the statements of the specific type from the database
@@ -127,9 +111,12 @@ void Database::getStatementsByType(const string& type, vector<string>& results) 
     vector<vector<string>> dbResults = db.select(getStatementsSQL, type);;
 
     // postprocess the results from the database so that the output is just a vector of statement number
-    for (vector<string> dbRow : dbResults) {
-        string result;
-        result = dbRow.at(0);
-        results.push_back(result);
+    filterByColumnIndex(dbResults, results, 0);
+}
+
+// filter input and fill into output by the column index
+void Database::filterByColumnIndex(const vector<vector<string>>& input, vector<string>& output, int columnIndex) {
+    for (vector<string> dbRow : input) {
+        output.push_back(dbRow.at(columnIndex));
     }
 }
