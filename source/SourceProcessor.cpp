@@ -47,6 +47,7 @@ void SourceProcessor::process(string program) {
                 auto itVars = vars.find(statement.at(0));
                 if (itVars == vars.end()) { // not declared
                     Database::insertVariable(statement.at(0));
+                    vars.insert(statement.at(0));
                 }
 
                 // check if RHS is integer

@@ -1,35 +1,35 @@
 1 - Procedure
 procedure p;
 Select p
-echo
+Ss1b
 5000
 2 - Variable
 variable v;
 Select v
-num1, index
+ug, hoLgd8Ce0, yNILiZj
 5000
 3 - Constant
 constant c;
 Select c
-none
+1091691141, 565429438, 1453982741
 5000
 4 - Assignment
 assign a;
 Select a
-2
+none
 5000
 5 - Print
-print pr;
-Select pr
-3, 4
+print p;
+Select p
+3, 6, 7, 10
 5000
 6 - Read
-read rd;
-Select rd
-1
+read r;
+Select r
+1, 4, 9
 5000
 7 - Statement
 stmt s;
 Select s
-1, 2, 3, 4
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 5000

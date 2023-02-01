@@ -1,8 +1,12 @@
-procedure echo { 
-    read num1;
-    index = num1;
-    x = 10;
-    x = num1;
-    print num1;
-    print index;
+procedure Ss1b {
+    read ug;
+    ug = 1091691141;
+    print ug;
+    read hoLgd8Ce0;
+    hoLgd8Ce0 = 565429438;
+    print ug;
+    print ug;
+    hoLgd8Ce0 = 1453982741;
+    read yNILiZj;
+    print hoLgd8Ce0;
 }
