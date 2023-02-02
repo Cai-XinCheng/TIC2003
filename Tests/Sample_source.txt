@@ -1,12 +1,12 @@
-procedure Ss1b {
-    read ug;
-    ug = 1091691141;
-    print ug;
-    read hoLgd8Ce0;
-    hoLgd8Ce0 = 565429438;
-    print ug;
-    print ug;
-    hoLgd8Ce0 = 1453982741;
-    read yNILiZj;
-    print hoLgd8Ce0;
+procedure glHCe {
+    DRa5b = 1022481951;
+    rJTXae1mtZ = 1453926927;
+    print DRa5b;
+    print DRa5b;
+    read kbm;
+    qNzqM3 = DRa5b;
+    print DRa5b;
+    print kbm;
+    read o0SH6OIo6;
+    read j1T;
 }

@@ -1,32 +1,32 @@
 1 - Procedure
 procedure p;
 Select p
-Ss1b
+glHCe
 5000
 2 - Variable
 variable v;
 Select v
-ug, hoLgd8Ce0, yNILiZj
+DRa5b, rJTXae1mtZ, kbm, qNzqM3, o0SH6OIo6, j1T
 5000
 3 - Constant
 constant c;
 Select c
-1091691141, 565429438, 1453982741
+1022481951, 1453926927
 5000
 4 - Assignment
 assign a;
 Select a
-none
+1, 2, 6
 5000
 5 - Print
 print p;
 Select p
-3, 6, 7, 10
+3, 4, 7, 8
 5000
 6 - Read
 read r;
 Select r
-1, 4, 9
+5, 9, 10
 5000
 7 - Statement
 stmt s;
