@@ -53,7 +53,7 @@ void QueryProcessor::evaluate(string query, vector<string>& output) {
     }
     else if (synonymType == "constant") {
         // create a vector for storing the results from database
-        vector<uint32_t> databaseResults;
+        vector<int64_t> databaseResults;
 
         // call the method in database to retrieve the results
         // This logic is highly simplified based on iteration 1 requirements and 
@@ -61,7 +61,7 @@ void QueryProcessor::evaluate(string query, vector<string>& output) {
         Database::getConstants(databaseResults);
 
         // post process the results to fill in the output vector
-        for (uint32_t databaseResult : databaseResults) {
+        for (int64_t databaseResult : databaseResults) {
             output.push_back(to_string(databaseResult));
         }
     }

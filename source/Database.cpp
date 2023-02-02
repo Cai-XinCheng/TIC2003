@@ -45,7 +45,7 @@ void Database::insertVariable(string variableName) {
 }
 
 // method to insert a constant into the database
-void Database::insertConstant(uint32_t constantValue) {
+void Database::insertConstant(int64_t constantValue) {
     string insertConstantSQL = "INSERT INTO constants ('value') VALUES(?);";
     db.execute(insertConstantSQL, constantValue);
 }
@@ -71,10 +71,10 @@ void Database::getVariables(vector<string>& results) {
 }
 
 // method to get all the procedures from the database
-void Database::getConstants(vector<uint32_t>& results) {
+void Database::getConstants(vector<int64_t>& results) {
     // retrieve the constants from the constants table
     string getConstantsSQL = "SELECT value FROM constants;";
-    db.selectFirstColumn<uint32_t>(results, getConstantsSQL);
+    db.selectFirstColumn<int64_t>(results, getConstantsSQL);
 }
 
 // method to get all the statements from the database

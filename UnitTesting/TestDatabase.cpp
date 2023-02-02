@@ -94,11 +94,13 @@ namespace DatabaseTests
         {
             // initialize the database and insert a constant
             Database::initialize();
+            Database::insertConstant(-9223372036854775808);
             Database::insertConstant(10);
             Database::insertConstant(12345);
+            Database::insertConstant(9223372036854775807);
 
             // retrieve the constants from the database
-            vector<uint32_t> dbResults;
+            vector<int64_t> dbResults;
             Database::getConstants(dbResults);
 
             // create the test output string from the constants retrieved
@@ -109,7 +111,7 @@ namespace DatabaseTests
             }
 
             // create the expected output string
-            string expectedOutput = "10$12345$";
+            string expectedOutput = "-9223372036854775808$10$12345$9223372036854775807$";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -131,9 +133,11 @@ namespace DatabaseTests
         {
             // initialize the database and insert a statement
             Database::initialize();
+            Database::insertStatement(0, "read");
             Database::insertStatement(1, "read");
             Database::insertStatement(5, "print");
             Database::insertStatement(10, "assign");
+            Database::insertStatement(4294967295, "assign");
 
             // retrieve the statements from the database
             vector<uint32_t> dbResults;
@@ -147,7 +151,7 @@ namespace DatabaseTests
             }
 
             // create the expected output string
-            string expectedOutput = "1$5$10$";
+            string expectedOutput = "0$1$5$10$4294967295$";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case

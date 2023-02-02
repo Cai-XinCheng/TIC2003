@@ -21,7 +21,7 @@ public:
     static void insertVariable(string variableName);
 
     // method to insert a constant into the database
-    static void insertConstant(uint32_t constantValue);
+    static void insertConstant(int64_t constantValue);
 
     // method to insert a statement into the database
     static void insertStatement(uint32_t statementNo, string type);
@@ -33,7 +33,7 @@ public:
     static void getVariables(vector<string>& results);
 
     // method to get all the constants from the database
-    static void getConstants(vector<uint32_t>& results);
+    static void getConstants(vector<int64_t>& results);
 
     // method to get all the statements from the database
     static void getStatements(vector<uint32_t>& results);
