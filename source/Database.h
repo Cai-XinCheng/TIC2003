@@ -21,10 +21,10 @@ public:
     static void insertVariable(string variableName);
 
     // method to insert a constant into the database
-    static void insertConstant(unsigned int constantValue);
+    static void insertConstant(uint32_t constantValue);
 
     // method to insert a statement into the database
-    static void insertStatement(unsigned int statementNo, string type);
+    static void insertStatement(uint32_t statementNo, string type);
 
     // method to get all the procedures from the database
     static void getProcedures(vector<string>& results);
@@ -33,19 +33,16 @@ public:
     static void getVariables(vector<string>& results);
 
     // method to get all the constants from the database
-    static void getConstants(vector<string>& results);
+    static void getConstants(vector<uint32_t>& results);
 
     // method to get all the statements from the database
-    static void getStatements(vector<string>& results);
+    static void getStatements(vector<uint32_t>& results);
 
     // method to get all the statements of the specific type from the database
-    static void getStatementsByType(const string& type, vector<string>& results);
+    static void getStatementsByType(const string& type, vector<uint32_t>& results);
 
 private:
     // the instance of SQLiteWrapper
     static SQLiteWrapper db;
-
-    // method to filter input and fill into output by the column index
-    static void filterByColumnIndex(const vector<vector<string>>& input, vector<string>& output, int columnIndex);
 };
 

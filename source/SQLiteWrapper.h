@@ -20,10 +20,29 @@ public:
     template<typename... Args>
     void execute(const string& sql, Args&&... args);
 
-    vector<vector<string>> select(const string& sql);
+    template<typename... Types>
+    vector<tuple<Types...>> select(const string& sql);
 
-    template<typename... Args>
-    vector<vector<string>> select(const string& sql, Args&&... args);
+    template<typename... Types>
+    void select(vector<tuple<Types...>>& dbResults, const string& sql);
+
+    template<typename... Types, typename... Args>
+    vector<tuple<Types...>> select(const string& sql, Args&&... args);
+
+    template<typename... Types, typename... Args>
+    void select(vector<tuple<Types...>>& dbResults, const string& sql, Args&&... args);
+
+    template<typename T>
+    vector<T> selectFirstColumn(const string& sql);
+
+    template<typename T>
+    void selectFirstColumn(vector<T>& dbResults, const string& sql);
+
+    template<typename T, typename... Args>
+    vector<T> selectFirstColumn(const string& sql, Args&&... args);
+
+    template<typename T, typename... Args>
+    void selectFirstColumn(vector<T>& dbResults, const string& sql, Args&&... args);
 
 private:
     sqlite3* db;
@@ -54,7 +73,27 @@ private:
 
     static bool step(sqlite3_stmt* preparedStatement);
 
-    static void stepAll(sqlite3_stmt* preparedStatement, vector<vector<string>>& dbResults);
+    static void getColumn(sqlite3_stmt* preparedStatement, int index, int32_t& value);
+
+    static void getColumn(sqlite3_stmt* preparedStatement, int index, uint32_t& value);
+
+    static void getColumn(sqlite3_stmt* preparedStatement, int index, int64_t& value);
+
+    static void getColumn(sqlite3_stmt* preparedStatement, int index, double& value);
+
+    static void getColumn(sqlite3_stmt* preparedStatement, int index, string& value);
+
+    template<typename T>
+    static tuple<T> getRow(sqlite3_stmt* preparedStatement, int columnIndex = 0);
+
+    template<typename T1, typename T2, typename... Types>
+    static tuple<T1, T2, Types...> getRow(sqlite3_stmt* preparedStatement, int columnIndex = 0);
+
+    template<typename... Types>
+    static void getRowsWithAllColumns(sqlite3_stmt* preparedStatement, vector<tuple<Types...>>& dbResults);
+
+    template<typename T>
+    static void getRowsWithFirstColumn(sqlite3_stmt* preparedStatement, vector<T>& dbResults);
 
     static void finalize(sqlite3_stmt* preparedStatement);
 };

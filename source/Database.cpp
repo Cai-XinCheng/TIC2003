@@ -18,7 +18,7 @@ void Database::initialize() {
 
     for (auto const& pair : createTableSQLs) {
         // drop the existing table (if any)
-        string dropTableSQL = "DROP TABLE IF EXISTS " + pair.first;
+        string dropTableSQL = "DROP TABLE IF EXISTS " + pair.first + ";";
         db.execute(dropTableSQL);
 
         // create table
@@ -45,13 +45,13 @@ void Database::insertVariable(string variableName) {
 }
 
 // method to insert a constant into the database
-void Database::insertConstant(unsigned int constantValue) {
+void Database::insertConstant(uint32_t constantValue) {
     string insertConstantSQL = "INSERT INTO constants ('value') VALUES(?);";
     db.execute(insertConstantSQL, constantValue);
 }
 
 // method to insert a statement into the database
-void Database::insertStatement(unsigned int statementNo, string type) {
+void Database::insertStatement(uint32_t statementNo, string type) {
     string insertStatementSQL = "INSERT INTO statements ('stmtNo', 'type') VALUES(?, ?);";
     db.execute(insertStatementSQL, statementNo, type);
 }
@@ -59,61 +59,34 @@ void Database::insertStatement(unsigned int statementNo, string type) {
 // method to get all the procedures from the database
 void Database::getProcedures(vector<string>& results) {
     // retrieve the procedures from the procedure table
-    // The callback method is only used when there are results to be returned.
-    string getProceduresSQL = "SELECT * FROM procedures;";
-    vector<vector<string>> dbResults = db.select(getProceduresSQL);
-
-    // postprocess the results from the database so that the output is just a vector of procedure names
-    filterByColumnIndex(dbResults, results, 0);
+    string getProceduresSQL = "SELECT procedureName FROM procedures;";
+    db.selectFirstColumn<string>(results, getProceduresSQL);
 }
 
 // method to get all the variable from the database
 void Database::getVariables(vector<string>& results) {
     // retrieve the variables from the constants table
-    // The callback method is only used when there are results to be returned.
     string getVariablesSQL = "SELECT name FROM variables;";
-    vector<vector<string>> dbResults = db.select(getVariablesSQL);
-
-    // postprocess the results from the database so that the output is just a vector of variable names
-    filterByColumnIndex(dbResults, results, 0);
+    db.selectFirstColumn<string>(results, getVariablesSQL);
 }
 
 // method to get all the procedures from the database
-void Database::getConstants(vector<string>& results) {
+void Database::getConstants(vector<uint32_t>& results) {
     // retrieve the constants from the constants table
-    // The callback method is only used when there are results to be returned.
     string getConstantsSQL = "SELECT value FROM constants;";
-    vector<vector<string>> dbResults = db.select(getConstantsSQL);
-
-    // postprocess the results from the database so that the output is just a vector of constant values
-    filterByColumnIndex(dbResults, results, 0);
+    db.selectFirstColumn<uint32_t>(results, getConstantsSQL);
 }
 
 // method to get all the statements from the database
-void Database::getStatements(vector<string>& results) {
+void Database::getStatements(vector<uint32_t>& results) {
     // retrieve the statements from the constants table
-    // The callback method is only used when there are results to be returned.
     string getStatementsSQL = "SELECT stmtNo FROM statements;";
-    vector<vector<string>> dbResults = db.select(getStatementsSQL);
-
-    // postprocess the results from the database so that the output is just a vector of statement number
-    filterByColumnIndex(dbResults, results, 0);
+    db.selectFirstColumn<uint32_t>(results, getStatementsSQL);
 }
 
 // method to get all the statements of the specific type from the database
-void Database::getStatementsByType(const string& type, vector<string>& results) {
+void Database::getStatementsByType(const string& type, vector<uint32_t>& results) {
     // retrieve the statements from the constants table
-    // The callback method is only used when there are results to be returned.
     string getStatementsSQL = "SELECT stmtNo FROM statements where type = ?;";
-    vector<vector<string>> dbResults = db.select(getStatementsSQL, type);;
-
-    // postprocess the results from the database so that the output is just a vector of statement number
-    filterByColumnIndex(dbResults, results, 0);
-}
-
-// method to filter input and fill into output by the column index
-void Database::filterByColumnIndex(const vector<vector<string>>& input, vector<string>& output, int columnIndex) {
-    for (vector<string> dbRow : input) {
-        output.push_back(dbRow.at(columnIndex));
-    }
+    db.selectFirstColumn<uint32_t>(results, getStatementsSQL, type);
 }

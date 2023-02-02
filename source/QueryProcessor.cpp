@@ -12,37 +12,85 @@ QueryProcessor::~QueryProcessor() {}
 // using some highly simplified logic.
 // You should modify this method to complete the logic for handling all required queries.
 void QueryProcessor::evaluate(string query, vector<string>& output) {
-	// clear the output vector
-	output.clear();
+    // clear the output vector
+    output.clear();
 
-	// tokenize the query
-	Tokenizer tk;
-	vector<string> tokens;
-	tk.tokenize(query, tokens);
+    // tokenize the query
+    Tokenizer tk;
+    vector<string> tokens;
+    tk.tokenize(query, tokens);
 
-	// check what type of synonym is being declared
-	string synonymType = tokens.at(0);
+    // check what type of synonym is being declared
+    string synonymType = tokens.at(0);
 
-	// create a vector for storing the results from database
-	vector<string> databaseResults;
+    if (synonymType == "procedure") {
+        // create a vector for storing the results from database
+        vector<string> databaseResults;
 
-	// call the method in database to retrieve the results
-	// This logic is highly simplified based on iteration 1 requirements and 
-	// the assumption that the queries are valid.
-	if (synonymType == "procedure") {
-	    Database::getProcedures(databaseResults);
-    } else if (synonymType == "variable") {
-        Database::getVariables(databaseResults);
-    } else if (synonymType == "constant") {
-        Database::getConstants(databaseResults);
-    } else if (synonymType == "assign" || synonymType == "print" || synonymType == "read") {
-        Database::getStatementsByType(synonymType, databaseResults);
-    } else if (synonymType == "stmt") {
-        Database::getStatements(databaseResults);
+        // call the method in database to retrieve the results
+        // This logic is highly simplified based on iteration 1 requirements and 
+        // the assumption that the queries are valid.
+        Database::getProcedures(databaseResults);
+
+        // post process the results to fill in the output vector
+        for (string databaseResult : databaseResults) {
+            output.push_back(databaseResult);
+        }
     }
+    else if (synonymType == "variable") {
+        // create a vector for storing the results from database
+        vector<string> databaseResults;
 
-	// post process the results to fill in the output vector
-	for (string databaseResult : databaseResults) {
-		output.push_back(databaseResult);
-	}
+        // call the method in database to retrieve the results
+        // This logic is highly simplified based on iteration 1 requirements and 
+        // the assumption that the queries are valid.
+        Database::getVariables(databaseResults);
+
+        // post process the results to fill in the output vector
+        for (string databaseResult : databaseResults) {
+            output.push_back(databaseResult);
+        }
+    }
+    else if (synonymType == "constant") {
+        // create a vector for storing the results from database
+        vector<uint32_t> databaseResults;
+
+        // call the method in database to retrieve the results
+        // This logic is highly simplified based on iteration 1 requirements and 
+        // the assumption that the queries are valid.
+        Database::getConstants(databaseResults);
+
+        // post process the results to fill in the output vector
+        for (uint32_t databaseResult : databaseResults) {
+            output.push_back(to_string(databaseResult));
+        }
+    }
+    else if (synonymType == "assign" || synonymType == "print" || synonymType == "read") {
+        // create a vector for storing the results from database
+        vector<uint32_t> databaseResults;
+
+        // call the method in database to retrieve the results
+        // This logic is highly simplified based on iteration 1 requirements and 
+        // the assumption that the queries are valid.
+        Database::getStatementsByType(synonymType, databaseResults);
+
+        // post process the results to fill in the output vector
+        for (uint32_t databaseResult : databaseResults) {
+            output.push_back(to_string(databaseResult));
+        }
+    }
+    else if (synonymType == "stmt") {
+        // create a vector for storing the results from database
+        vector<uint32_t> databaseResults;
+
+        // call the method in database to retrieve the results
+        // This logic is highly simplified based on iteration 1 requirements and 
+        // the assumption that the queries are valid.
+        Database::getStatements(databaseResults);
+
+        // post process the results to fill in the output vector
+        for (uint32_t databaseResult : databaseResults) {
+            output.push_back(to_string(databaseResult));
+        }
+    }
 }

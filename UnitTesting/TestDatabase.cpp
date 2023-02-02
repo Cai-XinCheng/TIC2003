@@ -6,49 +6,49 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace DatabaseTests
 {
-	// Each cpp is a set of test cases for a specific component.
-	TEST_CLASS(TestDatabase)
-	{
-	public:
-		// Each test method is a separate test case. The name should be unique and meaningful.
+    // Each cpp is a set of test cases for a specific component.
+    TEST_CLASS(TestDatabase)
+    {
+    public:
+        // Each test method is a separate test case. The name should be unique and meaningful.
 
         // Test procedure
         // Grammer: LETTER(LETTER | DIGIT)*
-		TEST_METHOD(CheckDatabaseProcedure)
-		{
-			// initialize the database and insert a procedure
-			Database::initialize();
-			Database::insertProcedure("echo1");
-			Database::insertProcedure("echo2");
+        TEST_METHOD(CheckDatabaseProcedure)
+        {
+            // initialize the database and insert a procedure
+            Database::initialize();
+            Database::insertProcedure("echo1");
+            Database::insertProcedure("echo2");
             Database::insertProcedure("a123bcd456");
 
-			// retrieve the procedures from the database
-			vector<string> dbResults;
-			Database::getProcedures(dbResults);
-		
-			// create the test output string from the procedures retrieved
-			string testOutput;
-			for (unsigned int i = 0; i < dbResults.size(); i++)
-			{
-				testOutput.append(dbResults.at(i) + "$");
-			}
+            // retrieve the procedures from the database
+            vector<string> dbResults;
+            Database::getProcedures(dbResults);
 
-			// create the expected output string
-			string expectedOutput = "echo1$echo2$a123bcd456$";
+            // create the test output string from the procedures retrieved
+            string testOutput;
+            for (unsigned int i = 0; i < dbResults.size(); i++)
+            {
+                testOutput.append(dbResults.at(i) + "$");
+            }
 
-			// Logger messages can be viewed in the Test Explorer 
-			// under "open additional output for this result" for each test case
-			Logger::WriteMessage("Test Output: ");
-			Logger::WriteMessage(testOutput.c_str());
-			Logger::WriteMessage("Expected Output: ");
-			Logger::WriteMessage(expectedOutput.c_str());
+            // create the expected output string
+            string expectedOutput = "echo1$echo2$a123bcd456$";
 
-			// compare the test output with expected output
-			Assert::IsTrue(testOutput == expectedOutput);
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            Logger::WriteMessage("Test Output: ");
+            Logger::WriteMessage(testOutput.c_str());
+            Logger::WriteMessage("Expected Output: ");
+            Logger::WriteMessage(expectedOutput.c_str());
 
-			// The test output should match with the expected output 
-			// and hence the assertion would be true.
-		}
+            // compare the test output with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+
+            // The test output should match with the expected output 
+            // and hence the assertion would be true.
+        }
 
         // Test variable
         // Grammer: LETTER(LETTER | DIGIT)*
@@ -98,14 +98,14 @@ namespace DatabaseTests
             Database::insertConstant(12345);
 
             // retrieve the constants from the database
-            vector<string> dbResults;
+            vector<uint32_t> dbResults;
             Database::getConstants(dbResults);
 
             // create the test output string from the constants retrieved
             string testOutput;
             for (unsigned int i = 0; i < dbResults.size(); i++)
             {
-                testOutput.append(dbResults.at(i) + "$");
+                testOutput.append(to_string(dbResults.at(i)) + "$");
             }
 
             // create the expected output string
@@ -136,14 +136,14 @@ namespace DatabaseTests
             Database::insertStatement(10, "assign");
 
             // retrieve the statements from the database
-            vector<string> dbResults;
+            vector<uint32_t> dbResults;
             Database::getStatements(dbResults);
 
             // create the test output string from the statements retrieved
             string testOutput;
             for (unsigned int i = 0; i < dbResults.size(); i++)
             {
-                testOutput.append(dbResults.at(i) + "$");
+                testOutput.append(to_string(dbResults.at(i)) + "$");
             }
 
             // create the expected output string
@@ -162,8 +162,8 @@ namespace DatabaseTests
             // The test output should match with the expected output 
             // and hence the assertion would be true.
         }
-	
-	// Some private helper functions can be added below.
-	private:
-	};
+
+        // Some private helper functions can be added below.
+    private:
+    };
 }

@@ -55,13 +55,21 @@ inline void SQLiteWrapper::execute(const string& sql, Args&&... args) {
     finalize(statement);
 }
 
-inline vector<vector<string>> SQLiteWrapper::select(const string& sql) {
+template<typename... Types>
+inline vector<tuple<Types...>> SQLiteWrapper::select(const string& sql) {
+    vector<tuple<Types...>> dbResults;
+    select<Types...>(dbResults, sql);
+
+    return dbResults;
+}
+
+template<typename... Types>
+inline void SQLiteWrapper::select(vector<tuple<Types...>>& dbResults, const string& sql) {
     sqlite3_stmt* statement = nullptr;
-    vector<vector<string>> dbResults;
 
     try {
         prepare(db, sql, &statement);
-        stepAll(statement, dbResults);
+        getRowsWithAllColumns<Types...>(statement, dbResults);
     }
     catch (...) {
         if (statement != nullptr) {
@@ -70,18 +78,24 @@ inline vector<vector<string>> SQLiteWrapper::select(const string& sql) {
         throw;
     }
     finalize(statement);
+}
+
+template<typename... Types, typename... Args>
+inline vector<tuple<Types...>> SQLiteWrapper::select(const string& sql, Args&&... args) {
+    vector<tuple<Types...>> dbResults;
+    select<Types...>(dbResults, sql, forward<Args>(args)...);
+
     return dbResults;
 }
 
-template<typename... Args>
-inline vector<vector<string>> SQLiteWrapper::select(const string& sql, Args&&... args) {
+template<typename... Types, typename... Args>
+inline void SQLiteWrapper::select(vector<tuple<Types...>>& dbResults, const string& sql, Args&&... args) {
     sqlite3_stmt* statement = nullptr;
-    vector<vector<string>> dbResults;
 
     try {
         prepare(db, sql, &statement);
         bindParameters(statement, 1, forward<Args>(args)...);
-        stepAll(statement, dbResults);
+        getRowsWithAllColumns<Types...>(statement, dbResults);
     }
     catch (...) {
         if (statement != nullptr) {
@@ -90,7 +104,57 @@ inline vector<vector<string>> SQLiteWrapper::select(const string& sql, Args&&...
         throw;
     }
     finalize(statement);
+}
+
+template<typename T>
+inline vector<T> SQLiteWrapper::selectFirstColumn(const string& sql) {
+    vector<T> dbResults;
+    selectFirstColumn<T>(dbResults, sql);
+
     return dbResults;
+}
+
+template<typename T>
+inline void SQLiteWrapper::selectFirstColumn(vector<T>& dbResults, const string& sql) {
+    sqlite3_stmt* statement = nullptr;
+
+    try {
+        prepare(db, sql, &statement);
+        getRowsWithFirstColumn<T>(statement, dbResults);
+    }
+    catch (...) {
+        if (statement != nullptr) {
+            finalize(statement);
+        }
+        throw;
+    }
+    finalize(statement);
+}
+
+template<typename T, typename... Args>
+inline vector<T> SQLiteWrapper::selectFirstColumn(const string& sql, Args&&... args) {
+    vector<T> dbResults;
+    selectFirstColumn<T>(dbResults, sql, forward<Args>(args)...);
+
+    return dbResults;
+}
+
+template<typename T, typename... Args>
+inline void SQLiteWrapper::selectFirstColumn(vector<T>& dbResults, const string& sql, Args&&... args) {
+    sqlite3_stmt* statement = nullptr;
+
+    try {
+        prepare(db, sql, &statement);
+        bindParameters(statement, 1, forward<Args>(args)...);
+        getRowsWithFirstColumn<T>(statement, dbResults);
+    }
+    catch (...) {
+        if (statement != nullptr) {
+            finalize(statement);
+        }
+        throw;
+    }
+    finalize(statement);
 }
 
 inline void SQLiteWrapper::ensureNonerror(sqlite3* db, int resultCode) {
@@ -155,28 +219,72 @@ inline void SQLiteWrapper::bindParameters(sqlite3_stmt* preparedStatement, int i
 inline bool SQLiteWrapper::step(sqlite3_stmt* preparedStatement) {
     const int ret = sqlite3_step(preparedStatement);
     ensureNonerror(preparedStatement, ret);
+
     return ret == SQLITE_ROW;
 }
 
-inline void SQLiteWrapper::stepAll(sqlite3_stmt* preparedStatement, vector<vector<string>>& dbResults) {
+inline void SQLiteWrapper::getColumn(sqlite3_stmt* preparedStatement, int index, int32_t& value) {
+    value = sqlite3_column_int(preparedStatement, index);
+}
+
+inline void SQLiteWrapper::getColumn(sqlite3_stmt* preparedStatement, int index, uint32_t& value) {
+    value = static_cast<unsigned>(sqlite3_column_int64(preparedStatement, index));
+}
+
+inline void SQLiteWrapper::getColumn(sqlite3_stmt* preparedStatement, int index, int64_t& value) {
+    value = sqlite3_column_int64(preparedStatement, index);
+}
+
+inline void SQLiteWrapper::getColumn(sqlite3_stmt* preparedStatement, int index, double& value) {
+    value = sqlite3_column_double(preparedStatement, index);
+}
+
+inline void SQLiteWrapper::getColumn(sqlite3_stmt* preparedStatement, int index, string& value) {
+    value = string(reinterpret_cast<const char*>(sqlite3_column_text(preparedStatement, index)));
+}
+
+template<typename T>
+inline tuple<T> SQLiteWrapper::getRow(sqlite3_stmt* preparedStatement, int columnIndex) {
+    T value;
+    getColumn(preparedStatement, columnIndex, value);
+
+    return tie(value);
+}
+
+template<typename T1, typename T2, typename... Types>
+inline tuple<T1, T2, Types...> SQLiteWrapper::getRow(sqlite3_stmt* preparedStatement, int columnIndex) {
+    T1 value;
+    getColumn(preparedStatement, columnIndex, value);
+
+    return tuple_cat(tie(value), getRow<T2, Types...>(preparedStatement, columnIndex + 1));
+}
+
+template<typename... Types>
+inline void SQLiteWrapper::getRowsWithAllColumns(sqlite3_stmt* preparedStatement, vector<tuple<Types...>>& dbResults) {
     int columnsCount = -1;
     for (;;) {
         if (!step(preparedStatement)) {
             break;
         }
-        if (columnsCount == -1) {
-            columnsCount = sqlite3_data_count(preparedStatement);
-        }
 
-        vector<string> dbRow;
-        for (int i = 0; i < columnsCount; i++) {
-            const string columnValue = string(reinterpret_cast<const char*>(sqlite3_column_text(preparedStatement, i)));
-            dbRow.push_back(columnValue);
-        }
-        dbResults.push_back(dbRow);
+        tuple<Types...> row = getRow<Types...>(preparedStatement);
+        dbResults.push_back(row);
     }
 }
 
+template<typename T>
+inline void SQLiteWrapper::getRowsWithFirstColumn(sqlite3_stmt* preparedStatement, vector<T>& dbResults) {
+    int columnsCount = -1;
+    for (;;) {
+        if (!step(preparedStatement)) {
+            break;
+        }
+
+        T value;
+        getColumn(preparedStatement, 0, value);
+        dbResults.push_back(value);
+    }
+}
 
 inline void SQLiteWrapper::finalize(sqlite3_stmt* preparedStatement) {
     const int ret = sqlite3_finalize(preparedStatement);
