@@ -94,7 +94,7 @@ namespace DatabaseTests
         {
             // initialize the database and insert a constant
             Database::initialize();
-            Database::insertConstant(-9223372036854775808);
+            Database::insertConstant(-9223372036854775807 - 1);
             Database::insertConstant(10);
             Database::insertConstant(12345);
             Database::insertConstant(9223372036854775807);
