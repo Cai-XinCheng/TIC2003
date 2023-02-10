@@ -15,7 +15,11 @@ void Database::initialize() {
     createTableSQLs["constants"] = "CREATE TABLE constants (value INTEGER NOT NULL PRIMARY KEY);";
     createTableSQLs["variables"] = "CREATE TABLE variables (name VARCHAR(255) NOT NULL PRIMARY KEY);";
     createTableSQLs["statements"] = "CREATE TABLE statements (stmtNo INTEGER NOT NULL PRIMARY KEY, type VARCHAR(255) NOT NULL);";
-
+    createTableSQLs["ifs"] = "CREATE TABLE ifs (con_stmtNo INTEGER NOT NULL PRIMARY KEY, if_end_stmtNo INTEGER NOT NULL, else_end_stmtNo INTEGER NOT NULL);";
+    createTableSQLs["whiles"] = "CREATE TABLE whiles (con_stmtNo INTEGER NOT NULL PRIMARY KEY, end_stmtNo INTEGER NOT NULL);";
+    createTableSQLs["assignments"] = "CREATE TABLE assignments (stmtNo INTEGER NOT NULL PRIMARY KEY, variable VARCAHR(255) NOT NULL, exp_id INTEGER NOT NULL);";
+    createTableSQLs["expressions"] = "CREATE TABLE expressions (exp_id INTEGER NOT NULL PRIMARY KEY, exp_tree VARCAHR(255) NOT NULL);";
+    
     for (auto const& pair : createTableSQLs) {
         // drop the existing table (if any)
         string dropTableSQL = "DROP TABLE IF EXISTS " + pair.first + ";";
@@ -54,6 +58,18 @@ void Database::insertConstant(int64_t constantValue) {
 void Database::insertStatement(uint32_t statementNo, string type) {
     string insertStatementSQL = "INSERT INTO statements ('stmtNo', 'type') VALUES(?, ?);";
     db.execute(insertStatementSQL, statementNo, type);
+}
+
+// method to insert a if into the database
+void Database::insertIf(uint32_t conStmtNo, uint32_t ifStmtNo, uint32_t elseStmtNo) {
+    string insertStatementSQL = "INSERT INTO ifs ('con_stmtNo', 'if_end_stmtNo', 'else_end_stmtNo') VALUES(?, ?, ?);";
+    db.execute(insertStatementSQL, conStmtNo, ifStmtNo, elseStmtNo);
+}
+
+// method to insert a while into the database
+void Database::insertWhile(uint32_t conStmtNo, uint32_t endStmtNo) {
+    string insertStatementSQL = "INSERT INTO whiles ('con_stmtNo', 'end_stmtNo') VALUES(?, ?);";
+    db.execute(insertStatementSQL, conStmtNo, endStmtNo);
 }
 
 // method to get all the procedures from the database

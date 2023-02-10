@@ -26,6 +26,12 @@ public:
     // method to insert a statement into the database
     static void insertStatement(uint32_t statementNo, string type);
 
+    // method to insert a if into the database
+    static void insertIf(uint32_t conStmtNo, uint32_t ifStmtNo, uint32_t elseStmtNo);
+
+    // method to insert a while into the database
+    static void insertWhile(uint32_t conStmtNo, uint32_t endStmtNo);
+
     // method to get all the procedures from the database
     static void getProcedures(vector<string>& results);
 
