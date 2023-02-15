@@ -56,7 +56,7 @@ void SourceProcessor::process(string program) {
                     auto itCons = cons.find(statement.at(2));
                     if (itCons == cons.end()) { // not declared
                         cons.insert(statement.at(2));
-                        Database::insertConstant(static_cast<int64_t>(stoul(statement.at(2))));
+                        Database::insertConstant(static_cast<int64_t>(stol(statement.at(2))));
                     }
                 }
             }
