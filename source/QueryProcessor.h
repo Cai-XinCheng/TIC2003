@@ -4,8 +4,6 @@
 #include <vector>
 #include "Database.h"
 
-using namespace std;
-
 class QueryProcessor {
 public:
 	// default constructor
@@ -15,5 +13,5 @@ public:
 	~QueryProcessor();
 
 	// method for evaluating a query
-	void evaluate(string query, vector<string>& results);
+	void evaluate(std::string query, std::vector<std::string>& results);
 };

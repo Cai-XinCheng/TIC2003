@@ -13,9 +13,9 @@ Tokenizer::~Tokenizer() {}
 // numbers (any numeric sequence of characters, e.g., "1001"),
 // and punctuations (any other non-space characters, e.g., "=", ";", "{", "}").
 // it should be extended as needed to handle additional SIMPLE / PQL grammar rules.
-void Tokenizer::tokenize(string text, vector<string>& tokens) {
+void Tokenizer::tokenize(std::string text, std::vector<std::string>& tokens) {
     tokens.clear();
-    string token;
+    std::string token;
     
     unsigned int i = 0;
     while (i < text.length()) {

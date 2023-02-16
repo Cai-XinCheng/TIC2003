@@ -3,19 +3,17 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 // A class to tokenize a program / query string into a vector of tokens
 class Tokenizer {
 
 public:
-	// default constructor
-	Tokenizer();
+    // default constructor
+    Tokenizer();
 
-	// destructor
-	~Tokenizer();
+    // destructor
+    ~Tokenizer();
 
-	// method for tokenizing a program / query string
-	void tokenize(string text, vector<string>& tokens);
+    // method for tokenizing a program / query string
+    void tokenize(std::string text, std::vector<std::string>& tokens);
 };
 

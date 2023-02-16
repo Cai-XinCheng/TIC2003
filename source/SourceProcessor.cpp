@@ -5,13 +5,13 @@
 // This method currently only inserts the procedure name into the database
 // using some highly simplified logic.
 // You should modify this method to complete the logic for handling all the required syntax.
-void SourceProcessor::process(string program) {
+void SourceProcessor::process(std::string program) {
     // initialize the database
     Database::initialize();
 
     // tokenize the program
     Tokenizer tk;
-    vector<string> tokens;
+    std::vector<std::string> tokens;
     tk.tokenize(program, tokens);
 
     // logic to parse program for Iteration 1
@@ -21,10 +21,10 @@ void SourceProcessor::process(string program) {
     // insert the procedure into the database
     Database::insertProcedure(tokens.at(1));
 
-    vector<string> statement;
+    std::vector<std::string> statement;
     // set to store all variables and constants in order to check duplication
-    set<string> vars;
-    set<string> cons;
+    std::set<std::string> vars;
+    std::set<std::string> cons;
     // iterate tokens from 3th element(first statement)
     auto it = tokens.begin();
     for (advance(it, 3); it != tokens.end(); it++) {

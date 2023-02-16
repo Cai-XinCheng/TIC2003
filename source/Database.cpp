@@ -1,5 +1,5 @@
-#include <map>
 #include "Database.h"
+#include <map>
 
 SQLiteWrapper Database::db;
 
@@ -10,7 +10,7 @@ void Database::initialize() {
 
     // map to store CREATE TABLE queries
     // key: table name; value: query
-    map<string, string> createTableSQLs;
+    std::map<std::string, std::string> createTableSQLs;
     createTableSQLs["procedures"] = "CREATE TABLE procedures (procedureName VARCHAR(255) NOT NULL PRIMARY KEY);";
     createTableSQLs["constants"] = "CREATE TABLE constants (value INTEGER NOT NULL PRIMARY KEY);";
     createTableSQLs["variables"] = "CREATE TABLE variables (name VARCHAR(255) NOT NULL PRIMARY KEY);";
@@ -22,11 +22,11 @@ void Database::initialize() {
     
     for (auto const& pair : createTableSQLs) {
         // drop the existing table (if any)
-        string dropTableSQL = "DROP TABLE IF EXISTS " + pair.first + ";";
+        std::string dropTableSQL = "DROP TABLE IF EXISTS " + pair.first + ";";
         db.execute(dropTableSQL);
 
         // create table
-        string createTableSQL = pair.second;
+        std::string createTableSQL = pair.second;
         db.execute(createTableSQL);
     }
 }
@@ -37,72 +37,72 @@ void Database::close() {
 }
 
 // method to insert a procedure into the database
-void Database::insertProcedure(string procedureName) {
-    string insertProcedureSQL = "INSERT INTO procedures ('procedureName') VALUES (?);";
+void Database::insertProcedure(std::string procedureName) {
+    std::string insertProcedureSQL = "INSERT INTO procedures ('procedureName') VALUES (?);";
     db.execute(insertProcedureSQL, procedureName);
 }
 
 // method to insert a variable into the database
-void Database::insertVariable(string variableName) {
-    string insertVariableSQL = "INSERT INTO variables ('name') VALUES(?);";
+void Database::insertVariable(std::string variableName) {
+    std::string insertVariableSQL = "INSERT INTO variables ('name') VALUES(?);";
     db.execute(insertVariableSQL, variableName);
 }
 
 // method to insert a constant into the database
 void Database::insertConstant(int64_t constantValue) {
-    string insertConstantSQL = "INSERT INTO constants ('value') VALUES(?);";
+    std::string insertConstantSQL = "INSERT INTO constants ('value') VALUES(?);";
     db.execute(insertConstantSQL, constantValue);
 }
 
 // method to insert a statement into the database
-void Database::insertStatement(uint32_t statementNo, string type) {
-    string insertStatementSQL = "INSERT INTO statements ('stmtNo', 'type') VALUES(?, ?);";
+void Database::insertStatement(uint32_t statementNo, std::string type) {
+    std::string insertStatementSQL = "INSERT INTO statements ('stmtNo', 'type') VALUES(?, ?);";
     db.execute(insertStatementSQL, statementNo, type);
 }
 
 // method to insert a if into the database
 void Database::insertIf(uint32_t conStmtNo, uint32_t ifStmtNo, uint32_t elseStmtNo) {
-    string insertStatementSQL = "INSERT INTO ifs ('con_stmtNo', 'if_end_stmtNo', 'else_end_stmtNo') VALUES(?, ?, ?);";
+    std::string insertStatementSQL = "INSERT INTO ifs ('con_stmtNo', 'if_end_stmtNo', 'else_end_stmtNo') VALUES(?, ?, ?);";
     db.execute(insertStatementSQL, conStmtNo, ifStmtNo, elseStmtNo);
 }
 
 // method to insert a while into the database
 void Database::insertWhile(uint32_t conStmtNo, uint32_t endStmtNo) {
-    string insertStatementSQL = "INSERT INTO whiles ('con_stmtNo', 'end_stmtNo') VALUES(?, ?);";
+    std::string insertStatementSQL = "INSERT INTO whiles ('con_stmtNo', 'end_stmtNo') VALUES(?, ?);";
     db.execute(insertStatementSQL, conStmtNo, endStmtNo);
 }
 
 // method to get all the procedures from the database
-void Database::getProcedures(vector<string>& results) {
+void Database::getProcedures(std::vector<std::string>& results) {
     // retrieve the procedures from the procedure table
-    string getProceduresSQL = "SELECT procedureName FROM procedures;";
-    db.selectFirstColumn<string>(results, getProceduresSQL);
+    std::string getProceduresSQL = "SELECT procedureName FROM procedures;";
+    db.selectFirstColumn<std::string>(results, getProceduresSQL);
 }
 
 // method to get all the variable from the database
-void Database::getVariables(vector<string>& results) {
+void Database::getVariables(std::vector<std::string>& results) {
     // retrieve the variables from the constants table
-    string getVariablesSQL = "SELECT name FROM variables;";
-    db.selectFirstColumn<string>(results, getVariablesSQL);
+    std::string getVariablesSQL = "SELECT name FROM variables;";
+    db.selectFirstColumn<std::string>(results, getVariablesSQL);
 }
 
 // method to get all the procedures from the database
-void Database::getConstants(vector<int64_t>& results) {
+void Database::getConstants(std::vector<int64_t>& results) {
     // retrieve the constants from the constants table
-    string getConstantsSQL = "SELECT value FROM constants;";
+    std::string getConstantsSQL = "SELECT value FROM constants;";
     db.selectFirstColumn<int64_t>(results, getConstantsSQL);
 }
 
 // method to get all the statements from the database
-void Database::getStatements(vector<uint32_t>& results) {
+void Database::getStatements(std::vector<uint32_t>& results) {
     // retrieve the statements from the constants table
-    string getStatementsSQL = "SELECT stmtNo FROM statements;";
+    std::string getStatementsSQL = "SELECT stmtNo FROM statements;";
     db.selectFirstColumn<uint32_t>(results, getStatementsSQL);
 }
 
 // method to get all the statements of the specific type from the database
-void Database::getStatementsByType(const string& type, vector<uint32_t>& results) {
+void Database::getStatementsByType(const std::string& type, std::vector<uint32_t>& results) {
     // retrieve the statements from the constants table
-    string getStatementsSQL = "SELECT stmtNo FROM statements where type = ?;";
+    std::string getStatementsSQL = "SELECT stmtNo FROM statements where type = ?;";
     db.selectFirstColumn<uint32_t>(results, getStatementsSQL, type);
 }
