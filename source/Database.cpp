@@ -10,7 +10,7 @@ void Database::initialize() {
 
     // map to store CREATE TABLE queries
     // key: table name; value: query
-    std::map<std::string, std::string> createTableSQLs;
+    std::map<std::string, std::string, std::less<>> createTableSQLs;
     createTableSQLs["procedures"] = "CREATE TABLE procedures (procedureName VARCHAR(255) NOT NULL PRIMARY KEY);";
     createTableSQLs["constants"] = "CREATE TABLE constants (value INTEGER NOT NULL PRIMARY KEY);";
     createTableSQLs["variables"] = "CREATE TABLE variables (name VARCHAR(255) NOT NULL PRIMARY KEY);";

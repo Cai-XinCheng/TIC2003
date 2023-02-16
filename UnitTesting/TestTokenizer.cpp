@@ -1,8 +1,7 @@
 #include "stdafx.h"
 #include "../source/Tokenizer.h"
-#include <iostream>
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using Assert = Microsoft::VisualStudio::CppUnitTestFramework::Assert;
 
 namespace TokenizerTests
 {
@@ -25,10 +24,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: "); 
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -51,10 +47,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -74,10 +67,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -97,10 +87,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -120,10 +107,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -143,10 +127,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -166,10 +147,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -189,10 +167,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -212,10 +187,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -235,10 +207,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -258,10 +227,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -281,10 +247,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -304,10 +267,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -327,10 +287,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -350,10 +307,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -373,10 +327,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -396,10 +347,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -419,10 +367,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -442,10 +387,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -465,10 +407,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -488,10 +427,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -511,10 +447,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -534,10 +467,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -557,10 +487,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -580,10 +507,7 @@ namespace TokenizerTests
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -599,10 +523,7 @@ namespace TokenizerTests
 
             std::string expectedOutput = "procedure$echo${$read$num1$;$index$=$1001$;$print$index$;$print$num1$;$}$";
 
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             Assert::IsTrue(testOutput == expectedOutput);
         }
@@ -610,7 +531,7 @@ namespace TokenizerTests
     // Some private helper functions can be added below.
     private:
         // method to get tokenized test output 
-        void getTokenizedTestOutput(const std::string& input, std::string& testOutput) const
+        static void getTokenizedTestOutput(const std::string& input, std::string& testOutput)
         {
             // run the tokenizer method
             Tokenizer tk;

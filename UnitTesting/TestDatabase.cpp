@@ -1,8 +1,7 @@
 #include "stdafx.h"
 #include "../source/Database.h"
-#include <iostream>
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using Assert = Microsoft::VisualStudio::CppUnitTestFramework::Assert;
 
 namespace DatabaseTests
 {
@@ -28,20 +27,14 @@ namespace DatabaseTests
 
             // create the test output string from the procedures retrieved
             std::string testOutput;
-            for (unsigned int i = 0; i < dbResults.size(); i++)
-            {
-                testOutput.append(dbResults.at(i) + "$");
-            }
+            getTestOutput(dbResults, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "echo1$echo2$a123bcd456$";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the test output with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -66,20 +59,14 @@ namespace DatabaseTests
 
             // create the test output string from the variables retrieved
             std::string testOutput;
-            for (unsigned int i = 0; i < dbResults.size(); i++)
-            {
-                testOutput.append(dbResults.at(i) + "$");
-            }
+            getTestOutput(dbResults, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "var1$var2$v123var456$";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the test output with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -105,20 +92,14 @@ namespace DatabaseTests
 
             // create the test output string from the constants retrieved
             std::string testOutput;
-            for (unsigned int i = 0; i < dbResults.size(); i++)
-            {
-                testOutput.append(std::to_string(dbResults.at(i)) + "$");
-            }
+            getTestOutput(dbResults, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "-9223372036854775808$10$12345$9223372036854775807$";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the test output with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -145,20 +126,14 @@ namespace DatabaseTests
 
             // create the test output string from the statements retrieved
             std::string testOutput;
-            for (unsigned int i = 0; i < dbResults.size(); i++)
-            {
-                testOutput.append(std::to_string(dbResults.at(i)) + "$");
-            }
+            getTestOutput(dbResults, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "0$1$5$10$4294967295$";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
-            Logger::WriteMessage("Test Output: ");
-            Logger::WriteMessage(testOutput.c_str());
-            Logger::WriteMessage("Expected Output: ");
-            Logger::WriteMessage(expectedOutput.c_str());
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
             // compare the test output with expected output
             Assert::IsTrue(testOutput == expectedOutput);
@@ -169,5 +144,25 @@ namespace DatabaseTests
 
         // Some private helper functions can be added below.
     private:
+        static void getTestOutput(const std::vector<std::string>& dbResults, std::string& testOutput) {
+            for (std::string element : dbResults)
+            {
+                testOutput.append(element + "$");
+            }
+        }
+
+        static void getTestOutput(const std::vector<uint32_t>& dbResults, std::string& testOutput) {
+            for (uint32_t element : dbResults)
+            {
+                testOutput.append(std::to_string(element) + "$");
+            }
+        }
+
+        static void getTestOutput(const std::vector<int64_t>& dbResults, std::string& testOutput) {
+            for (int64_t element : dbResults)
+            {
+                testOutput.append(std::to_string(element) + "$");
+            }
+        }
     };
 }
