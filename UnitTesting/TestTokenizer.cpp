@@ -513,15 +513,183 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeProgram)
+        TEST_METHOD(CheckTokenizeSource_ExampleCode1)
         {
-            std::string testInput = "procedure echo { read num1; index = 1001; print index; print num1; }";
+            std::string testInput = R"(
+                procedure computeAverage {
+
+                    read num1;
+                    read num2;
+                    read num3;
+
+                    sum = num1 + num2 + num3;
+                    ave = sum / 3;
+
+                    print ave;
+                }
+            )";
 
             // create the test output string from the tokens
             std::string testOutput;
             getTokenizedTestOutput(testInput, testOutput);
 
-            std::string expectedOutput = "procedure$echo${$read$num1$;$index$=$1001$;$print$index$;$print$num1$;$}$";
+            std::string expectedOutput = "procedure$computeAverage${$read$num1$;$read$num2$;$read$num3$;$sum$=$num1$+$num2$+$num3$;$ave$=$sum$/$3$;$print$ave$;$}$";
+
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckTokenizeSource_ExampleCode2)
+        {
+            std::string testInput = R"(
+                procedure printAscending {
+                    read num1;
+                    read num2;
+                    noSwap = 0;
+
+                    if (num1 > num2) then {
+                      temp = num1;
+                      num1 = num2;
+                      num2 = temp;
+                    } else {
+                      noSwap = 1;
+                    }
+
+                    print num1;
+                    print num2;
+                    print noSwap;
+                }
+            )";
+
+            // create the test output string from the tokens
+            std::string testOutput;
+            getTokenizedTestOutput(testInput, testOutput);
+
+            std::string expectedOutput = "procedure$printAscending${$read$num1$;$read$num2$;$noSwap$=$0$;$if$($num1$>$num2$)$then${$temp$=$num1$;$num1$=$num2$;$num2$=$temp$;$}$else${$noSwap$=$1$;$}$print$num1$;$print$num2$;$print$noSwap$;$}$";
+
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckTokenizeSource_ExampleCode3)
+        {
+            std::string testInput = R"(
+                procedure sumDigits {
+                    read number;
+                    sum = 0;
+
+                    while (number > 0) {
+                        digit = number % 10;
+                        sum = sum + digit;
+                        number = number / 10;
+                    }
+
+                    print sum;
+                }
+            )";
+
+            // create the test output string from the tokens
+            std::string testOutput;
+            getTokenizedTestOutput(testInput, testOutput);
+
+            std::string expectedOutput = "procedure$sumDigits${$read$number$;$sum$=$0$;$while$($number$>$0$)${$digit$=$number$%$10$;$sum$=$sum$+$digit$;$number$=$number$/$10$;$}$print$sum$;$}$";
+
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckTokenizeSource_ExampleCode4AndCode5)
+        {
+            std::string testInput = R"(
+                procedure main {
+                    flag = 0;
+                    call computeCentroid;
+                    call printResults;
+                }
+                procedure readPoint {
+                    read x;
+                    read y;
+                }
+                procedure printResults {
+                    print flag;
+                    print cenX;
+                    print cenY;
+                    print normSq;
+                }
+                procedure computeCentroid {
+                    count = 0;
+                    cenX = 0;
+                    cenY = 0;
+                    call readPoint;
+                    while ((x * x + y * y) != 0) {
+                        count = count + 1;
+                        cenX = cenX + x;
+                        cenY = cenY + y;
+                        call readPoint;
+                    }
+                    if (count == 0) then {
+                        flag = 1;
+                    } else {
+                        cenX = cenX / count;
+                        cenY = cenY / count;
+                    }
+                    normSq = cenX * cenX + cenY * cenY;
+                }
+            )";
+
+            // create the test output string from the tokens
+            std::string testOutput;
+            getTokenizedTestOutput(testInput, testOutput);
+
+            std::string expectedOutput = "procedure$main${$flag$=$0$;$call$computeCentroid$;$call$printResults$;$}$";
+            expectedOutput += "procedure$readPoint${$read$x$;$read$y$;$}$";
+            expectedOutput += "procedure$printResults${$print$flag$;$print$cenX$;$print$cenY$;$print$normSq$;$}$";
+            expectedOutput += "procedure$computeCentroid${$count$=$0$;$cenX$=$0$;$cenY$=$0$;$call$readPoint$;$while$($($x$*$x$+$y$*$y$)$!=$0$)${$count$=$count$+$1$;$cenX$=$cenX$+$x$;$cenY$=$cenY$+$y$;$call$readPoint$;$}$if$($count$==$0$)$then${$flag$=$1$;$}$else${$cenX$=$cenX$/$count$;$cenY$=$cenY$/$count$;$}$normSq$=$cenX$*$cenX$+$cenY$*$cenY$;$}$";
+
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckTokenizeSource_ExampleCode6)
+        {
+            std::string testInput = R"(
+                procedure First {
+                    read x;
+                    read z;
+                    call Second; }
+
+                procedure Second {
+                    x = 0;
+                    i = 5;
+                    while (i != 0) {
+                        x = x + 2 * y;
+                        call Third;
+                        i = i - 1; }
+                    if (x == 1) then {
+                        x = x+1; }
+                    else {
+                        z = 1; }
+                    z = z + x + i;
+                    y = z + 2;
+                    x = x * y + z; }
+
+                procedure Third {
+                    z = 5;
+                    v = z;
+                    print v; }
+            )";
+
+            // create the test output string from the tokens
+            std::string testOutput;
+            getTokenizedTestOutput(testInput, testOutput);
+
+            std::string expectedOutput = "procedure$First${$read$x$;$read$z$;$call$Second$;$}$";
+            expectedOutput += "procedure$Second${$x$=$0$;$i$=$5$;$while$($i$!=$0$)${$x$=$x$+$2$*$y$;$call$Third$;$i$=$i$-$1$;$}$if$($x$==$1$)$then${$x$=$x$+$1$;$}$else${$z$=$1$;$}$z$=$z$+$x$+$i$;$y$=$z$+$2$;$x$=$x$*$y$+$z$;$}$";
+            expectedOutput += "procedure$Third${$z$=$5$;$v$=$z$;$print$v$;$}$";
 
             TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 

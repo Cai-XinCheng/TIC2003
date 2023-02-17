@@ -1,11 +1,14 @@
 #include "Tokenizer.h"
 #include <iostream>
+#include <set>
 
 // constructor
 Tokenizer::Tokenizer() {}
 
 // destructor
 Tokenizer::~Tokenizer() {}
+
+std::set<char> Tokenizer::independentPunctuations({ ';', '{', '}', '(', ')', ','});
 
 // method to tokenize a program / query string
 // it currently tokenizes the string into a vector of 
@@ -60,6 +63,22 @@ void Tokenizer::tokenize(std::string text, std::vector<std::string>& tokens) {
             tokens.push_back(token);
             token.clear();
         }
+        else if (ch == '"') { // scan for string sequence starting with " and ending with "
+            token.push_back(ch);
+            i++;
+
+            while (i < text.length()) {
+                ch = text.at(i);
+                token.push_back(ch);
+                i++;
+                if (ch == '"') {
+                    break;
+                }
+            }
+
+            tokens.push_back(token);
+            token.clear();
+        }
         else if (ch == '_') { // scan for placeholder sequence starting with _
             token.push_back(ch);
             i++;
@@ -90,25 +109,22 @@ void Tokenizer::tokenize(std::string text, std::vector<std::string>& tokens) {
             tokens.push_back(token);
             token.clear();
         }
-        else if (ch == '"') { // scan for string sequence starting with " and ending with "
-            token.push_back(ch);
-            i++;
-
-            while (i < text.length()) {
-                ch = text.at(i);
-                token.push_back(ch);
-                i++;
-                if (ch == '"') {
-                    break;
-                }
-            }
-
-            tokens.push_back(token);
-            token.clear();
-        }
         else if (!isspace(ch)) { // scan for punctuations
             token.push_back(ch);
             i++;
+
+            if (independentPunctuations.find(ch) == independentPunctuations.end()) { // scan for multi-character operators
+                while (i < text.length()) {
+                    ch = text.at(i);
+                    if (ispunct(ch) && independentPunctuations.find(ch) == independentPunctuations.end()) {
+                        token.push_back(ch);
+                        i++;
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
 
             tokens.push_back(token);
             token.clear();
