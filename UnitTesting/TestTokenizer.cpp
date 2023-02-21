@@ -513,6 +513,26 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
+        TEST_METHOD(CheckTokenizeQuery_ExampleQ22)
+        {
+            // create the input string
+            std::string testInput = R"!(assign a1, a2; while w1, w2; Select a1 pattern a1("x", _) pattern a2("x", _"x"_) such that Next* (a1, a2) such that Parent* (w2, a2) such that Parent* (w1, w2))!";
+
+            // create the test output string from the tokens
+            std::string testOutput;
+            getTokenizedTestOutput(testInput, testOutput);
+
+            // create the expected output string
+            std::string expectedOutput = R"!(assign$a1$,$a2$;$while$w1$,$w2$;$Select$a1$pattern$a1$($"x"$,$_$)$pattern$a2$($"x"$,$_"x"_$)$such$that$Next*$($a1$,$a2$)$such$that$Parent*$($w2$,$a2$)$such$that$Parent*$($w1$,$w2$)$)!";
+
+            // Logger messages can be viewed in the Test Explorer
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
         TEST_METHOD(CheckTokenizeSource_ExampleCode1)
         {
             std::string testInput = R"(
