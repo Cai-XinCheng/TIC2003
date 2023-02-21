@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\AST">
+      <UniqueIdentifier>{cc2a2a4e-72d5-4137-b52f-2a32f9f19720}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AST">
+      <UniqueIdentifier>{f72b8b4c-edfd-427f-a770-9b160be7b93e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AST\PQL">
+      <UniqueIdentifier>{20f3657e-4acf-4ef0-81f4-445c8e3c98ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AST\PQL">
+      <UniqueIdentifier>{1b1cf103-4aca-4369-85a7-b5c5b38efe60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\Database.cpp">
@@ -29,6 +41,24 @@
     </ClCompile>
     <ClCompile Include="..\source\sqlite3.c">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\ASTNode.cpp">
+      <Filter>Source Files\AST</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\PQL\Declaration.cpp">
+      <Filter>Source Files\AST\PQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\PQL\FilterClause.cpp">
+      <Filter>Source Files\AST\PQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\PQL\PatternClause.cpp">
+      <Filter>Source Files\AST\PQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\PQL\SelectClause.cpp">
+      <Filter>Source Files\AST\PQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\PQL\SuchThatClause.cpp">
+      <Filter>Source Files\AST\PQL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +82,24 @@
     </ClInclude>
     <ClInclude Include="..\source\SQLiteWrapper.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\ASTNode.h">
+      <Filter>Header Files\AST</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\PQL\Declaration.h">
+      <Filter>Header Files\AST\PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\PQL\PatternClause.h">
+      <Filter>Header Files\AST\PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\PQL\FilterClause.h">
+      <Filter>Header Files\AST\PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\PQL\SuchThatClause.h">
+      <Filter>Header Files\AST\PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\PQL\SelectClause.h">
+      <Filter>Header Files\AST\PQL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
