@@ -27,10 +27,10 @@ public:
     static void insertStatement(uint32_t statementNo, string type);
 
     // method to insert a if into the database
-    static void insertIf(uint32_t conStmtNo, uint32_t ifStmtNo, uint32_t elseStmtNo);
+    static void insertIf(vector<string> vector);
 
     // method to insert a while into the database
-    static void insertWhile(uint32_t conStmtNo, uint32_t endStmtNo);
+    static void insertWhile(vector<string> vector);
 
     // method to insert a assignment into the database
     static void insertAssignment(uint32_t stmtNo, string variable, string expression);
