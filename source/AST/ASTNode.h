@@ -5,7 +5,7 @@
 class ASTNode {
 public:
     explicit ASTNode(const std::string& type);
-    void getType(std::string& typeRef) const;
+    std::string getType() const;
 
 private:
     std::string type;

@@ -7,8 +7,8 @@
 class Declaration : public ASTNode {
 public:
     explicit Declaration(const std::string& designEntity, const std::vector<std::string>& synonyms);
-    void getDesignEntity(std::string& designEntityRef) const;
-    void getSynonyms(std::vector<std::string>& synonymsRef) const;
+    std::string getDesignEntity() const;
+    std::vector<std::string> getSynonyms() const;
 
 private:
     std::string designEntity;

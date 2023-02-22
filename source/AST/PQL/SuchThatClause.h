@@ -6,9 +6,9 @@
 class SuchThatClause : public FilterClause {
 public:
     explicit SuchThatClause(const std::string& relationshipName, const std::string& relationshipArg1, const std::string& relationshipArg2);
-    void getRelationshipName(std::string& relationshipNameRef) const;
-    void getRelationshipArg1(std::string& relationshipArg1Ref) const;
-    void getRelationshipArg2(std::string& relationshipArg2Ref) const;
+    std::string getRelationshipName() const;
+    std::string getRelationshipArg1() const;
+    std::string getRelationshipArg2() const;
 
 private:
     std::string relationshipName;

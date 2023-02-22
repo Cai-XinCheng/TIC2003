@@ -2,14 +2,18 @@
 
 #include "PatternClause.h"
 
-PatternClause::PatternClause(const std::string& left, const std::string& right)
-    : FilterClause("PatternClause"), left(left), right(right) {
+PatternClause::PatternClause(const std::string& synonymAssignment, const std::string& left, const std::string& right)
+    : FilterClause("PatternClause"), synonymAssignment(synonymAssignment), left(left), right(right) {
 }
 
-void PatternClause::getLeft(std::string& leftRef) const {
-    leftRef = this->left;
+std::string PatternClause::getSynonymAssignment() const {
+    return this->synonymAssignment;
 }
 
-void PatternClause::getRight(std::string & rightRef) const {
-    rightRef = this->right;
+std::string PatternClause::getLeft() const {
+    return this->left;
+}
+
+std::string PatternClause::getRight() const {
+    return this->right;
 }

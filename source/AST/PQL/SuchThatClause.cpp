@@ -7,14 +7,14 @@ SuchThatClause::SuchThatClause(const std::string& relationshipName, const std::s
     : FilterClause("SuchThatClause"), relationshipName(relationshipName), relationshipArg1(relationshipArg1), relationshipArg2(relationshipArg2) {
 }
 
-void SuchThatClause::getRelationshipName(std::string& relationshipNameRef) const {
-    relationshipNameRef = this->relationshipName;
+std::string SuchThatClause::getRelationshipName() const {
+    return this->relationshipName;
 }
 
-void SuchThatClause::getRelationshipArg1(std::string& relationshipArg1Ref) const {
-    relationshipArg1Ref = this->relationshipArg1;
+std::string SuchThatClause::getRelationshipArg1() const {
+    return this->relationshipArg1;
 }
 
-void SuchThatClause::getRelationshipArg2(std::string& relationshipArg2Ref) const {
-    relationshipArg2Ref = this->relationshipArg2;
+std::string SuchThatClause::getRelationshipArg2() const {
+    return this->relationshipArg2;
 }

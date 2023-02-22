@@ -2,18 +2,18 @@
 
 #include "SelectClause.h"
 
-SelectClause::SelectClause(const std::vector<std::string>& declarations, const std::vector<std::string>& returns, const std::vector<FilterClause>& filters)
+SelectClause::SelectClause(const std::vector<Declaration>& declarations, const std::vector<std::string>& returns, const std::vector<FilterClause>& filters)
     : ASTNode("SelectClause"), declarations(declarations), returns(returns), filters(filters) {
 }
 
-void SelectClause::getDeclarations(std::vector<std::string>& declarationsRef) const {
-    declarationsRef = this->declarations;
+std::vector<Declaration> SelectClause::getDeclarations() const {
+    return this->declarations;
 }
 
-void SelectClause::getReturns(std::vector<std::string>& returnsRef) const {
-    returnsRef = this->returns;
+std::vector<std::string> SelectClause::getReturns() const {
+    return this->returns;
 }
 
-void SelectClause::getFilters(std::vector<FilterClause>& filtersRef) const {
-    filtersRef = this->filters;
+std::vector<FilterClause> SelectClause::getFilters() const {
+    return this->filters;
 }

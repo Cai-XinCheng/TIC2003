@@ -3,6 +3,6 @@
 ASTNode::ASTNode(const std::string& type) : type(type) {
 }
 
-void ASTNode::getType(std::string& typeRef) const {
-    typeRef = this->type;
+std::string ASTNode::getType() const {
+    return this->type;
 }

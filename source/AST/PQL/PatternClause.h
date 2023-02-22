@@ -5,11 +5,13 @@
 
 class PatternClause : public FilterClause {
 public:
-    explicit PatternClause(const std::string& left, const std::string& right);
-    void getLeft(std::string& leftRef) const;
-    void getRight(std::string& rightRef) const;
+    explicit PatternClause(const std::string& synonymAssignment, const std::string& left, const std::string& right);
+    std::string getSynonymAssignment() const;
+    std::string getLeft() const;
+    std::string getRight() const;
 
 private:
+    std::string synonymAssignment;
     std::string left;
     std::string right;
 };

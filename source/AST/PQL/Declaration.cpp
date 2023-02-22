@@ -4,10 +4,10 @@ Declaration::Declaration(const std::string& designEntity, const std::vector<std:
     : ASTNode("Declaration"), designEntity(designEntity), synonyms(synonyms) {
 }
 
-void Declaration::getDesignEntity(std::string& designEntityRef) const {
-    designEntityRef = this->designEntity;
+std::string Declaration::getDesignEntity() const {
+    return this->designEntity;
 }
 
-void Declaration::getSynonyms(std::vector<std::string>& synonymsRef) const {
-    synonymsRef = this->synonyms;
+std::vector<std::string> Declaration::getSynonyms() const {
+    return this->synonyms;
 }

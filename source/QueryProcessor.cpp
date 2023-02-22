@@ -1,5 +1,6 @@
 #include "QueryProcessor.h"
 #include "Tokenizer.h"
+#include "PQLParser.h"
 
 // constructor
 QueryProcessor::QueryProcessor() {}
@@ -19,6 +20,10 @@ void QueryProcessor::evaluate(std::string query, std::vector<std::string>& outpu
     Tokenizer tk;
     std::vector<std::string> tokens;
     tk.tokenize(query, tokens);
+
+    // parse the AST
+    PQLParser parser;
+    SelectClause selectClause = parser.parse(tokens);
 
     // check what type of synonym is being declared
     std::string synonymType = tokens.at(0);
