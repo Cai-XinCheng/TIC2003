@@ -15,10 +15,9 @@ void Database::initialize() {
     createTableSQLs["constants"] = "CREATE TABLE constants (value INTEGER NOT NULL PRIMARY KEY);";
     createTableSQLs["variables"] = "CREATE TABLE variables (name VARCHAR(255) NOT NULL PRIMARY KEY);";
     createTableSQLs["statements"] = "CREATE TABLE statements (stmtNo INTEGER NOT NULL PRIMARY KEY, type VARCHAR(255) NOT NULL);";
-    createTableSQLs["ifs"] = "CREATE TABLE ifs (con_stmtNo INTEGER NOT NULL PRIMARY KEY, if_end_stmtNo INTEGER NOT NULL, else_end_stmtNo INTEGER NOT NULL);";
-    createTableSQLs["whiles"] = "CREATE TABLE whiles (con_stmtNo INTEGER NOT NULL PRIMARY KEY, end_stmtNo INTEGER NOT NULL);";
-    createTableSQLs["assignments"] = "CREATE TABLE assignments (stmtNo INTEGER NOT NULL PRIMARY KEY, variable VARCAHR(255) NOT NULL, exp_id INTEGER NOT NULL);";
-    createTableSQLs["expressions"] = "CREATE TABLE expressions (exp_id INTEGER NOT NULL PRIMARY KEY, exp_tree VARCAHR(255) NOT NULL);";
+    createTableSQLs["ifs"] = "CREATE TABLE ifs (con_stmtNo INTEGER NOT NULL PRIMARY KEY, expression VARCHAR(255) NOT NULL, if_end_stmtNo INTEGER NOT NULL, else_end_stmtNo INTEGER NOT NULL);";
+    createTableSQLs["whiles"] = "CREATE TABLE whiles (con_stmtNo INTEGER NOT NULL PRIMARY KEY, expression VARCHAR(255) NOT NULL, end_stmtNo INTEGER NOT NULL);";
+    createTableSQLs["assignments"] = "CREATE TABLE assignments (stmtNo INTEGER NOT NULL PRIMARY KEY, variable VARCAHR(255) NOT NULL, expression VARCHAR(255) NOT NULL,);";
     
     for (auto const& pair : createTableSQLs) {
         // drop the existing table (if any)
