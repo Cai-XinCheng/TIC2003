@@ -1,11 +1,10 @@
 #pragma once
+
 #include <sstream>
 #include <fstream>
-#include <vector>
+#include <string>
 #include "Database.h"
 #include "Tokenizer.h"
-
-using namespace std;
 
 class SourceProcessor {
 public:

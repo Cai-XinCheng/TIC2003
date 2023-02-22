@@ -21,17 +21,17 @@ TestWrapper::TestWrapper() {
 // method for parsing the SIMPLE source
 void TestWrapper::parse(std::string filename) {
     // read the source program from the file
-    ifstream fs(filename);
-    stringstream buffer;
+    std::ifstream fs(filename);
+    std::stringstream buffer;
     buffer << fs.rdbuf();
-    string program = buffer.str();
+    std::string program = buffer.str();
 
     // call the source processor to process it
     SourceProcessor sp;
     try {
         sp.process(program);
     }
-    catch (const exception& ex) {
+    catch (const std::exception& ex) {
         printf("[ERROR] %s\n", ex.what());
         throw;
     }
@@ -44,14 +44,14 @@ void TestWrapper::parse(std::string filename) {
 
 // method to evaluating a query
 void TestWrapper::evaluate(std::string query, std::list<std::string>& results) {
-    vector<string> output;
+    std::vector<std::string> output;
 
     // call the query processor to process a single query
     QueryProcessor qp;
     try {
         qp.evaluate(query, output);
     }
-    catch (const exception& ex) {
+    catch (const std::exception& ex) {
         printf("[ERROR] %s\n", ex.what());
         throw;
     }
@@ -61,7 +61,7 @@ void TestWrapper::evaluate(std::string query, std::list<std::string>& results) {
     }
 
     // convert a vector of results to a list of results
-    for (string result : output) {
+    for (std::string result : output) {
         results.push_back(result);
     }
 }

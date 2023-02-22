@@ -11,6 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\source\AST\ASTNode.cpp" />
+    <ClCompile Include="..\source\AST\PQL\Declaration.cpp" />
+    <ClCompile Include="..\source\AST\PQL\FilterClause.cpp" />
+    <ClCompile Include="..\source\AST\PQL\PatternClause.cpp" />
+    <ClCompile Include="..\source\AST\PQL\SelectClause.cpp" />
+    <ClCompile Include="..\source\AST\PQL\SuchThatClause.cpp" />
     <ClCompile Include="..\source\QueryProcessor.cpp" />
     <ClCompile Include="..\source\SourceProcessor.cpp" />
     <ClCompile Include="..\source\Database.cpp" />
@@ -18,6 +24,12 @@
     <ClCompile Include="..\source\Tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\AST\ASTNode.h" />
+    <ClInclude Include="..\source\AST\PQL\Declaration.h" />
+    <ClInclude Include="..\source\AST\PQL\FilterClause.h" />
+    <ClInclude Include="..\source\AST\PQL\PatternClause.h" />
+    <ClInclude Include="..\source\AST\PQL\SelectClause.h" />
+    <ClInclude Include="..\source\AST\PQL\SuchThatClause.h" />
     <ClInclude Include="..\source\Database.h" />
     <ClInclude Include="..\source\QueryProcessor.h" />
     <ClInclude Include="..\source\SourceProcessor.h" />
