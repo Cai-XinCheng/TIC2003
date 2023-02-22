@@ -1,12 +1,26 @@
-procedure glHCe {
-    DRa5b = 1022481951;
-    rJTXae1mtZ = 1453926927;
-    print DRa5b;
-    print DRa5b;
-    read kbm;
-    qNzqM3 = DRa5b;
-    print DRa5b;
-    print kbm;
-    read o0SH6OIo6;
-    read j1T;
+procedure p {
+    flag = 0;
+    count = 0;
+    cenX = 0;
+    cenY = 0;
+    read x;
+    read y;
+    while ((x * x + y * y) != 0) {
+        count = count + 1;
+        cenX = cenX + x;
+        cenY = cenY + y;
+        read x;
+        read y;
+    }
+    if (count == 0) then {
+        flag = 1;
+    } else {
+        cenX = cenX / count;
+        cenY = cenY / count;
+    }
+    normSq = cenX * cenX + cenY * cenY;
+    print flag;
+    print cenX;
+    print cenY;
+    print normSq;
 }
