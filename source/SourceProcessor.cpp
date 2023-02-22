@@ -34,7 +34,10 @@ void SourceProcessor::process(string program) {
         else if (statement.size() > 0) { // end of a statement
             if (statement.at(0) == "read") {
                 Database::insertStatement(stmtNo, "read");
-                Database::insertVariable(statement.at(1));
+        // check if variable is declared
+        auto itVars = vars.find(statement.at(1));
+        if (itVars == vars.end()) { // not declared
+            Database::insertVariable(statement.at(1));
                 vars.insert(statement.at(1));
             }
             else if (statement.at(0) == "print") {
