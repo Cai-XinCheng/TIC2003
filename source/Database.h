@@ -27,13 +27,13 @@ public:
     static void insertStatement(uint32_t statementNo, std::string type);
 
     // method to insert a if into the database
-    static void insertIf(vector<string> vector);
+    static void insertIf(std::vector<std::string> vector);
 
     // method to insert a while into the database
-    static void insertWhile(vector<string> vector);
+    static void insertWhile(std::vector<std::string> vector);
 
     // method to insert a assignment into the database
-    static void insertAssignment(uint32_t stmtNo, string variable, string expression);
+    static void insertAssignment(uint32_t stmtNo, std::string variable, std::string expression);
 
     // method to get all the procedures from the database
     static void getProcedures(std::vector<std::string>& results);

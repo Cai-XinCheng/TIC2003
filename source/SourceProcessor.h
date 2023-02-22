@@ -9,7 +9,7 @@
 class SourceProcessor {
 public:
 	// method for processing the source program
-	void process(string program);
-    void processToken(vector<string> token);
-    void processSingleStmt(vector<string> statement);
+	void process(std::string program);
+    void processToken(std::vector<std::string> token);
+    void processSingleStmt(std::vector<std::string> statement);
 };

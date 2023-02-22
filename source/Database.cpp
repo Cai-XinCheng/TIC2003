@@ -61,20 +61,20 @@ void Database::insertStatement(uint32_t statementNo, std::string type) {
 }
 
 // method to insert a if into the database
-void Database::insertIf(vector<string> vector) {
-    string insertStatementSQL = "INSERT INTO ifs ('con_stmtNo', 'expression', 'if_end_stmtNo', 'else_end_stmtNo') VALUES(?, ?, ?, ?);";
+void Database::insertIf(std::vector<std::string> vector) {
+    std::string insertStatementSQL = "INSERT INTO ifs ('con_stmtNo', 'expression', 'if_end_stmtNo', 'else_end_stmtNo') VALUES(?, ?, ?, ?);";
     db.execute(insertStatementSQL, static_cast<uint32_t>(stoul(vector.at(1))), vector.at(2), static_cast<uint32_t>(stoul(vector.at(3))), static_cast<uint32_t>(stoul(vector.at(4))));
 }
 
 // method to insert a while into the database
-void Database::insertWhile(vector<string> vector) {
-    string insertStatementSQL = "INSERT INTO whiles ('con_stmtNo','expression', 'end_stmtNo') VALUES(?, ?, ?);";
+void Database::insertWhile(std::vector<std::string> vector) {
+    std::string insertStatementSQL = "INSERT INTO whiles ('con_stmtNo','expression', 'end_stmtNo') VALUES(?, ?, ?);";
     db.execute(insertStatementSQL, static_cast<uint32_t>(stoul(vector.at(1))), vector.at(2), static_cast<uint32_t>(stoul(vector.at(3))));
 }
 
 // method to insert a assignment into the database
-void Database::insertAssignment(uint32_t stmtNo, string variable, string expression) {
-    string insertStatementSQL = "INSERT INTO assignments ('stmtNo', 'variable', 'expression') VALUES(?, ?, ?);";
+void Database::insertAssignment(uint32_t stmtNo, std::string variable, std::string expression) {
+    std::string insertStatementSQL = "INSERT INTO assignments ('stmtNo', 'variable', 'expression') VALUES(?, ?, ?);";
     db.execute(insertStatementSQL, stmtNo, variable, expression);
 }
 

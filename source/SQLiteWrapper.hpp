@@ -90,7 +90,7 @@ inline void SQLiteWrapper::select(std::vector<std::tuple<Types...>>& dbResults, 
 // method to excute a parameterized query and returns query result
 template<typename... Types, typename... Args>
 inline std::vector<std::tuple<Types...>> SQLiteWrapper::select(const std::string& sql, Args&&... args) {
-    vector<tuple<Types...>> dbResults;
+    std::vector<std::tuple<Types...>> dbResults;
     select<Types...>(dbResults, sql, std::forward<Args>(args)...);
 
     return dbResults;
@@ -300,7 +300,7 @@ inline void SQLiteWrapper::getRowsWithAllColumns(sqlite3_stmt* preparedStatement
             break;
         }
 
-        tuple<Types...> row = getRow<Types...>(preparedStatement);
+        std::tuple<Types...> row = getRow<Types...>(preparedStatement);
         dbResults.push_back(row);
     }
 }
