@@ -32,6 +32,9 @@ public:
     // method to insert a while into the database
     static void insertWhile(uint32_t conStmtNo, uint32_t endStmtNo);
 
+    // method to insert a assignment into the database
+    static void insertAssignment(uint32_t stmtNo, string variable, string expression);
+
     // method to get all the procedures from the database
     static void getProcedures(vector<string>& results);
 

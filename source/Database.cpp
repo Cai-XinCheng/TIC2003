@@ -17,7 +17,7 @@ void Database::initialize() {
     createTableSQLs["statements"] = "CREATE TABLE statements (stmtNo INTEGER NOT NULL PRIMARY KEY, type VARCHAR(255) NOT NULL);";
     createTableSQLs["ifs"] = "CREATE TABLE ifs (con_stmtNo INTEGER NOT NULL PRIMARY KEY, expression VARCHAR(255) NOT NULL, if_end_stmtNo INTEGER NOT NULL, else_end_stmtNo INTEGER NOT NULL);";
     createTableSQLs["whiles"] = "CREATE TABLE whiles (con_stmtNo INTEGER NOT NULL PRIMARY KEY, expression VARCHAR(255) NOT NULL, end_stmtNo INTEGER NOT NULL);";
-    createTableSQLs["assignments"] = "CREATE TABLE assignments (stmtNo INTEGER NOT NULL PRIMARY KEY, variable VARCAHR(255) NOT NULL, expression VARCHAR(255) NOT NULL,);";
+    createTableSQLs["assignments"] = "CREATE TABLE assignments (stmtNo INTEGER NOT NULL PRIMARY KEY, variable VARCAHR(255) NOT NULL, expression VARCHAR(255) NOT NULL);";
     
     for (auto const& pair : createTableSQLs) {
         // drop the existing table (if any)
@@ -35,6 +35,7 @@ void Database::close() {
     db.close();
 }
 
+// insert functions
 // method to insert a procedure into the database
 void Database::insertProcedure(string procedureName) {
     string insertProcedureSQL = "INSERT INTO procedures ('procedureName') VALUES (?);";
@@ -71,6 +72,14 @@ void Database::insertWhile(uint32_t conStmtNo, uint32_t endStmtNo) {
     db.execute(insertStatementSQL, conStmtNo, endStmtNo);
 }
 
+// method to insert a assignment into the database
+void Database::insertAssignment(uint32_t stmtNo, string variable, string expression) {
+    string insertStatementSQL = "INSERT INTO assignments ('stmtNo', 'variable', 'expression') VALUES(?, ?, ?);";
+    db.execute(insertStatementSQL, stmtNo, variable, expression);
+}
+
+
+// get functions
 // method to get all the procedures from the database
 void Database::getProcedures(vector<string>& results) {
     // retrieve the procedures from the procedure table
