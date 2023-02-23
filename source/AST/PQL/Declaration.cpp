@@ -1,7 +1,17 @@
 #include "Declaration.h"
+#include <format>
+#include <numeric>
 
 Declaration::Declaration(const std::string& designEntity, const std::vector<std::string>& synonyms)
     : ASTNode("Declaration"), designEntity(designEntity), synonyms(synonyms) {
+}
+
+std::string Declaration::toString() const {    
+    std::string commaSeparatedSynonyms = std::accumulate(synonyms.begin(), synonyms.end(), std::string(),
+        [](std::string const& acc, std::string const& element) {
+            return !acc.empty() ? acc + ", " + element : element;
+        });
+    return std::format("{} {};", designEntity, commaSeparatedSynonyms);
 }
 
 std::string Declaration::getDesignEntity() const {
