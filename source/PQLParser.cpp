@@ -53,7 +53,7 @@ SelectClause PQLParser::parse(std::vector<std::string>& tokens) {
             // result-cl
             if (i < tokens.size()) {
                 token = tokens.at(i);
-                if (token == "<") { // multiple returns
+                if (token == "<") { // multiple result items
                     i++;
 
                     while (i < tokens.size())
@@ -66,7 +66,7 @@ SelectClause PQLParser::parse(std::vector<std::string>& tokens) {
                         returns.push_back(token);
                         i++;
                         if (i >= tokens.size() || !(tokens.at(i) == "," || tokens.at(i) == ">")) {
-                            throw std::exception("QueryProcessor: invalid returns");
+                            throw std::exception("QueryProcessor: invalid result clause");
                         }
                         if (tokens.at(i) == ",")
                         {
@@ -74,7 +74,7 @@ SelectClause PQLParser::parse(std::vector<std::string>& tokens) {
                         }
                     }
                 }
-                else { // single return
+                else { // single result item
                     returns.push_back(token);
                     i++;
                 }

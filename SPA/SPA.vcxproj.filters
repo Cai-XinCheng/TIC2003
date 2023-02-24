@@ -63,6 +63,9 @@
     <ClCompile Include="..\source\PQLParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\PQL2SQLTransformer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Database.h">
@@ -105,6 +108,9 @@
       <Filter>Header Files\AST\PQL</Filter>
     </ClInclude>
     <ClInclude Include="..\source\PQLParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\PQL2SQLTransformer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

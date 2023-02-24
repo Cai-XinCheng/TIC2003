@@ -4,8 +4,8 @@
 #include <format>
 #include <numeric>
 
-SelectClause::SelectClause(const std::vector<Declaration>& declarations, const std::vector<std::string>& returns, const std::vector<FilterClause*>& filters)
-    : ASTNode("SelectClause"), declarations(declarations), returns(returns), filters(filters) {
+SelectClause::SelectClause(const std::vector<Declaration>& declarations, const std::vector<std::string>& result, const std::vector<FilterClause*>& filters)
+    : ASTNode("SelectClause"), declarations(declarations), result(result), filters(filters) {
 }
 
 SelectClause::~SelectClause() {
@@ -20,35 +20,35 @@ std::string SelectClause::toString() const {
             return !acc.empty() ? acc + " " + element.toString() : element.toString();
         });
 
-    std::string returnCaluse;
-    if (returns.size() == 1) {
-        returnCaluse = returns.at(0);
+    std::string resultCaluse;
+    if (result.size() == 1) {
+        resultCaluse = result.at(0);
     }
     else {
-        std::string commaSeparatedReturns = std::accumulate(returns.begin(), returns.end(), std::string(),
+        std::string commaSeparatedResult = std::accumulate(result.begin(), result.end(), std::string(),
             [](std::string const& acc, std::string const& element) {
                 return !acc.empty() ? acc + ", " + element : element;
             });
-        returnCaluse = std::format("<{}>", commaSeparatedReturns);
+        resultCaluse = std::format("<{}>", commaSeparatedResult);
     }
 
     if (filters.empty()) {
-        return std::format("{}\nSelect {}", declarationLine, returnCaluse);
+        return std::format("{}\nSelect {}", declarationLine, resultCaluse);
     }
 
     std::string filterClause = std::accumulate(filters.begin(), filters.end(), std::string(),
         [](std::string const& acc, auto const& element) {
             return !acc.empty() ? acc + " " + element->toString() : element->toString();
         });
-    return std::format("{}\nSelect {} {}", declarationLine, returnCaluse, filterClause);
+    return std::format("{}\nSelect {} {}", declarationLine, resultCaluse, filterClause);
 }
 
 std::vector<Declaration> SelectClause::getDeclarations() const {
     return this->declarations;
 }
 
-std::vector<std::string> SelectClause::getReturns() const {
-    return this->returns;
+std::vector<std::string> SelectClause::getResult() const {
+    return this->result;
 }
 
 std::vector<FilterClause*> SelectClause::getFilters() const {

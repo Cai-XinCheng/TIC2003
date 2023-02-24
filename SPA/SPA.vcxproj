@@ -17,6 +17,7 @@
     <ClCompile Include="..\source\AST\PQL\PatternClause.cpp" />
     <ClCompile Include="..\source\AST\PQL\SelectClause.cpp" />
     <ClCompile Include="..\source\AST\PQL\SuchThatClause.cpp" />
+    <ClCompile Include="..\source\PQL2SQLTransformer.cpp" />
     <ClCompile Include="..\source\PQLParser.cpp" />
     <ClCompile Include="..\source\QueryProcessor.cpp" />
     <ClCompile Include="..\source\SourceProcessor.cpp" />
@@ -32,6 +33,7 @@
     <ClInclude Include="..\source\AST\PQL\SelectClause.h" />
     <ClInclude Include="..\source\AST\PQL\SuchThatClause.h" />
     <ClInclude Include="..\source\Database.h" />
+    <ClInclude Include="..\source\PQL2SQLTransformer.h" />
     <ClInclude Include="..\source\PQLParser.h" />
     <ClInclude Include="..\source\QueryProcessor.h" />
     <ClInclude Include="..\source\SourceProcessor.h" />

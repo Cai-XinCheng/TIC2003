@@ -39,7 +39,7 @@ namespace PQLParserTests
             // and hence the assertion would be true.
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ2)
+        TEST_METHOD(CheckParseQuery_ExampleQ2)
         {
             // create the input string
             std::string testInput = R"(
@@ -64,7 +64,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ3)
+        TEST_METHOD(CheckParseQuery_ExampleQ3)
         {
             // create the input string
             std::string testInput = R"(
@@ -89,7 +89,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ4)
+        TEST_METHOD(CheckParseQuery_ExampleQ4)
         {
             // create the input string
             std::string testInput = R"(
@@ -114,7 +114,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ5)
+        TEST_METHOD(CheckParseQuery_ExampleQ5)
         {
             // create the input string
             std::string testInput = R"(
@@ -139,7 +139,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ6)
+        TEST_METHOD(CheckParseQuery_ExampleQ6)
         {
             // create the input string
             std::string testInput = R"(
@@ -164,7 +164,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ7)
+        TEST_METHOD(CheckParseQuery_ExampleQ7)
         {
             // create the input string
             std::string testInput = R"(
@@ -189,7 +189,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ8)
+        TEST_METHOD(CheckParseQuery_ExampleQ8)
         {
             // create the input string
             std::string testInput = R"(
@@ -214,7 +214,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ9)
+        TEST_METHOD(CheckParseQuery_ExampleQ9)
         {
             // create the input string
             std::string testInput = R"(
@@ -239,7 +239,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ10)
+        TEST_METHOD(CheckParseQuery_ExampleQ10)
         {
             // create the input string
             std::string testInput = R"(
@@ -264,7 +264,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ11)
+        TEST_METHOD(CheckParseQuery_ExampleQ11)
         {
             // create the input string
             std::string testInput = R"(
@@ -289,7 +289,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ12)
+        TEST_METHOD(CheckParseQuery_ExampleQ12)
         {
             // create the input string
             std::string testInput = R"(
@@ -314,7 +314,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ13)
+        TEST_METHOD(CheckParseQuery_ExampleQ13)
         {
             // create the input string
             std::string testInput = R"(
@@ -339,7 +339,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ14_1)
+        TEST_METHOD(CheckParseQuery_ExampleQ14_1)
         {
             // create the input string
             std::string testInput = R"(
@@ -364,7 +364,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ14_2)
+        TEST_METHOD(CheckParseQuery_ExampleQ14_2)
         {
             // create the input string
             std::string testInput = R"(
@@ -389,7 +389,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ15)
+        TEST_METHOD(CheckParseQuery_ExampleQ15)
         {
             // create the input string
             std::string testInput = R"(
@@ -414,7 +414,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ16)
+        TEST_METHOD(CheckParseQuery_ExampleQ16)
         {
             // create the input string
             std::string testInput = R"(
@@ -439,7 +439,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ17_1)
+        TEST_METHOD(CheckParseQuery_ExampleQ17_1)
         {
             // create the input string
             std::string testInput = R"(
@@ -464,7 +464,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ17_2)
+        TEST_METHOD(CheckParseQuery_ExampleQ17_2)
         {
             // create the input string
             std::string testInput = R"(
@@ -489,7 +489,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ18_1)
+        TEST_METHOD(CheckParseQuery_ExampleQ18_1)
         {
             // create the input string
             std::string testInput = R"(
@@ -514,7 +514,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ18_2)
+        TEST_METHOD(CheckParseQuery_ExampleQ18_2)
         {
             // create the input string
             std::string testInput = R"(
@@ -539,7 +539,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ19)
+        TEST_METHOD(CheckParseQuery_ExampleQ19)
         {
             // create the input string
             std::string testInput = R"(
@@ -564,7 +564,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ20_1)
+        TEST_METHOD(CheckParseQuery_ExampleQ20_1)
         {
             // create the input string
             std::string testInput = R"(
@@ -589,7 +589,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ20_2)
+        TEST_METHOD(CheckParseQuery_ExampleQ20_2)
         {
             // create the input string
             std::string testInput = R"(
@@ -614,7 +614,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ21)
+        TEST_METHOD(CheckParseQuery_ExampleQ21)
         {
             // create the input string
             std::string testInput = R"(
@@ -639,7 +639,7 @@ namespace PQLParserTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ22)
+        TEST_METHOD(CheckParseQuery_ExampleQ22)
         {
             // create the input string
             std::string testInput = R"(
