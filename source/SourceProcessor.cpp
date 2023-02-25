@@ -6,9 +6,6 @@
 
 // statement number
 uint32_t stmtNo = 0;
-// set to store all variables and constants in order to check duplication
-std::set<std::string> vars;
-std::set<std::string> cons;
 
 // method for processing the source program
 // This method currently only inserts the procedure name into the database
@@ -95,6 +92,9 @@ void SourceProcessor::processToken(std::vector<std::string> token) {
 }
 
 void SourceProcessor::processSingleStmt(std::vector<std::string> statement) {
+    // set to store all variables and constants in order to check duplication
+    std::set<std::string> vars;
+    std::set<std::string> cons;
     std::string stmtType = statement.at(0);
     if (stmtType == "read") {
         Database::insertStatement(stmtNo, "read");
