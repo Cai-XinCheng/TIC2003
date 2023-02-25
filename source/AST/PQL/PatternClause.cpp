@@ -3,8 +3,10 @@
 #include "PatternClause.h"
 #include <format>
 
+const std::string& PatternClause::nodeType = "PatternClause";
+
 PatternClause::PatternClause(const std::string& synonymAssignment, const std::string& left, const std::string& right)
-    : FilterClause("PatternClause"), synonymAssignment(synonymAssignment), left(left), right(right) {
+    : FilterClause(nodeType), synonymAssignment(synonymAssignment), left(left), right(right) {
 }
 
 std::string PatternClause::toString() const {

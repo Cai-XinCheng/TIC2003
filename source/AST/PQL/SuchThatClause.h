@@ -2,10 +2,10 @@
 
 #include "FilterClause.h"
 #include <string>
-#include <format>
 
 class SuchThatClause : public FilterClause {
 public:
+    static const std::string& nodeType;
     explicit SuchThatClause(const std::string& relationshipName, const std::string& relationshipArg1, const std::string& relationshipArg2);
     std::string toString() const override;
     std::string getRelationshipName() const;

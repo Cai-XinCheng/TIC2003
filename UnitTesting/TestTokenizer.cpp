@@ -20,7 +20,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "procedure$p$;$Select$p$"; 
@@ -46,7 +46,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "variable$v$;$Select$v$";
@@ -69,7 +69,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "stmt$s$;$Select$s$such$that$Next*$($6$,$s$)$";
@@ -92,7 +92,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "variable$v$;$Select$v$such$that$Modifies$($6$,$v$)$";
@@ -115,7 +115,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "variable$v$;$Select$v$such$that$Uses$($14$,$v$)$";
@@ -138,7 +138,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "assign$a$;$while$w$;$Select$a$such$that$Parent*$($w$,$a$)$";
@@ -161,7 +161,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "stmt$s$;$Select$s$such$that$Parent$($s$,$7$)$";
@@ -184,7 +184,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = R"(variable$v$;$procedure$p$;$Select$p$such$that$Modifies$($p$,$"x"$)$)";
@@ -207,7 +207,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "procedure$p$,$q$;$Select$p$such$that$Calls$($p$,$_$)$";
@@ -230,7 +230,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = R"!(procedure$p$;$Select$p$such$that$Calls*$($p$,$"Third"$)$)!";
@@ -253,7 +253,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "procedure$p$,$q$;$Select$<$p$,$q$>$such$that$Calls$($p$,$q$)$";
@@ -276,7 +276,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = R"!(assign$a$;$Select$a$pattern$a$($"x"$,$_$)$)!";
@@ -299,7 +299,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = R"!(assign$a$;$Select$a$pattern$a$($_$,$_"count + 1"_$)$)!";
@@ -322,7 +322,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = R"!(assign$a$;$Select$a$pattern$a$($"normSq"$,$_"cenX * cenX"_$)$)!";
@@ -345,7 +345,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = R"!(assign$newa$;$Select$newa$pattern$newa$($"normSq"$,$_"cenX * cenX"_$)$)!";
@@ -368,7 +368,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = R"!(assign$a$;$while$w$;$Select$w$such$that$Parent*$($w$,$a$)$pattern$a$($"count"$,$_$)$)!";
@@ -391,7 +391,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "assign$a$;$variable$v$;$Select$a$such$that$Uses$($a$,$v$)$pattern$a$($v$,$_$)$";
@@ -414,7 +414,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = R"!(assign$a$;$while$w$;$Select$a$pattern$a$($"x"$,$_$)$such$that$Uses$($a$,$"x"$)$)!";
@@ -437,7 +437,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = R"!(assign$a$;$while$w$;$Select$a$such$that$Uses$($a$,$"x"$)$pattern$a$($"x"$,$_$)$)!";
@@ -460,7 +460,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = R"!(assign$a$;$while$w$;$Select$a$such$that$Parent*$($w$,$a$)$pattern$a$($"count"$,$_$)$)!";
@@ -483,7 +483,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = R"!(assign$a$;$while$w$;$Select$a$pattern$a$($"count"$,$_$)$such$that$Parent*$($w$,$a$)$)!";
@@ -501,15 +501,15 @@ namespace TokenizerTests
             // create the input string
             std::string testInput = R"(
                 stmt s;
-                Select n such that Next* (5, s) such that Next* (s, 12)
+                Select s such that Next* (5, s) such that Next* (s, 12)
             )";
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "stmt$s$;$Select$n$such$that$Next*$($5$,$s$)$such$that$Next*$($s$,$12$)$";
+            std::string expectedOutput = "stmt$s$;$Select$s$such$that$Next*$($5$,$s$)$such$that$Next*$($s$,$12$)$";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -529,7 +529,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = R"!(assign$a$;$while$w$;$Select$a$pattern$a$($"x"$,$_$)$such$that$Parent*$($w$,$a$)$such$that$Next*$($1$,$a$)$)!";
@@ -552,7 +552,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = R"!(assign$a$;$while$w$;$Select$a$such$that$Modifies$($a$,$"x"$)$such$that$Parent*$($w$,$a$)$such$that$Next*$($1$,$a$)$)!";
@@ -575,7 +575,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "while$w1$,$w2$,$w3$;$Select$<$w1$,$w2$,$w3$>$such$that$Parent*$($w1$,$w2$)$such$that$Parent*$($w2$,$w3$)$";
@@ -598,7 +598,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = R"!(assign$a1$,$a2$;$while$w1$,$w2$;$Select$a1$pattern$a1$($"x"$,$_$)$pattern$a2$($"x"$,$_"x"_$)$such$that$Next*$($a1$,$a2$)$such$that$Parent*$($w2$,$a2$)$such$that$Parent*$($w1$,$w2$)$)!";
@@ -629,7 +629,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             std::string expectedOutput = "procedure$computeAverage${$read$num1$;$read$num2$;$read$num3$;$sum$=$num1$+$num2$+$num3$;$ave$=$sum$/$3$;$print$ave$;$}$";
 
@@ -662,7 +662,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             std::string expectedOutput = "procedure$printAscending${$read$num1$;$read$num2$;$noSwap$=$0$;$if$($num1$>$num2$)$then${$temp$=$num1$;$num1$=$num2$;$num2$=$temp$;$}$else${$noSwap$=$1$;$}$print$num1$;$print$num2$;$print$noSwap$;$}$";
 
@@ -690,7 +690,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             std::string expectedOutput = "procedure$sumDigits${$read$number$;$sum$=$0$;$while$($number$>$0$)${$digit$=$number$%$10$;$sum$=$sum$+$digit$;$number$=$number$/$10$;$}$print$sum$;$}$";
 
@@ -740,7 +740,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             std::string expectedOutput = "procedure$main${$flag$=$0$;$call$computeCentroid$;$call$printResults$;$}$";
             expectedOutput += "procedure$readPoint${$read$x$;$read$y$;$}$";
@@ -783,7 +783,7 @@ namespace TokenizerTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTokenizedTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             std::string expectedOutput = "procedure$First${$read$x$;$read$z$;$call$Second$;$}$";
             expectedOutput += "procedure$Second${$x$=$0$;$i$=$5$;$while$($i$!=$0$)${$x$=$x$+$2$*$y$;$call$Third$;$i$=$i$-$1$;$}$if$($x$==$1$)$then${$x$=$x$+$1$;$}$else${$z$=$1$;$}$z$=$z$+$x$+$i$;$y$=$z$+$2$;$x$=$x$*$y$+$z$;$}$";
@@ -796,8 +796,8 @@ namespace TokenizerTests
 
     // Some private helper functions can be added below.
     private:
-        // method to get tokenized test output 
-        static void getTokenizedTestOutput(const std::string& input, std::string& testOutput)
+        // method to generate tokenized test output
+        static void generateTestOutput(const std::string& input, std::string& testOutput)
         {
             // run the tokenizer method
             Tokenizer tk;

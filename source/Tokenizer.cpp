@@ -8,7 +8,7 @@ Tokenizer::Tokenizer() {}
 // destructor
 Tokenizer::~Tokenizer() {}
 
-std::set<char> Tokenizer::independentPunctuations({ ';', '{', '}', '(', ')', ','});
+const std::set<char> Tokenizer::independentPunctuations({ ';', '{', '}', '(', ')', ','});
 
 // method to tokenize a program / query string
 // it currently tokenizes the string into a vector of 

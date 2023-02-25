@@ -27,7 +27,7 @@ namespace DatabaseTests
 
             // create the test output string from the procedures retrieved
             std::string testOutput;
-            getTestOutput(dbResults, testOutput);
+            generateTestOutput(dbResults, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "echo1$echo2$a123bcd456$";
@@ -59,7 +59,7 @@ namespace DatabaseTests
 
             // create the test output string from the variables retrieved
             std::string testOutput;
-            getTestOutput(dbResults, testOutput);
+            generateTestOutput(dbResults, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "var1$var2$v123var456$";
@@ -92,7 +92,7 @@ namespace DatabaseTests
 
             // create the test output string from the constants retrieved
             std::string testOutput;
-            getTestOutput(dbResults, testOutput);
+            generateTestOutput(dbResults, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "-9223372036854775808$10$12345$9223372036854775807$";
@@ -126,7 +126,7 @@ namespace DatabaseTests
 
             // create the test output string from the statements retrieved
             std::string testOutput;
-            getTestOutput(dbResults, testOutput);
+            generateTestOutput(dbResults, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "0$1$5$10$4294967295$";
@@ -144,21 +144,21 @@ namespace DatabaseTests
 
         // Some private helper functions can be added below.
     private:
-        static void getTestOutput(const std::vector<std::string>& dbResults, std::string& testOutput) {
+        static void generateTestOutput(const std::vector<std::string>& dbResults, std::string& testOutput) {
             for (std::string element : dbResults)
             {
                 testOutput.append(element + "$");
             }
         }
 
-        static void getTestOutput(const std::vector<uint32_t>& dbResults, std::string& testOutput) {
+        static void generateTestOutput(const std::vector<uint32_t>& dbResults, std::string& testOutput) {
             for (uint32_t element : dbResults)
             {
                 testOutput.append(std::to_string(element) + "$");
             }
         }
 
-        static void getTestOutput(const std::vector<int64_t>& dbResults, std::string& testOutput) {
+        static void generateTestOutput(const std::vector<int64_t>& dbResults, std::string& testOutput) {
             for (int64_t element : dbResults)
             {
                 testOutput.append(std::to_string(element) + "$");

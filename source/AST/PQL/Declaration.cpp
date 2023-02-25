@@ -2,8 +2,10 @@
 #include <format>
 #include <numeric>
 
+const std::string& Declaration::nodeType = "Declaration";
+
 Declaration::Declaration(const std::string& designEntity, const std::vector<std::string>& synonyms)
-    : ASTNode("Declaration"), designEntity(designEntity), synonyms(synonyms) {
+    : ASTNode(nodeType), designEntity(designEntity), synonyms(synonyms) {
 }
 
 std::string Declaration::toString() const {    

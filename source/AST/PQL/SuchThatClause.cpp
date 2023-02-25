@@ -3,8 +3,10 @@
 #include "SuchThatClause.h"
 #include <format>
 
+const std::string& SuchThatClause::nodeType = "SuchThatClause";
+
 SuchThatClause::SuchThatClause(const std::string& relationshipName, const std::string& relationshipArg1, const std::string& relationshipArg2)
-    : FilterClause("SuchThatClause"), relationshipName(relationshipName), relationshipArg1(relationshipArg1), relationshipArg2(relationshipArg2) {
+    : FilterClause(nodeType), relationshipName(relationshipName), relationshipArg1(relationshipArg1), relationshipArg2(relationshipArg2) {
 }
 
 std::string SuchThatClause::toString() const {

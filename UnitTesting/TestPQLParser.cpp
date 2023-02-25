@@ -21,7 +21,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "procedure p;";
@@ -49,7 +49,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "variable v;";
@@ -74,7 +74,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "stmt s;";
@@ -99,7 +99,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "variable v;";
@@ -124,7 +124,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "variable v;";
@@ -149,7 +149,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "assign a; while w;";
@@ -174,7 +174,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "stmt s;";
@@ -199,7 +199,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "variable v; procedure p;";
@@ -224,7 +224,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "procedure p, q;";
@@ -249,7 +249,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "procedure p;";
@@ -274,7 +274,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "procedure p, q;";
@@ -299,7 +299,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "assign a;";
@@ -324,7 +324,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "assign a;";
@@ -349,7 +349,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "assign a;";
@@ -374,7 +374,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "assign newa;";
@@ -399,7 +399,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "assign a; while w;";
@@ -424,7 +424,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "assign a; variable v;";
@@ -449,7 +449,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "assign a; while w;";
@@ -474,7 +474,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "assign a; while w;";
@@ -499,7 +499,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "assign a; while w;";
@@ -524,7 +524,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "assign a; while w;";
@@ -544,17 +544,17 @@ namespace PQLParserTests
             // create the input string
             std::string testInput = R"(
                 stmt s;
-                Select n such that Next* (5, s) such that Next* (s, 12)
+                Select s such that Next* (5, s) such that Next* (s, 12)
             )";
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "stmt s;";
             expectedOutput += "\n";
-            expectedOutput += "Select n such that Next* (5, s) such that Next* (s, 12)";
+            expectedOutput += "Select s such that Next* (5, s) such that Next* (s, 12)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -574,7 +574,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "assign a; while w;";
@@ -599,7 +599,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "assign a; while w;";
@@ -624,7 +624,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "while w1, w2, w3;";
@@ -649,7 +649,7 @@ namespace PQLParserTests
 
             // create the test output string from the tokens
             std::string testOutput;
-            getTestOutput(testInput, testOutput);
+            generateTestOutput(testInput, testOutput);
 
             // create the expected output string
             std::string expectedOutput = "assign a1, a2; while w1, w2;";
@@ -666,8 +666,8 @@ namespace PQLParserTests
 
         // Some private helper functions can be added below.
     private:
-        // method to get tokenized test output 
-        static void getTestOutput(const std::string& input, std::string& testOutput)
+        // method to generate tokenized test output
+        static void generateTestOutput(const std::string& input, std::string& testOutput)
         {
             // tokenize the query
             Tokenizer tk;

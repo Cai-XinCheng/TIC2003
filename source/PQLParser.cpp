@@ -5,10 +5,10 @@
 #include "AST/PQL/PatternClause.h"
 #include "format"
 
-SelectClause PQLParser::parse(std::vector<std::string>& tokens) {
+SelectClause PQLParser::parse(std::vector<std::string>& tokens) const {
     std::vector<Declaration> declarations;
     std::vector<std::string> returns;
-    std::vector<FilterClause*> filters;
+    std::vector<const FilterClause*> filters;
 
     unsigned int i = 0;
     while (i < tokens.size()) {
@@ -38,7 +38,7 @@ SelectClause PQLParser::parse(std::vector<std::string>& tokens) {
                 synonyms.push_back(token);
                 i++;
                 if (i >= tokens.size() || !(tokens.at(i) == "," || tokens.at(i) == ";")) {
-                    throw std::exception("QueryProcessor: invalid declaration");
+                    throw std::invalid_argument("QueryProcessor: invalid declaration");
                 }
                 if (tokens.at(i) == ",")
                 {
@@ -66,7 +66,7 @@ SelectClause PQLParser::parse(std::vector<std::string>& tokens) {
                         returns.push_back(token);
                         i++;
                         if (i >= tokens.size() || !(tokens.at(i) == "," || tokens.at(i) == ">")) {
-                            throw std::exception("QueryProcessor: invalid result clause");
+                            throw std::invalid_argument("QueryProcessor: invalid result clause");
                         }
                         if (tokens.at(i) == ",")
                         {
@@ -89,7 +89,7 @@ SelectClause PQLParser::parse(std::vector<std::string>& tokens) {
                         || tokens.at(i + 3) != "("
                         || tokens.at(i + 5) != ","
                         || tokens.at(i + 7) != ")") {
-                        throw std::exception("QueryProcessor: invalid such clause");
+                        throw std::invalid_argument("QueryProcessor: invalid such clause");
                     }
 
                     std::string relationshipName = tokens.at(i + 2);
@@ -103,7 +103,7 @@ SelectClause PQLParser::parse(std::vector<std::string>& tokens) {
                         || tokens.at(i + 2) != "("
                         || tokens.at(i + 4) != ","
                         || tokens.at(i + 6) != ")") {
-                        throw std::exception("QueryProcessor: invalid pattern clause");
+                        throw std::invalid_argument("QueryProcessor: invalid pattern clause");
                     }
 
                     std::string synonymAssignment = tokens.at(i + 1);
@@ -113,13 +113,13 @@ SelectClause PQLParser::parse(std::vector<std::string>& tokens) {
                     i += 7;
                 }
                 else {
-                    throw std::exception(std::format(R"(QueryProcessor: unknown token "{}")", token).c_str());
+                    throw std::invalid_argument(std::format(R"(QueryProcessor: unknown token "{}")", token).c_str());
                 }
             }
 
         }
         else {
-            throw std::exception(std::format(R"(QueryProcessor: unknown token "{}")", token).c_str());
+            throw std::invalid_argument(std::format(R"(QueryProcessor: unknown token "{}")", token).c_str());
         }
     }
 

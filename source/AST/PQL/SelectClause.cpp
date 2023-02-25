@@ -4,12 +4,14 @@
 #include <format>
 #include <numeric>
 
-SelectClause::SelectClause(const std::vector<Declaration>& declarations, const std::vector<std::string>& result, const std::vector<FilterClause*>& filters)
-    : ASTNode("SelectClause"), declarations(declarations), result(result), filters(filters) {
+const std::string& SelectClause::nodeType = "SelectClause";
+
+SelectClause::SelectClause(const std::vector<Declaration>& declarations, const std::vector<std::string>& result, const std::vector<const FilterClause*>& filters)
+    : ASTNode(nodeType), declarations(declarations), result(result), filters(filters) {
 }
 
 SelectClause::~SelectClause() {
-    for (FilterClause* filter : this->filters) {
+    for (const FilterClause* filter : this->filters) {
         delete filter;
     }
 }
@@ -51,6 +53,6 @@ std::vector<std::string> SelectClause::getResult() const {
     return this->result;
 }
 
-std::vector<FilterClause*> SelectClause::getFilters() const {
+std::vector<const FilterClause*> SelectClause::getFilters() const {
     return this->filters;
 }
