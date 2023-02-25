@@ -6,6 +6,7 @@
 
 class Declaration : public ASTNode {
 public:
+    static const std::string& nodeType;
     explicit Declaration(const std::string& designEntity, const std::vector<std::string>& synonyms);
     std::string toString() const override;
     std::string getDesignEntity() const;

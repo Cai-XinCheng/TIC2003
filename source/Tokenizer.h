@@ -18,6 +18,6 @@ public:
     void tokenize(std::string text, std::vector<std::string>& tokens);
 
 private:
-    static std::set<char> independentPunctuations;
+    static const std::set<char> independentPunctuations;
 };
 

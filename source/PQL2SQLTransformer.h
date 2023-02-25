@@ -1,12 +1,14 @@
 #pragma once
 
 #include "AST/PQL/SelectClause.h"
+#include "AST/PQL/SuchThatClause.h"
+#include "AST/PQL/PatternClause.h"
 #include <map>
 
 // A class to transform PQL to SQL
 class PQL2SQLTransformer {
 public:
-    static std::string transform(const SelectClause& selectClause);
+    std::string transform(const SelectClause& selectClause) const;
 
 private:
     class TableInfo {
@@ -19,12 +21,20 @@ private:
         std::string tableResultColumn;
     };
 
-    static std::map<std::string, TableInfo, std::less<>> declarationTableInfoMapping;
+    static const std::map<std::string, TableInfo, std::less<>> declarationTableInfoMapping;
 
-    static std::string transformDeclarations(const std::vector<Declaration>& declarations);
+    static const std::map<std::string, std::string, std::less<>> relationshipFunctionMapping;
 
-    static std::string transformResult(const std::vector<std::string>& result, const std::vector<Declaration>& declarations);
+    std::string transformDeclarations(const std::vector<Declaration>& declarations) const;
 
-    static std::string transformFilters(const std::vector<FilterClause*>& filters);
+    std::string transformResult(const std::vector<std::string>& result, const std::vector<Declaration>& declarations) const;
+
+    std::string transformFilters(const std::vector<const FilterClause*>& filters, const std::vector<Declaration>& declarations) const;
+
+    std::string transformSuchThat(const SuchThatClause* suchThat, const std::vector<Declaration>& declarations) const;
+
+    std::string transformPattern(const PatternClause* suchThat, const std::vector<Declaration>& declarations) const;
+
+    std::string generateColumnRefBySynonym(const std::string& synonym, const std::vector<Declaration>& declarations) const;
 };
 

@@ -5,6 +5,6 @@
 // A class to parse tokens to the AST of PQL
 class PQLParser {
 public:
-    SelectClause parse(std::vector<std::string>& tokens);
+    SelectClause parse(std::vector<std::string>& tokens) const;
 };
 

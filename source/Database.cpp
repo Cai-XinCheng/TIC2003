@@ -1,5 +1,6 @@
 #include "Database.h"
 #include <map>
+#include <format>
 
 SQLiteWrapper Database::db;
 
@@ -18,17 +19,13 @@ void Database::initialize() {
     createTableSQLs["ifs"] = "CREATE TABLE ifs (stmtNo INTEGER NOT NULL PRIMARY KEY, expression VARCHAR(255) NOT NULL);";
     createTableSQLs["whiles"] = "CREATE TABLE whiles (stmtNo INTEGER NOT NULL PRIMARY KEY, expression VARCHAR(255) NOT NULL);";
     createTableSQLs["assignments"] = "CREATE TABLE assignments (stmtNo INTEGER NOT NULL PRIMARY KEY, variable VARCAHR(255) NOT NULL, expression VARCHAR(255) NOT NULL);";
-    createTableSQLs["nexts"] = "CREATE TABLE nexts (stmtNo INTEGER NOT NULL PRIMARY KEY, next_stmtNo INTEGER NOT NULL)";
-    createTableSQLs["parents"] = "CREATE TABLE parents (stmtNo INTEGER NOT NULL PRIMARY KEY, parent_stmtNo INTEGER NOT NULL)";
-    //createTableSQLs["calls"] = "CREATE TABLE calls (procedureName VARCHAR(255) NOT NULL, calleeName VARCHAR(255) NOT NULL, PRIMARY KEY(procedureName, calleeName))";
-
-    for (auto const& pair : createTableSQLs) {
+    
+    for (const auto& [tableName, createTableSQL] : createTableSQLs) {
         // drop the existing table (if any)
-        std::string dropTableSQL = "DROP TABLE IF EXISTS " + pair.first + ";";
+        std::string dropTableSQL = std::format("DROP TABLE IF EXISTS {};", tableName);
         db.execute(dropTableSQL);
 
         // create table
-        std::string createTableSQL = pair.second;
         db.execute(createTableSQL);
     }
 }
