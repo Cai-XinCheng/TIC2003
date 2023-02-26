@@ -17,20 +17,20 @@ namespace DatabaseTests
         {
             // initialize the database and insert a procedure
             Database::initialize();
-            Database::insertProcedure(1, "echo1");
-            Database::insertProcedure(2, "echo2");
-            Database::insertProcedure(4294967295, "a123bcd456");
+            Database::insertProcedure("echo1");
+            Database::insertProcedure("echo2");
+            Database::insertProcedure("a123bcd456");
 
             // retrieve the procedures from the database
             std::vector<std::vector<std::string>> dbResults;
-            Database::select(dbResults, "SELECT stmtNo, procedureName FROM procedures;");
+            Database::select(dbResults, "SELECT procedureName FROM procedures;");
 
             // create the test output string from the procedures retrieved
             std::string testOutput;
             generateTestOutput(dbResults, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "1,echo1$2,echo2$4294967295,a123bcd456$";
+            std::string expectedOutput = "echo1$echo2$a123bcd456$";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -49,21 +49,21 @@ namespace DatabaseTests
         {
             // initialize the database and insert a variable
             Database::initialize();
-            Database::insertVariable("var1", 1);
-            Database::insertVariable("var2", 1);
-            Database::insertVariable("var2", 2);
-            Database::insertVariable("v123var456", 4294967295);
+            Database::insertVariable("var1", 1, "use", "procedure1");
+            Database::insertVariable("var2", 2, "use", "procedure1");
+            Database::insertVariable("var2", 3, "modify", "procedure1");
+            Database::insertVariable("v123var456", 4294967295, "modify", "pro123cedure");
 
             // retrieve the variables from the database
             std::vector<std::vector<std::string>> dbResults;
-            Database::select(dbResults, "SELECT name, stmtNo FROM variables;");
+            Database::select(dbResults, "SELECT name, stmtNo, relation, procedureName FROM variables;");
 
             // create the test output string from the variables retrieved
             std::string testOutput;
             generateTestOutput(dbResults, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "var1,1$var2,1$var2,2$v123var456,4294967295$";
+            std::string expectedOutput = "var1,1,use,procedure1$var2,2,use,procedure1$var2,3,modify,procedure1$v123var456,4294967295,modify,pro123cedure$";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -166,7 +166,7 @@ namespace DatabaseTests
             generateTestOutput(dbResults, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "1,var1,0$2,var1,x$10,var2,x + y * z$4294967295,var3,x - y / z % i$";
+            std::string expectedOutput = "1,var1,0$2,var1,x$10,var2,x+y*z$4294967295,var3,x-y/z%i$";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -250,20 +250,20 @@ namespace DatabaseTests
         {
             // initialize the database and insert a statement
             Database::initialize();
-            Database::insertCall(1, 2);
-            Database::insertCall(2, 5);
-            Database::insertCall(4294967295, 100);
+            Database::insertCall(1, "pro1");
+            Database::insertCall(2, "procedure");
+            Database::insertCall(4294967295, "pro123cedure");
 
             // retrieve the calls from the database
             std::vector<std::vector<std::string>> dbResults;
-            Database::select(dbResults, "SELECT stmtNo, calleeStmtNo FROM calls;");
+            Database::select(dbResults, "SELECT stmtNo, procedureName FROM calls;");
 
             // create the test output string from the statements retrieved
             std::string testOutput;
             generateTestOutput(dbResults, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "1,2$2,5$4294967295,100$";
+            std::string expectedOutput = "1,pro1$2,procedure$4294967295,pro123cedure$";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
