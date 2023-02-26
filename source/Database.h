@@ -36,7 +36,7 @@ public:
     static void insertParent(uint32_t stmtNo, uint32_t parentStmtNo);
 
     // method to insert a parent into the database
-    static void insertCall(uint32_t stmtNo, uint32_t calleeStmtNo);
+    static void insertCall(uint32_t stmtNo, std::string procedureName);
 
     // method to get data from the database
     static void select(std::vector<std::vector<std::string>>& dbResults, const std::string& sql);
