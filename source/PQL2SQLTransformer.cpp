@@ -19,14 +19,14 @@ const std::map<std::string, PQL2SQLTransformer::TableInfo, std::less<>> PQL2SQLT
     });
 
 const std::map<std::string, std::string, std::less<>> PQL2SQLTransformer::relationshipFunctionMapping({
-        {"Parent", "is_parent"},
-        {"Parent*", "is_parent_t"},
-        {"Next", "is_next"},
-        {"Next*", "is_next_t"},
-        {"Calls", "has_call"},
-        {"Calls*", "has_call_t"},
-        {"Modifies", "has_modify"},
-        {"Uses", "has_use"},
+        {"Parent", "check_parent"},
+        {"Parent*", "check_parent_t"},
+        {"Next", "check_next"},
+        {"Next*", "check_next_t"},
+        {"Calls", "check_call"},
+        {"Calls*", "check_call_t"},
+        {"Modifies", "check_modify"},
+        {"Uses", "check_use"},
     });
 
 std::string PQL2SQLTransformer::transform(const SelectClause& selectClause) const {

@@ -22,4 +22,5 @@ void TestHelper::LogActualAndExpected(const std::string& actual, const std::stri
         Logger::WriteMessage("\n");
     }
     Logger::WriteMessage(expected.c_str());
+    Logger::WriteMessage("\n");
 }

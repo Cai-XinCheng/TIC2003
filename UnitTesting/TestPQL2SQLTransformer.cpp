@@ -80,7 +80,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT s.stmtNo";
             expectedOutput += " FROM statements AS s";
-            expectedOutput += " WHERE is_next_t(6, s.stmtNo)";
+            expectedOutput += " WHERE check_next_t(6, s.stmtNo)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -105,7 +105,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT v.name";
             expectedOutput += " FROM variables AS v";
-            expectedOutput += " WHERE has_modify(6, v.name)";
+            expectedOutput += " WHERE check_modify(6, v.name)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -130,7 +130,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT v.name";
             expectedOutput += " FROM variables AS v";
-            expectedOutput += " WHERE has_use(14, v.name)";
+            expectedOutput += " WHERE check_use(14, v.name)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -155,7 +155,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT a.stmtNo";
             expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
-            expectedOutput += " WHERE is_parent_t(w.stmtNo, a.stmtNo)";
+            expectedOutput += " WHERE check_parent_t(w.stmtNo, a.stmtNo)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -180,7 +180,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT s.stmtNo";
             expectedOutput += " FROM statements AS s";
-            expectedOutput += " WHERE is_parent(s.stmtNo, 7)";
+            expectedOutput += " WHERE check_parent(s.stmtNo, 7)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -205,7 +205,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT p.procedureName";
             expectedOutput += " FROM variables AS v, procedures AS p";
-            expectedOutput += " WHERE has_modify(p.procedureName, 'x')";
+            expectedOutput += " WHERE check_modify(p.procedureName, 'x')";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -230,7 +230,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT p.procedureName";
             expectedOutput += " FROM procedures AS p, procedures AS q";
-            expectedOutput += " WHERE has_call(p.procedureName)";
+            expectedOutput += " WHERE check_call(p.procedureName)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -255,7 +255,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT p.procedureName";
             expectedOutput += " FROM procedures AS p";
-            expectedOutput += " WHERE has_call_t(p.procedureName, 'Third')";
+            expectedOutput += " WHERE check_call_t(p.procedureName, 'Third')";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -280,7 +280,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT p.procedureName, q.procedureName";
             expectedOutput += " FROM procedures AS p, procedures AS q";
-            expectedOutput += " WHERE has_call(p.procedureName, q.procedureName)";
+            expectedOutput += " WHERE check_call(p.procedureName, q.procedureName)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -405,7 +405,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT w.stmtNo";
             expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
-            expectedOutput += " WHERE is_parent_t(w.stmtNo, a.stmtNo) AND a.variable = 'count'";
+            expectedOutput += " WHERE check_parent_t(w.stmtNo, a.stmtNo) AND a.variable = 'count'";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -430,7 +430,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT a.stmtNo";
             expectedOutput += " FROM assignments AS a, variables AS v";
-            expectedOutput += " WHERE has_use(a.stmtNo, v.name) AND a.variable = v.name";
+            expectedOutput += " WHERE check_use(a.stmtNo, v.name) AND a.variable = v.name";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -455,7 +455,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT a.stmtNo";
             expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
-            expectedOutput += " WHERE a.variable = 'x' AND has_use(a.stmtNo, 'x')";
+            expectedOutput += " WHERE a.variable = 'x' AND check_use(a.stmtNo, 'x')";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -480,7 +480,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT a.stmtNo";
             expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
-            expectedOutput += " WHERE has_use(a.stmtNo, 'x') AND a.variable = 'x'";
+            expectedOutput += " WHERE check_use(a.stmtNo, 'x') AND a.variable = 'x'";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -505,7 +505,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT a.stmtNo";
             expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
-            expectedOutput += " WHERE is_parent_t(w.stmtNo, a.stmtNo) AND a.variable = 'count'";
+            expectedOutput += " WHERE check_parent_t(w.stmtNo, a.stmtNo) AND a.variable = 'count'";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -530,7 +530,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT a.stmtNo";
             expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
-            expectedOutput += " WHERE a.variable = 'count' AND is_parent_t(w.stmtNo, a.stmtNo)";
+            expectedOutput += " WHERE a.variable = 'count' AND check_parent_t(w.stmtNo, a.stmtNo)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -555,7 +555,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT s.stmtNo";
             expectedOutput += " FROM statements AS s";
-            expectedOutput += " WHERE is_next_t(5, s.stmtNo) AND is_next_t(s.stmtNo, 12)";
+            expectedOutput += " WHERE check_next_t(5, s.stmtNo) AND check_next_t(s.stmtNo, 12)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -580,7 +580,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT a.stmtNo";
             expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
-            expectedOutput += " WHERE a.variable = 'x' AND is_parent_t(w.stmtNo, a.stmtNo) AND is_next_t(1, a.stmtNo)";
+            expectedOutput += " WHERE a.variable = 'x' AND check_parent_t(w.stmtNo, a.stmtNo) AND check_next_t(1, a.stmtNo)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -605,7 +605,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT a.stmtNo";
             expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
-            expectedOutput += " WHERE has_modify(a.stmtNo, 'x') AND is_parent_t(w.stmtNo, a.stmtNo) AND is_next_t(1, a.stmtNo)";
+            expectedOutput += " WHERE check_modify(a.stmtNo, 'x') AND check_parent_t(w.stmtNo, a.stmtNo) AND check_next_t(1, a.stmtNo)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -630,7 +630,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT w1.stmtNo, w2.stmtNo, w3.stmtNo";
             expectedOutput += " FROM (SELECT * FROM statements WHERE type = 'while') AS w1, (SELECT * FROM statements WHERE type = 'while') AS w2, (SELECT * FROM statements WHERE type = 'while') AS w3";
-            expectedOutput += " WHERE is_parent_t(w1.stmtNo, w2.stmtNo) AND is_parent_t(w2.stmtNo, w3.stmtNo)";
+            expectedOutput += " WHERE check_parent_t(w1.stmtNo, w2.stmtNo) AND check_parent_t(w2.stmtNo, w3.stmtNo)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -655,7 +655,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT a1.stmtNo";
             expectedOutput += " FROM assignments AS a1, assignments AS a2, (SELECT * FROM statements WHERE type = 'while') AS w1, (SELECT * FROM statements WHERE type = 'while') AS w2";
-            expectedOutput += " WHERE a1.variable = 'x' AND a2.variable = 'x' AND a2.expression LIKE '%x%' AND is_next_t(a1.stmtNo, a2.stmtNo) AND is_parent_t(w2.stmtNo, a2.stmtNo) AND is_parent_t(w1.stmtNo, w2.stmtNo)";
+            expectedOutput += " WHERE a1.variable = 'x' AND a2.variable = 'x' AND a2.expression LIKE '%x%' AND check_next_t(a1.stmtNo, a2.stmtNo) AND check_parent_t(w2.stmtNo, a2.stmtNo) AND check_parent_t(w1.stmtNo, w2.stmtNo)";
 
             // Logger messages can be viewed in the Test Explorer
             // under "open additional output for this result" for each test case

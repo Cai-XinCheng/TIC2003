@@ -14,6 +14,21 @@ public:
     // method to close the database connection
     static void close();
 
+    // sqlite3 user function to check whether a statement is a parent of another statement
+    static void sqlite3_check_parent(sqlite3_context* context, int argc, sqlite3_value** argv);
+
+    // sqlite3 user function to check whether a statement is a parent (directly or indirectly) of another statement
+    static void sqlite3_check_parent_t(sqlite3_context* context, int argc, sqlite3_value** argv);
+
+    // sqlite3 user function to check whether a statement is a next of another statement
+    static void sqlite3_check_next(sqlite3_context* context, int argc, sqlite3_value** argv);
+
+    // sqlite3 user function to check whether a statement is a next (directly or indirectly) of another statement
+    static void sqlite3_check_next_t(sqlite3_context* context, int argc, sqlite3_value** argv);
+
+    // sqlite3 user function to check whether a specified object modifies a specified variable or any variable
+    static void sqlite3_check_modify(sqlite3_context* context, int argc, sqlite3_value** argv);
+
     // method to insert a procedure into the database
     static void insertProcedure(std::string procedureName);
 

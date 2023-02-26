@@ -29,11 +29,194 @@ void Database::initialize() {
         // create table
         db.execute(createTableSQL);
     }
+
+    // create user functions
+    db.createFunction("check_parent", 2, SQLITE_ANY, nullptr, &sqlite3_check_parent);
+    db.createFunction("check_parent_t", 2, SQLITE_ANY, nullptr, &sqlite3_check_parent_t);
+    db.createFunction("check_next", 2, SQLITE_ANY, nullptr, &sqlite3_check_next);
+    db.createFunction("check_next_t", 2, SQLITE_ANY, nullptr, &sqlite3_check_next_t);
+    db.createFunction("check_modify", -1, SQLITE_ANY, nullptr, &sqlite3_check_modify);
 }
 
 // method to close the database connection
 void Database::close() {
     db.close();
+}
+
+// sqlite3 user function to check whether a statement is a parent of another statement
+void Database::sqlite3_check_parent(sqlite3_context* context, int argc, sqlite3_value** argv) {
+    if (argc != 2) {
+        sqlite3_result_error(context, "invalid number of arguments of check_parent", -1);
+        return;
+    }
+    if (sqlite3_value_type(argv[0]) != SQLITE_INTEGER || sqlite3_value_type(argv[1]) != SQLITE_INTEGER) {
+        sqlite3_result_error(context, "invalid argument type of check_parent", -1);
+        return;
+    }
+
+    uint32_t stmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[0]));
+    uint32_t parentStmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[1]));
+
+    std::string sql = "SELECT 1 FROM parents WHERE stmtNo = ? AND parentStmtNo = ? LIMIT 1;";
+    std::vector<int> results = db.selectFirstColumn<int>(sql, stmtNo, parentStmtNo);
+
+    int result = results.size() >= 1 ? 1 : 0;
+    sqlite3_result_int(context, result);
+}
+
+// sqlite3 user function to check whether a statement is a parent (directly or indirectly) of another statement
+void Database::sqlite3_check_parent_t(sqlite3_context* context, int argc, sqlite3_value** argv) {
+    if (argc != 2) {
+        sqlite3_result_error(context, "invalid number of arguments of check_parent_t", -1);
+        return;
+    }
+    if (sqlite3_value_type(argv[0]) != SQLITE_INTEGER || sqlite3_value_type(argv[1]) != SQLITE_INTEGER) {
+        sqlite3_result_error(context, "invalid argument type of check_parent_t", -1);
+        return;
+    }
+
+    uint32_t stmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[0]));
+    uint32_t parentStmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[1]));
+
+    std::string sql = R"(
+        WITH RECURSIVE parents_t AS (
+            SELECT stmtNo, parentStmtNo FROM parents WHERE stmtNo = ?
+            UNION ALL
+            SELECT p.stmtNo, p.parentStmtNo FROM parents AS p
+            INNER JOIN parents_t AS pt ON pt.parentStmtNo = p.stmtNo
+            WHERE pt.parentStmtNo != ?
+        )
+        SELECT 1 FROM parents_t WHERE parentStmtNo = ? LIMIT 1;
+    )";
+    std::vector<int> results = db.selectFirstColumn<int>(sql, stmtNo, parentStmtNo, parentStmtNo);
+
+    int result = results.size() >= 1 ? 1 : 0;
+    sqlite3_result_int(context, result);
+}
+
+// sqlite3 user function to check whether a statement is a next of another statement
+void Database::sqlite3_check_next(sqlite3_context* context, int argc, sqlite3_value** argv) {
+    if (argc != 2) {
+        sqlite3_result_error(context, "invalid number of arguments of check_next", -1);
+        return;
+    }
+    if (sqlite3_value_type(argv[0]) != SQLITE_INTEGER || sqlite3_value_type(argv[1]) != SQLITE_INTEGER) {
+        sqlite3_result_error(context, "invalid argument type of check_next", -1);
+        return;
+    }
+
+    uint32_t stmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[0]));
+    uint32_t parentStmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[1]));
+
+    std::string sql = "SELECT 1 FROM nexts WHERE stmtNo = ? AND nextStmtNo = ? LIMIT 1;";
+    std::vector<int> results = db.selectFirstColumn<int>(sql, stmtNo, parentStmtNo);
+
+    int result = results.size() >= 1 ? 1 : 0;
+    sqlite3_result_int(context, result);
+}
+
+// sqlite3 user function to check whether a statement is a next (directly or indirectly) of another statement
+void Database::sqlite3_check_next_t(sqlite3_context* context, int argc, sqlite3_value** argv) {
+    if (argc != 2) {
+        sqlite3_result_error(context, "invalid number of arguments of check_next_t", -1);
+        return;
+    }
+    if (sqlite3_value_type(argv[0]) != SQLITE_INTEGER || sqlite3_value_type(argv[1]) != SQLITE_INTEGER) {
+        sqlite3_result_error(context, "invalid argument type of check_next_t", -1);
+        return;
+    }
+
+    uint32_t stmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[0]));
+    uint32_t parentStmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[1]));
+
+    std::string sql = R"(
+        WITH RECURSIVE nexts_t AS (
+            SELECT stmtNo, nextStmtNo FROM nexts WHERE stmtNo = ?
+            UNION ALL
+            SELECT n.stmtNo, n.nextStmtNo FROM nexts AS n
+            INNER JOIN nexts_t AS nt ON nt.nextStmtNo = n.stmtNo
+            WHERE nt.nextStmtNo != ?
+        )
+        SELECT 1 FROM nexts_t WHERE nextStmtNo = ? LIMIT 1;
+    )";
+    std::vector<int> results = db.selectFirstColumn<int>(sql, stmtNo, parentStmtNo, parentStmtNo);
+
+    int result = results.size() >= 1 ? 1 : 0;
+    sqlite3_result_int(context, result);
+}
+
+// sqlite3 user function to check whether a specified object modifies a specified variable or any variable
+void Database::sqlite3_check_modify(sqlite3_context* context, int argc, sqlite3_value** argv) {
+    if (argc != 1 && argc != 2) {
+        sqlite3_result_error(context, "invalid number of arguments of check_modify", -1);
+        return;
+    }
+
+    int arg0Type = sqlite3_value_type(argv[0]);
+    if ((arg0Type != SQLITE_INTEGER && arg0Type != SQLITE_TEXT) || (argc == 2 && sqlite3_value_type(argv[1]) != SQLITE_TEXT)) {
+        sqlite3_result_error(context, "invalid argument type of check_modify", -1);
+        return;
+    }
+
+    std::string variableName = argc == 2 ? std::string(reinterpret_cast<const char*>(sqlite3_value_text(argv[1]))) : "";
+    std::string sql;
+    std::vector<int> results;
+
+    // # statement
+    if (arg0Type == SQLITE_INTEGER) {
+        uint32_t stmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[0]));
+
+        // ## modifies at the statment number
+        sql = "SELECT 1 FROM variables WHERE relation = 'modify' AND stmtNo = ? AND (name = ? OR ? = '') LIMIT 1;";
+        results = db.selectFirstColumn<int>(sql, stmtNo, variableName, variableName);
+        if (results.size() >= 1) {
+            sqlite3_result_int(context, 1);
+            return;
+        }
+
+        // ## for container statements
+        sql = R"(
+            WITH RECURSIVE parents_t AS (
+                SELECT stmtNo, parentStmtNo FROM parents WHERE parentStmtNo = ?
+                UNION ALL
+                SELECT p.stmtNo, p.parentStmtNo FROM parents AS p
+                INNER JOIN parents_t AS pt ON p.parentStmtNo = pt.stmtNo
+            )
+            SELECT 1
+            FROM variables AS v
+            WHERE relation = 'modify'
+                AND EXISTS (SELECT 1 FROM parents_t AS pt WHERE pt.stmtNo = v.stmtNo)
+                AND (name = ? OR ? = '')
+            LIMIT 1;
+        )";
+        results = db.selectFirstColumn<int>(sql, stmtNo, variableName, variableName);
+        if (results.size() >= 1) {
+            sqlite3_result_int(context, 1);
+            return;
+        }
+
+        // ## for call statements
+        // TODO
+
+        sqlite3_result_int(context, 0);
+        return;
+    }
+
+    // # procedure
+    // ## modifies directly
+    std::string procedureName(reinterpret_cast<const char*>(sqlite3_value_text(argv[0])));
+    sql = "SELECT 1 FROM variables WHERE relation = 'modify' AND procedureName = ? AND (name = ? OR ? = '') LIMIT 1;";
+    results = db.selectFirstColumn<int>(sql, procedureName, variableName, variableName);
+    if (results.size() >= 1) {
+        sqlite3_result_int(context, 1);
+        return;
+    }
+
+    // ## for call statements
+    // TODO
+
+    sqlite3_result_int(context, 0);
+    return;
 }
 
 // insert functions
