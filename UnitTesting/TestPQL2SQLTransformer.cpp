@@ -80,7 +80,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT s.stmtNo";
             expectedOutput += " FROM statements AS s";
-            expectedOutput += " WHERE is_next_transitive(6, s.stmtNo)";
+            expectedOutput += " WHERE is_next_t(6, s.stmtNo)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -154,8 +154,8 @@ namespace PQL2SQLTransformerTests
 
             // create the expected output string
             std::string expectedOutput = "SELECT a.stmtNo";
-            expectedOutput += " FROM assignments AS a, whiles AS w";
-            expectedOutput += " WHERE is_parent_transitive(w.con_stmtNo, a.stmtNo)";
+            expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
+            expectedOutput += " WHERE is_parent_t(w.stmtNo, a.stmtNo)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -255,7 +255,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT p.procedureName";
             expectedOutput += " FROM procedures AS p";
-            expectedOutput += " WHERE has_call_transitive(p.procedureName, 'Third')";
+            expectedOutput += " WHERE has_call_t(p.procedureName, 'Third')";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -403,9 +403,9 @@ namespace PQL2SQLTransformerTests
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT w.con_stmtNo";
-            expectedOutput += " FROM assignments AS a, whiles AS w";
-            expectedOutput += " WHERE is_parent_transitive(w.con_stmtNo, a.stmtNo) AND a.variable = 'count'";
+            std::string expectedOutput = "SELECT w.stmtNo";
+            expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
+            expectedOutput += " WHERE is_parent_t(w.stmtNo, a.stmtNo) AND a.variable = 'count'";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -454,7 +454,7 @@ namespace PQL2SQLTransformerTests
 
             // create the expected output string
             std::string expectedOutput = "SELECT a.stmtNo";
-            expectedOutput += " FROM assignments AS a, whiles AS w";
+            expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
             expectedOutput += " WHERE a.variable = 'x' AND has_use(a.stmtNo, 'x')";
 
             // Logger messages can be viewed in the Test Explorer 
@@ -479,7 +479,7 @@ namespace PQL2SQLTransformerTests
 
             // create the expected output string
             std::string expectedOutput = "SELECT a.stmtNo";
-            expectedOutput += " FROM assignments AS a, whiles AS w";
+            expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
             expectedOutput += " WHERE has_use(a.stmtNo, 'x') AND a.variable = 'x'";
 
             // Logger messages can be viewed in the Test Explorer 
@@ -504,8 +504,8 @@ namespace PQL2SQLTransformerTests
 
             // create the expected output string
             std::string expectedOutput = "SELECT a.stmtNo";
-            expectedOutput += " FROM assignments AS a, whiles AS w";
-            expectedOutput += " WHERE is_parent_transitive(w.con_stmtNo, a.stmtNo) AND a.variable = 'count'";
+            expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
+            expectedOutput += " WHERE is_parent_t(w.stmtNo, a.stmtNo) AND a.variable = 'count'";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -529,8 +529,8 @@ namespace PQL2SQLTransformerTests
 
             // create the expected output string
             std::string expectedOutput = "SELECT a.stmtNo";
-            expectedOutput += " FROM assignments AS a, whiles AS w";
-            expectedOutput += " WHERE a.variable = 'count' AND is_parent_transitive(w.con_stmtNo, a.stmtNo)";
+            expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
+            expectedOutput += " WHERE a.variable = 'count' AND is_parent_t(w.stmtNo, a.stmtNo)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -555,7 +555,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT s.stmtNo";
             expectedOutput += " FROM statements AS s";
-            expectedOutput += " WHERE is_next_transitive(5, s.stmtNo) AND is_next_transitive(s.stmtNo, 12)";
+            expectedOutput += " WHERE is_next_t(5, s.stmtNo) AND is_next_t(s.stmtNo, 12)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -579,8 +579,8 @@ namespace PQL2SQLTransformerTests
 
             // create the expected output string
             std::string expectedOutput = "SELECT a.stmtNo";
-            expectedOutput += " FROM assignments AS a, whiles AS w";
-            expectedOutput += " WHERE a.variable = 'x' AND is_parent_transitive(w.con_stmtNo, a.stmtNo) AND is_next_transitive(1, a.stmtNo)";
+            expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
+            expectedOutput += " WHERE a.variable = 'x' AND is_parent_t(w.stmtNo, a.stmtNo) AND is_next_t(1, a.stmtNo)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -604,8 +604,8 @@ namespace PQL2SQLTransformerTests
 
             // create the expected output string
             std::string expectedOutput = "SELECT a.stmtNo";
-            expectedOutput += " FROM assignments AS a, whiles AS w";
-            expectedOutput += " WHERE has_modify(a.stmtNo, 'x') AND is_parent_transitive(w.con_stmtNo, a.stmtNo) AND is_next_transitive(1, a.stmtNo)";
+            expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
+            expectedOutput += " WHERE has_modify(a.stmtNo, 'x') AND is_parent_t(w.stmtNo, a.stmtNo) AND is_next_t(1, a.stmtNo)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -628,9 +628,9 @@ namespace PQL2SQLTransformerTests
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT w1.con_stmtNo, w2.con_stmtNo, w3.con_stmtNo";
-            expectedOutput += " FROM whiles AS w1, whiles AS w2, whiles AS w3";
-            expectedOutput += " WHERE is_parent_transitive(w1.con_stmtNo, w2.con_stmtNo) AND is_parent_transitive(w2.con_stmtNo, w3.con_stmtNo)";
+            std::string expectedOutput = "SELECT w1.stmtNo, w2.stmtNo, w3.stmtNo";
+            expectedOutput += " FROM (SELECT * FROM statements WHERE type = 'while') AS w1, (SELECT * FROM statements WHERE type = 'while') AS w2, (SELECT * FROM statements WHERE type = 'while') AS w3";
+            expectedOutput += " WHERE is_parent_t(w1.stmtNo, w2.stmtNo) AND is_parent_t(w2.stmtNo, w3.stmtNo)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -654,8 +654,8 @@ namespace PQL2SQLTransformerTests
 
             // create the expected output string
             std::string expectedOutput = "SELECT a1.stmtNo";
-            expectedOutput += " FROM assignments AS a1, assignments AS a2, whiles AS w1, whiles AS w2";
-            expectedOutput += " WHERE a1.variable = 'x' AND a2.variable = 'x' AND a2.expression LIKE '%x%' AND is_next_transitive(a1.stmtNo, a2.stmtNo) AND is_parent_transitive(w2.con_stmtNo, a2.stmtNo) AND is_parent_transitive(w1.con_stmtNo, w2.con_stmtNo)";
+            expectedOutput += " FROM assignments AS a1, assignments AS a2, (SELECT * FROM statements WHERE type = 'while') AS w1, (SELECT * FROM statements WHERE type = 'while') AS w2";
+            expectedOutput += " WHERE a1.variable = 'x' AND a2.variable = 'x' AND a2.expression LIKE '%x%' AND is_next_t(a1.stmtNo, a2.stmtNo) AND is_parent_t(w2.stmtNo, a2.stmtNo) AND is_parent_t(w1.stmtNo, w2.stmtNo)";
 
             // Logger messages can be viewed in the Test Explorer
             // under "open additional output for this result" for each test case
