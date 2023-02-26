@@ -32,9 +32,105 @@ void SourceProcessor::process(std::string program) {
     printf("-------------------------------\n");
     */
 
-    processToken(tokens);
+    //processToken(tokens);
+
+    // set to store all variables and constants in order to check duplication
+    std::set<std::string> vars;
+    std::set<std::string> cons;
+    // stack to store current parent statement number
+    std::stack<uint32_t> parent;
+
+    unsigned int i = 0;
+    while (i < tokens.size()) {
+        std::string token = tokens.at(i);
+        if (token == "procedure") {
+            i++;
+            parent.push(stmtNo);
+            Database::insertProcedure(tokens.at(i));
+            i++;
+            stmtNo++;
+        }
+        else if (token == "read") {
+            i++;
+            Database::insertParent(stmtNo, parent.top());
+            Database::insertStatement(stmtNo, "read");
+            // check if variable is declared
+            auto itVars = vars.find(tokens.at(i));
+            if (itVars == vars.end()) { // not declared
+                Database::insertVariable(tokens.at(i), stmtNo);
+                vars.insert(tokens.at(i));
+            }
+            i++;
+            if (i != token.size() - 1) { // not last statement
+                Database::insertNext(stmtNo, stmtNo + 1);
+            }
+            stmtNo++;
+        }
+        else if (token == "print") {
+            i++;
+            Database::insertParent(stmtNo, parent.top());
+            Database::insertStatement(stmtNo, "print");
+            i++;
+            if (i != token.size() - 1) { // not last statement
+                Database::insertNext(stmtNo, stmtNo + 1);
+            }
+            stmtNo++;
+        }
+        else if (token == "while") {
+            i += 2;
+            Database::insertParent(stmtNo, parent.top());
+            parent.push(stmtNo);
+            std::string conExpression = "";
+            while (tokens.at(i) != "{") {
+                conExpression += tokens.at(i);
+                i++;
+            }
+            conExpression.pop_back(); // remove right parenthesis of condition expression
+            Database::insertWhile(stmtNo, conExpression);
+            i++;
+            if (i != token.size() - 1) { // not last statement
+                Database::insertNext(stmtNo, stmtNo + 1);
+            }
+            stmtNo++;
+        }
+        else if (token == "if") {
+            i += 2;
+            Database::insertParent(stmtNo, parent.top());
+            parent.push(stmtNo);
+            std::string conExpression = "";
+            while (tokens.at(i) != "{") {
+                conExpression += tokens.at(i);
+                i++;
+            }
+            conExpression.pop_back(); // remove right parenthesis of condition expression
+            Database::insertIf(stmtNo, conExpression);
+            i++;
+            if (i != token.size() - 1) { // not last statement
+                Database::insertNext(stmtNo, stmtNo + 1);
+            }
+            stmtNo++;
+        }
+        else if (token == "}" && i != token.size() - 1) {
+            if (tokens.at(i + 1) == "else") {
+                Database::insertNext(parent.top(), stmtNo);
+                i += 2;
+            }
+            else if (tokens.at(i + 1) == "procedure") {
+                parent.pop();
+            }
+            else {
+                Database::insertNext(parent.top(), stmtNo);
+                parent.pop();
+            }
+            i++;
+        }
+        else {
+            i++;
+        }
+    }
 }
 
+/*
 void SourceProcessor::processToken(std::vector<std::string> token) {
     std::vector<std::string> statement;
     // a stack to store if/while information
@@ -112,7 +208,9 @@ void SourceProcessor::processSingleStmt(std::vector<std::string> statement) {
         Database::insertStatement(stmtNo, "assign");
         auto startIt = next(statement.begin(), 2);
         std::string expression = accumulate(startIt, statement.end(), std::string{});
-        Database::insertAssignment(stmtNo, statement.at(0), expression);
+        // convert expression to postfix expression before store into database
+        std::string postfixExpression = ASTNode::toPostfix(expression);
+        Database::insertAssignment(stmtNo, statement.at(0), postfixExpression);
 
         // check if variable is declared
         auto itVars = vars.find(statement.at(0));
@@ -132,3 +230,4 @@ void SourceProcessor::processSingleStmt(std::vector<std::string> statement) {
         }
     }
 }
+*/

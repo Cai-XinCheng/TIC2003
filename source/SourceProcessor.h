@@ -5,6 +5,7 @@
 #include <string>
 #include "Database.h"
 #include "Tokenizer.h"
+#include "./AST/ASTNode.h"
 
 class SourceProcessor {
 public:
