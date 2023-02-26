@@ -43,7 +43,7 @@ void SourceProcessor::processToken(std::vector<std::string> token) {
         if (*it == ";" || *it == "{") { // end of a statement
             std::string stmtType = statement.at(0);
             if (stmtType == "procedure") {
-                Database::insertProcedure(statement.at(1));
+                //Database::insertProcedure(statement.at(1));
             }
             else if (stmtType == "if" || stmtType == "while") {
                 Database::insertStatement(stmtNo, stmtType);
@@ -76,12 +76,12 @@ void SourceProcessor::processToken(std::vector<std::string> token) {
             std::vector<std::string> vector = stack.top();
             if (vector.at(0) == "if" && vector.size() > 3) {
                 vector.push_back(std::to_string(stmtNo - 1));
-                Database::insertIf(vector);
+                //Database::insertIf(vector);
                 stack.pop();
             }
             else if (vector.at(0) == "while") {
                 vector.push_back(std::to_string(stmtNo - 1));
-                Database::insertWhile(vector);
+                //Database::insertWhile(vector);
                 stack.pop();
             }
         }
@@ -101,7 +101,7 @@ void SourceProcessor::processSingleStmt(std::vector<std::string> statement) {
         // check if variable is declared
         auto itVars = vars.find(statement.at(1));
         if (itVars == vars.end()) { // not declared
-            Database::insertVariable(statement.at(1));
+            //Database::insertVariable(statement.at(1));
             vars.insert(statement.at(1));
         }
     }
@@ -117,7 +117,7 @@ void SourceProcessor::processSingleStmt(std::vector<std::string> statement) {
         // check if variable is declared
         auto itVars = vars.find(statement.at(0));
         if (itVars == vars.end()) { // not declared
-            Database::insertVariable(statement.at(0));
+            //Database::insertVariable(statement.at(0));
             vars.insert(statement.at(0));
         }
 

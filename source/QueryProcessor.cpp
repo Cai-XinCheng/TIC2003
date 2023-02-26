@@ -1,6 +1,8 @@
 #include "QueryProcessor.h"
 #include "Tokenizer.h"
 #include "PQLParser.h"
+#include "PQL2SQLTransformer.h"
+#include <numeric>
 
 // constructor
 QueryProcessor::QueryProcessor() {}
@@ -25,77 +27,20 @@ void QueryProcessor::evaluate(std::string query, std::vector<std::string>& outpu
     PQLParser parser;
     SelectClause selectClause = parser.parse(tokens);
 
-    // check what type of synonym is being declared
-    std::string synonymType = tokens.at(0);
+    // transform the AST to SQL
+    PQL2SQLTransformer transformer;
+    std::string sql = transformer.transform(selectClause);
 
-    if (synonymType == "procedure") {
-        // create a vector for storing the results from database
-        std::vector<std::string> databaseResults;
+    // retrieve the results from database
+    std::vector<std::vector<std::string>> dbResults;
+    Database::select(dbResults, sql);
 
-        // call the method in database to retrieve the results
-        // This logic is highly simplified based on iteration 1 requirements and 
-        // the assumption that the queries are valid.
-        Database::getProcedures(databaseResults);
-
-        // post process the results to fill in the output vector
-        for (std::string databaseResult : databaseResults) {
-            output.push_back(databaseResult);
-        }
-    }
-    else if (synonymType == "variable") {
-        // create a vector for storing the results from database
-        std::vector<std::string> databaseResults;
-
-        // call the method in database to retrieve the results
-        // This logic is highly simplified based on iteration 1 requirements and 
-        // the assumption that the queries are valid.
-        Database::getVariables(databaseResults);
-
-        // post process the results to fill in the output vector
-        for (std::string databaseResult : databaseResults) {
-            output.push_back(databaseResult);
-        }
-    }
-    else if (synonymType == "constant") {
-        // create a vector for storing the results from database
-        std::vector<int64_t> databaseResults;
-
-        // call the method in database to retrieve the results
-        // This logic is highly simplified based on iteration 1 requirements and 
-        // the assumption that the queries are valid.
-        Database::getConstants(databaseResults);
-
-        // post process the results to fill in the output vector
-        for (int64_t databaseResult : databaseResults) {
-            output.push_back(std::to_string(databaseResult));
-        }
-    }
-    else if (synonymType == "assign" || synonymType == "print" || synonymType == "read") {
-        // create a vector for storing the results from database
-        std::vector<uint32_t> databaseResults;
-
-        // call the method in database to retrieve the results
-        // This logic is highly simplified based on iteration 1 requirements and 
-        // the assumption that the queries are valid.
-        Database::getStatementsByType(synonymType, databaseResults);
-
-        // post process the results to fill in the output vector
-        for (uint32_t databaseResult : databaseResults) {
-            output.push_back(std::to_string(databaseResult));
-        }
-    }
-    else if (synonymType == "stmt") {
-        // create a vector for storing the results from database
-        std::vector<uint32_t> databaseResults;
-
-        // call the method in database to retrieve the results
-        // This logic is highly simplified based on iteration 1 requirements and 
-        // the assumption that the queries are valid.
-        Database::getStatements(databaseResults);
-
-        // post process the results to fill in the output vector
-        for (uint32_t databaseResult : databaseResults) {
-            output.push_back(std::to_string(databaseResult));
-        }
+    // post process the results to fill in the output vector
+    for (std::vector<std::string> const& row : dbResults) {
+        std::string item = std::accumulate(row.begin(), row.end(), std::string(),
+            [](std::string const& acc, auto const& element) {
+                return !acc.empty() ? acc + " " + element : element;
+            });
+        output.push_back(item);
     }
 }
