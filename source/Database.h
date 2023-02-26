@@ -18,7 +18,7 @@ public:
     static void insertProcedure(std::string procedureName);
 
     // method to insert a variable into the database
-    static void insertVariable(std::string variableName, uint32_t stmtNo);
+    static void insertVariable(std::string variableName, uint32_t stmtNo, std::string relation, std::string procedureName);
 
     // method to insert a constant into the database
     static void insertConstant(int64_t constantValue);
