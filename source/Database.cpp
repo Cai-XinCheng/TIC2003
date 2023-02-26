@@ -19,7 +19,12 @@ void Database::initialize() {
     createTableSQLs["ifs"] = "CREATE TABLE ifs (stmtNo INTEGER NOT NULL PRIMARY KEY, expression VARCHAR(255) NOT NULL);";
     createTableSQLs["whiles"] = "CREATE TABLE whiles (stmtNo INTEGER NOT NULL PRIMARY KEY, expression VARCHAR(255) NOT NULL);";
     createTableSQLs["assignments"] = "CREATE TABLE assignments (stmtNo INTEGER NOT NULL PRIMARY KEY, variable VARCAHR(255) NOT NULL, expression VARCHAR(255) NOT NULL);";
-    
+    createTableSQLs["nexts"] = "CREATE TABLE nexts (stmtNo INTEGER NOT NULL PRIMARY KEY, nextStmtNo INTEGER NOT NULL)";
+    createTableSQLs["parents"] = "CREATE TABLE parents (stmtNo INTEGER NOT NULL PRIMARY KEY, parentStmtNo INTEGER NOT NULL)";
+    //createTableSQLs["calls"] = "CREATE TABLE calls (procedureName VARCHAR(255) NOT NULL, calleeName VARCHAR(255) NOT NULL, PRIMARY KEY(procedureName, calleeName))";
+
+
+
     for (const auto& [tableName, createTableSQL] : createTableSQLs) {
         // drop the existing table (if any)
         std::string dropTableSQL = std::format("DROP TABLE IF EXISTS {};", tableName);
@@ -43,9 +48,9 @@ void Database::insertProcedure(std::string procedureName) {
 }
 
 // method to insert a variable into the database
-void Database::insertVariable(std::string variableName) {
-    std::string insertVariableSQL = "INSERT INTO variables ('name') VALUES(?);";
-    db.execute(insertVariableSQL, variableName);
+void Database::insertVariable(std::string variableName, uint32_t stmtNo) {
+    std::string insertVariableSQL = "INSERT INTO variables ('name', 'stmtNo') VALUES(?, ?);";
+    db.execute(insertVariableSQL, variableName, stmtNo);
 }
 
 // method to insert a constant into the database
@@ -61,21 +66,33 @@ void Database::insertStatement(uint32_t statementNo, std::string type) {
 }
 
 // method to insert a if into the database
-void Database::insertIf(std::vector<std::string> vector) {
-    std::string insertStatementSQL = "INSERT INTO ifs ('con_stmtNo', 'expression', 'if_end_stmtNo', 'else_end_stmtNo') VALUES(?, ?, ?, ?);";
-    db.execute(insertStatementSQL, static_cast<uint32_t>(stoul(vector.at(1))), vector.at(2), static_cast<uint32_t>(stoul(vector.at(3))), static_cast<uint32_t>(stoul(vector.at(4))));
+void Database::insertIf(uint32_t stmtNo, std::string expression) {
+    std::string insertStatementSQL = "INSERT INTO ifs ('stmtNo', 'expression') VALUES(?, ?);";
+    db.execute(insertStatementSQL, stmtNo, expression);
 }
 
 // method to insert a while into the database
-void Database::insertWhile(std::vector<std::string> vector) {
-    std::string insertStatementSQL = "INSERT INTO whiles ('con_stmtNo','expression', 'end_stmtNo') VALUES(?, ?, ?);";
-    db.execute(insertStatementSQL, static_cast<uint32_t>(stoul(vector.at(1))), vector.at(2), static_cast<uint32_t>(stoul(vector.at(3))));
+void Database::insertWhile(uint32_t stmtNo, std::string expression) {
+    std::string insertStatementSQL = "INSERT INTO whiles ('stmtNo','expression') VALUES(?, ?);";
+    db.execute(insertStatementSQL, stmtNo, expression);
 }
 
 // method to insert a assignment into the database
 void Database::insertAssignment(uint32_t stmtNo, std::string variable, std::string expression) {
     std::string insertStatementSQL = "INSERT INTO assignments ('stmtNo', 'variable', 'expression') VALUES(?, ?, ?);";
     db.execute(insertStatementSQL, stmtNo, variable, expression);
+}
+
+// method to insert a next into the database
+void Database::insertNext(uint32_t stmtNo, uint32_t nextStmtNo) {
+    std::string insertStatementSQL = "INSERT INTO assignments ('stmtNo', 'nextStmtNo') VALUES(?, ?)";
+    db.execute(insertStatementSQL, stmtNo, nextStmtNo);
+}
+
+// method to insert a parent into the database
+void Database::insertParent(uint32_t stmtNo, uint32_t parentStmtNo) {
+    std::string insertStatementSQL = "INSERT INTO assignments ('stmtNo', 'parentStmtNo') VALUES(?, ?)";
+    db.execute(insertStatementSQL, stmtNo, parentStmtNo);
 }
 
 

@@ -18,7 +18,7 @@ public:
     static void insertProcedure(std::string procedureName);
 
     // method to insert a variable into the database
-    static void insertVariable(std::string variableName);
+    static void insertVariable(std::string variableName, uint32_t stmtNo);
 
     // method to insert a constant into the database
     static void insertConstant(int64_t constantValue);
@@ -27,13 +27,20 @@ public:
     static void insertStatement(uint32_t statementNo, std::string type);
 
     // method to insert a if into the database
-    static void insertIf(std::vector<std::string> vector);
+    static void insertIf(uint32_t stmtNo, std::string expression);
 
     // method to insert a while into the database
-    static void insertWhile(std::vector<std::string> vector);
+    static void insertWhile(uint32_t stmtNo, std::string expression);
 
     // method to insert a assignment into the database
     static void insertAssignment(uint32_t stmtNo, std::string variable, std::string expression);
+
+    // method to insert a next into the database
+    static void insertNext(uint32_t stmtNo, uint32_t nextStmtNo);
+
+    // method to insert a parent into the database
+    static void insertParent(uint32_t stmtNo, uint32_t parentStmtNo);
+
 
     // method to get all the procedures from the database
     static void getProcedures(std::vector<std::string>& results);
