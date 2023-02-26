@@ -13,7 +13,7 @@ void Database::initialize() {
     // key: table name; value: query
     std::map<std::string, std::string, std::less<>> createTableSQLs;
     createTableSQLs["procedures"] = "CREATE TABLE procedures (procedureName VARCHAR(255) NOT NULL PRIMARY KEY);";
-    createTableSQLs["variables"] = "CREATE TABLE variables (name VARCHAR(255) NOT NULL, stmtNo INTEGER NOT NULL, relation VARCHAR(255) NOT NULL procedureName VARCHAR(255) NOT NULL, PRIMARY KEY (name, stmtNo, relation));";
+    createTableSQLs["variables"] = "CREATE TABLE variables (name VARCHAR(255) NOT NULL, stmtNo INTEGER NOT NULL, relation VARCHAR(255) NOT NULL, procedureName VARCHAR(255) NOT NULL, PRIMARY KEY (name, stmtNo, relation));";
     createTableSQLs["constants"] = "CREATE TABLE constants (value INTEGER NOT NULL PRIMARY KEY);";
     createTableSQLs["statements"] = "CREATE TABLE statements (stmtNo INTEGER NOT NULL PRIMARY KEY, type VARCHAR(255) NOT NULL);";
     createTableSQLs["assignments"] = "CREATE TABLE assignments (stmtNo INTEGER NOT NULL PRIMARY KEY, variable VARCAHR(255) NOT NULL, expression VARCHAR(255) NOT NULL);";

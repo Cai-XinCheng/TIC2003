@@ -166,7 +166,7 @@ namespace DatabaseTests
             generateTestOutput(dbResults, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "1,var1,0$2,var1,x$10,var2,x+y*z$4294967295,var3,x-y/z%i$";
+            std::string expectedOutput = "1,var1,0$2,var1,x$10,var2,x + y * z$4294967295,var3,x - y / z % i$";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
