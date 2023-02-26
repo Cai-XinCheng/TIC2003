@@ -4,7 +4,7 @@
 #include <numeric>
 
 void insertNext(unsigned int i, std::vector<std::string> tokens);
-std::string readExpression(unsigned int i, std::vector<std::string> tokens, std::string procedureName);
+std::string readExpression(unsigned int& i, std::vector<std::string> tokens, std::string procedureName);
 std::string normalize(std::string expression);
 
 // statement number
@@ -90,21 +90,30 @@ void SourceProcessor::process(std::string program) {
             insertNext(i, tokens);
             stmtNo++;
         }
-        else if (token == "}" && i != token.size() - 1) {
-            if (tokens.at(i + 1) == "else") {
-                Database::insertNext(parent.top(), stmtNo);
-                i += 2;
-            }
-            else if (tokens.at(i + 1) == "procedure") {
-                parent.pop();
+        else if (token == "}") {
+            if (i != tokens.size() - 1) {
+                if (tokens.at(i + 1) == "else") {
+                    Database::insertNext(parent.top(), stmtNo);
+                    i += 2;
+                }
+                else if (tokens.at(i + 1) == "procedure") {
+                    parent.pop();
+                }
+                else {
+                    Database::insertNext(parent.top(), stmtNo);
+                    parent.pop();
+                }
+                i++;
             }
             else {
-                Database::insertNext(parent.top(), stmtNo);
-                parent.pop();
+                break;
             }
+            
+        }
+        else if (token == "{" || token == ";") {
             i++;
         }
-        else { // assignment
+        else { // assignment 
             Database::insertStatement(stmtNo, "assign");
 
             if (!parent.empty()) {
@@ -144,7 +153,7 @@ void insertNext(unsigned int i, std::vector<std::string> tokens) {
     }
 }
 
-std::string readExpression(unsigned int i, std::vector<std::string> tokens, std::string procedureName) {
+std::string readExpression(unsigned int& i, std::vector<std::string> tokens, std::string procedureName) {
     std::string expression = "";
     while (i < tokens.size()) {
         if (tokens.at(i) == ";" || tokens.at(i + 1) == "{") {
