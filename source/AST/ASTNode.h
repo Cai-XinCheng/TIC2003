@@ -7,7 +7,6 @@ public:
     explicit ASTNode(const std::string& type);
     virtual std::string toString() const;
     std::string getType() const;
-    static std::string toPostfix(std::string expression);
 protected:
     virtual ~ASTNode() = default;
 
