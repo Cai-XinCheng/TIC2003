@@ -15,7 +15,7 @@ public:
     static void close();
 
     // method to insert a procedure into the database
-    static void insertProcedure(uint32_t stmtNo, std::string procedureName);
+    static void insertProcedure(std::string procedureName);
 
     // method to insert a variable into the database
     static void insertVariable(std::string variableName, uint32_t stmtNo);

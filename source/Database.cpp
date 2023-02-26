@@ -12,7 +12,7 @@ void Database::initialize() {
     // map to store CREATE TABLE queries
     // key: table name; value: query
     std::map<std::string, std::string, std::less<>> createTableSQLs;
-    createTableSQLs["procedures"] = "CREATE TABLE procedures (stmtNo INTEGER NOT NULL PRIMARY KEY, procedureName VARCHAR(255) NOT NULL UNIQUE);";
+    createTableSQLs["procedures"] = "CREATE TABLE procedures (procedureName VARCHAR(255) NOT NULL PRIMARY KEY);";
     createTableSQLs["variables"] = "CREATE TABLE variables (name VARCHAR(255) NOT NULL, stmtNo INTEGER NOT NULL, PRIMARY KEY (name, stmtNo));";
     createTableSQLs["constants"] = "CREATE TABLE constants (value INTEGER NOT NULL PRIMARY KEY);";
     createTableSQLs["statements"] = "CREATE TABLE statements (stmtNo INTEGER NOT NULL PRIMARY KEY, type VARCHAR(255) NOT NULL);";
@@ -38,9 +38,9 @@ void Database::close() {
 
 // insert functions
 // method to insert a procedure into the database
-void Database::insertProcedure(uint32_t stmtNo, std::string procedureName) {
-    std::string insertProcedureSQL = "INSERT INTO procedures ('stmtNo', 'procedureName') VALUES (?, ?);";
-    db.execute(insertProcedureSQL, stmtNo, procedureName);
+void Database::insertProcedure(std::string procedureName) {
+    std::string insertProcedureSQL = "INSERT INTO procedures ('procedureName') VALUES (?);";
+    db.execute(insertProcedureSQL, procedureName);
 }
 
 // method to insert a variable into the database
