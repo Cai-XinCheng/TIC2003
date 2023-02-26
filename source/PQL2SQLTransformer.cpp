@@ -20,11 +20,11 @@ const std::map<std::string, PQL2SQLTransformer::TableInfo, std::less<>> PQL2SQLT
 
 const std::map<std::string, std::string, std::less<>> PQL2SQLTransformer::relationshipFunctionMapping({
         {"Parent", "is_parent"},
-        {"Parent*", "is_parent_transitive"},
+        {"Parent*", "is_parent_t"},
         {"Next", "is_next"},
-        {"Next*", "is_next_transitive"},
+        {"Next*", "is_next_t"},
         {"Calls", "has_call"},
-        {"Calls*", "has_call_transitive"},
+        {"Calls*", "has_call_t"},
         {"Modifies", "has_modify"},
         {"Uses", "has_use"},
     });
