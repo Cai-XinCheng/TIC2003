@@ -1,9 +1,9 @@
 #pragma once
 
+#include "sqlite3.h"
 #include <string>
 #include <tuple>
 #include <vector>
-#include "sqlite3.h"
 
 class SQLiteWrapper {
 public:
@@ -15,6 +15,18 @@ public:
 
     // method to close the database connection
     void close();
+
+    // method to create a new user function
+    void createFunction(
+        const char* zFunctionName,
+        int nArg,
+        int eTextRep,
+        void* pApp,
+        void (*xFunc)(sqlite3_context*, int, sqlite3_value**),
+        void (*xStep)(sqlite3_context*, int, sqlite3_value**),
+        void (*xFinal)(sqlite3_context*),
+        void(*xDestroy)(void*)
+    );
 
     // method to excute a query without return
     void execute(const std::string& sql);
@@ -28,8 +40,14 @@ public:
     std::vector<std::tuple<Types...>> select(const std::string& sql);
 
     // method to excute a query and returns query result
+    std::vector<std::vector<std::string>> select(const std::string& sql);
+
+    // method to excute a query and returns query result
     template<typename... Types>
     void select(std::vector<std::tuple<Types...>>& dbResults, const std::string& sql);
+
+    // method to excute a query and returns query result
+    void select(std::vector<std::vector<std::string>>& dbResults, const std::string& sql);
 
     // method to excute a parameterized query and returns query result
     template<typename... Types, typename... Args>
@@ -120,9 +138,15 @@ private:
     template<typename T1, typename T2, typename... Types>
     static std::tuple<T1, T2, Types...> getRow(sqlite3_stmt* preparedStatement, int columnIndex = 0);
 
+    // method to get a row
+    static void getRow(sqlite3_stmt* preparedStatement, std::vector<std::string>& dbRow);
+
     // method to get all rows with all columns
     template<typename... Types>
     static void getRowsWithAllColumns(sqlite3_stmt* preparedStatement, std::vector<std::tuple<Types...>>& dbResults);
+
+    // method to get all rows with all columns
+    static void getRowsWithAllColumns(sqlite3_stmt* preparedStatement, std::vector<std::vector<std::string>>& dbResults);
 
     // method to get all rows with the first column only
     template<typename T>

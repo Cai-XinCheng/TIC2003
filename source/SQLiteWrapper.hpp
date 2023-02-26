@@ -2,6 +2,7 @@
 #define SQLITE_WRAPPER_HPP
 
 #include "SQLiteWrapper.h"
+#include <stdexcept>
 
 // destructor
 inline SQLiteWrapper::~SQLiteWrapper() {
@@ -12,7 +13,7 @@ inline SQLiteWrapper::~SQLiteWrapper() {
 inline void SQLiteWrapper::open(const std::string& database) {
     const int ret = sqlite3_open(database.c_str(), &db);
     if (ret != SQLITE_OK) {
-        throw std::exception("SQLiteWrapper: unable to open database");
+        throw std::invalid_argument("SQLiteWrapper: unable to open database");
     }
 }
 
@@ -20,8 +21,23 @@ inline void SQLiteWrapper::open(const std::string& database) {
 inline void SQLiteWrapper::close() {
     int ret = sqlite3_close(db);
     if (ret != SQLITE_OK) {
-        throw std::exception("SQLiteWrapper: unable to close database");
+        throw std::invalid_argument("SQLiteWrapper: unable to close database");
     }
+}
+
+// method to create a new user function
+inline void SQLiteWrapper::createFunction(
+    const char* zFunctionName,
+    int nArg,
+    int eTextRep,
+    void* pApp,
+    void (*xFunc)(sqlite3_context*, int, sqlite3_value**),
+    void (*xStep)(sqlite3_context*, int, sqlite3_value**) = nullptr,
+    void (*xFinal)(sqlite3_context*) = nullptr,
+    void(*xDestroy)(void*) = nullptr
+) {
+    int ret = sqlite3_create_function_v2(db, zFunctionName, nArg, eTextRep, pApp, xFunc, xStep, xFinal, xDestroy);
+    ensureNonerror(db, ret);
 }
 
 // method to excute a query without return
@@ -70,6 +86,14 @@ inline std::vector<std::tuple<Types...>> SQLiteWrapper::select(const std::string
 }
 
 // method to excute a query and returns query result
+inline std::vector<std::vector<std::string>> SQLiteWrapper::select(const std::string& sql) {
+    std::vector<std::vector<std::string>> dbResults;
+    select(dbResults, sql);
+
+    return dbResults;
+}
+
+// method to excute a query and returns query result
 template<typename... Types>
 inline void SQLiteWrapper::select(std::vector<std::tuple<Types...>>& dbResults, const std::string& sql) {
     sqlite3_stmt* statement = nullptr;
@@ -86,6 +110,24 @@ inline void SQLiteWrapper::select(std::vector<std::tuple<Types...>>& dbResults, 
     }
     finalize(statement);
 }
+
+// method to excute a query and returns query result
+inline void SQLiteWrapper::select(std::vector<std::vector<std::string>>& dbResults, const std::string& sql) {
+    sqlite3_stmt* statement = nullptr;
+
+    try {
+        prepare(db, sql, &statement);
+        getRowsWithAllColumns(statement, dbResults);
+    }
+    catch (...) {
+        if (statement != nullptr) {
+            finalize(statement);
+        }
+        throw;
+    }
+    finalize(statement);
+}
+
 
 // method to excute a parameterized query and returns query result
 template<typename... Types, typename... Args>
@@ -175,7 +217,7 @@ inline void SQLiteWrapper::ensureNonerror(sqlite3* db, int resultCode) {
     // https://www.sqlite.org/rescode.html#result_codes_versus_error_codes
     if (resultCode != SQLITE_OK && resultCode != SQLITE_ROW && resultCode != SQLITE_DONE) {
         const char* errorMessage = sqlite3_errmsg(db);
-        throw std::exception(("SQLiteWrapper: " + std::string(errorMessage)).c_str());
+        throw std::runtime_error(("SQLiteWrapper: " + std::string(errorMessage)).c_str());
     }
 }
 
@@ -230,13 +272,13 @@ inline void SQLiteWrapper::bindParameter(sqlite3_stmt* preparedStatement, int in
 // method to bind parameters
 template<typename T, typename... Args>
 inline void SQLiteWrapper::bindParameters(sqlite3_stmt* preparedStatement, int index, T&& first) {
-    bindParameter(preparedStatement, index, first);
+    bindParameter(preparedStatement, index, std::forward<T>(first));
 }
 
 // method to bind parameters
 template<typename T, typename... Args>
 inline void SQLiteWrapper::bindParameters(sqlite3_stmt* preparedStatement, int index, T&& first, Args&&... args) {
-    bindParameter(preparedStatement, index, first);
+    bindParameter(preparedStatement, index, std::forward<T>(first));
     bindParameters(preparedStatement, index + 1, std::forward<Args>(args)...);
 }
 
@@ -279,7 +321,7 @@ inline std::tuple<T> SQLiteWrapper::getRow(sqlite3_stmt* preparedStatement, int 
     T value;
     getColumn(preparedStatement, columnIndex, value);
 
-    return tie(value);
+    return std::tie(value);
 }
 
 // method to get a row
@@ -288,13 +330,22 @@ inline std::tuple<T1, T2, Types...> SQLiteWrapper::getRow(sqlite3_stmt* prepared
     T1 value;
     getColumn(preparedStatement, columnIndex, value);
 
-    return tuple_cat(tie(value), getRow<T2, Types...>(preparedStatement, columnIndex + 1));
+    return tuple_cat(std::tie(value), getRow<T2, Types...>(preparedStatement, columnIndex + 1));
+}
+
+// method to get a row
+inline void SQLiteWrapper::getRow(sqlite3_stmt* preparedStatement, std::vector<std::string>& dbRow) {
+    int numberOfColumns = sqlite3_column_count(preparedStatement);
+    for (int i = 0; i < numberOfColumns; i++) {
+        std::string value;
+        getColumn(preparedStatement, i, value);
+        dbRow.push_back(value);
+    }
 }
 
 // method to get all rows with all columns
 template<typename... Types>
 inline void SQLiteWrapper::getRowsWithAllColumns(sqlite3_stmt* preparedStatement, std::vector<std::tuple<Types...>>& dbResults) {
-    int columnsCount = -1;
     for (;;) {
         if (!step(preparedStatement)) {
             break;
@@ -305,10 +356,22 @@ inline void SQLiteWrapper::getRowsWithAllColumns(sqlite3_stmt* preparedStatement
     }
 }
 
+// method to get all rows with all columns
+inline void SQLiteWrapper::getRowsWithAllColumns(sqlite3_stmt* preparedStatement, std::vector<std::vector<std::string>>& dbResults) {
+    for (;;) {
+        if (!step(preparedStatement)) {
+            break;
+        }
+
+        std::vector<std::string> dbRow;
+        getRow(preparedStatement, dbRow);
+        dbResults.push_back(dbRow);
+    }
+}
+
 // method to get all rows with the first column only
 template<typename T>
 inline void SQLiteWrapper::getRowsWithFirstColumn(sqlite3_stmt* preparedStatement, std::vector<T>& dbResults) {
-    int columnsCount = -1;
     for (;;) {
         if (!step(preparedStatement)) {
             break;
