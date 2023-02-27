@@ -287,8 +287,8 @@ namespace DatabaseTests
 
             // query and expected outputs
             std::vector<std::vector<std::string>> selectAndExpectedOutputs = {
-                {"SELECT 1 WHERE check_parent(1, 2);", "1$"},
-                {"SELECT 1 WHERE check_parent(1, 3);", ""},
+                {"SELECT 1 WHERE check_parent(2, 1);", "1$"},
+                {"SELECT 1 WHERE check_parent(3, 1);", ""},
             };
 
             // test cases
@@ -306,9 +306,9 @@ namespace DatabaseTests
 
             // query and expected outputs
             std::vector<std::vector<std::string>> selectAndExpectedOutputs = {
-                {"SELECT 1 WHERE check_parent_t(1, 2);", "1$"},
-                {"SELECT 1 WHERE check_parent_t(1, 3);", "1$"},
-                {"SELECT 1 WHERE check_parent_t(1, 4294967295);", ""},
+                {"SELECT 1 WHERE check_parent_t(2, 1);", "1$"},
+                {"SELECT 1 WHERE check_parent_t(3, 1);", "1$"},
+                {"SELECT 1 WHERE check_parent_t(4294967295, 1);", ""},
             };
 
             // test cases

@@ -57,8 +57,8 @@ void Database::sqlite3_check_parent(sqlite3_context* context, int argc, sqlite3_
         return;
     }
 
-    uint32_t stmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[0]));
-    uint32_t parentStmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[1]));
+    uint32_t parentStmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[0]));
+    uint32_t stmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[1]));
 
     std::string sql = "SELECT 1 FROM parents WHERE stmtNo = ? AND parentStmtNo = ? LIMIT 1;";
     std::vector<int> results = db.selectFirstColumn<int>(sql, stmtNo, parentStmtNo);
@@ -78,8 +78,8 @@ void Database::sqlite3_check_parent_t(sqlite3_context* context, int argc, sqlite
         return;
     }
 
-    uint32_t stmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[0]));
-    uint32_t parentStmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[1]));
+    uint32_t parentStmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[0]));
+    uint32_t stmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[1]));
 
     std::string sql = R"(
         WITH RECURSIVE parents_t AS (
