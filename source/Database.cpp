@@ -35,7 +35,10 @@ void Database::initialize() {
     db.createFunction("check_parent_t", 2, SQLITE_ANY, nullptr, &sqlite3_check_parent_t);
     db.createFunction("check_next", 2, SQLITE_ANY, nullptr, &sqlite3_check_next);
     db.createFunction("check_next_t", 2, SQLITE_ANY, nullptr, &sqlite3_check_next_t);
+    db.createFunction("check_call", 2, SQLITE_ANY, nullptr, &sqlite3_check_call);
+    db.createFunction("check_call_t", 2, SQLITE_ANY, nullptr, &sqlite3_check_call_t);
     db.createFunction("check_modify", -1, SQLITE_ANY, nullptr, &sqlite3_check_modify);
+    db.createFunction("check_use", -1, SQLITE_ANY, nullptr, &sqlite3_check_use);
 }
 
 // method to close the database connection
@@ -145,78 +148,211 @@ void Database::sqlite3_check_next_t(sqlite3_context* context, int argc, sqlite3_
     sqlite3_result_int(context, result);
 }
 
+// sqlite3 user function to check whether a specified object calls a specified variable or any variable
+void Database::sqlite3_check_call(sqlite3_context* context, int argc, sqlite3_value** argv) {
+    if (argc != 2) {
+        sqlite3_result_error(context, "invalid number of arguments of check_call", -1);
+        return;
+    }
+
+    int arg0Type = sqlite3_value_type(argv[0]);
+    int arg1Type = sqlite3_value_type(argv[1]);
+    if ((arg0Type != SQLITE_TEXT && arg0Type != SQLITE_NULL) || (arg1Type != SQLITE_TEXT && arg1Type != SQLITE_NULL)) {
+        sqlite3_result_error(context, "invalid argument type of check_call", -1);
+        return;
+    }
+
+    if (arg0Type == SQLITE_NULL && arg1Type == SQLITE_NULL) {
+        sqlite3_result_int(context, 1);
+        return;
+    }
+
+    std::string callerName = arg0Type == SQLITE_TEXT ? std::string(reinterpret_cast<const char*>(sqlite3_value_text(argv[0]))) : "";
+    std::string calleeName = arg1Type == SQLITE_TEXT ? std::string(reinterpret_cast<const char*>(sqlite3_value_text(argv[1]))) : "";
+    if (arg0Type == SQLITE_NULL) {
+        std::string sql = "SELECT 1 FROM calls WHERE calleeName = ?;";
+        std::vector<int> results = db.selectFirstColumn<int>(sql, calleeName);
+        int result = results.size() >= 1 ? 1 : 0;
+        sqlite3_result_int(context, result);
+        return;
+    }
+    
+    if (arg1Type == SQLITE_NULL) {
+        std::string sql = "SELECT 1 FROM calls WHERE callerName = ?;";
+        std::vector<int> results = db.selectFirstColumn<int>(sql, callerName);
+        int result = results.size() >= 1 ? 1 : 0;
+        sqlite3_result_int(context, result);
+        return;
+    }
+
+    std::string sql = "SELECT 1 FROM calls WHERE callerName = ? AND calleeName = ?;";
+    std::vector<int> results = db.selectFirstColumn<int>(sql, callerName, calleeName);
+    int result = results.size() >= 1 ? 1 : 0;
+    sqlite3_result_int(context, result);
+    return;
+}
+
+// sqlite3 user function to check whether a specified object calls (directly or indirectly) a specified variable or any variable
+void Database::sqlite3_check_call_t(sqlite3_context* context, int argc, sqlite3_value** argv) {
+    if (argc != 2) {
+        sqlite3_result_error(context, "invalid number of arguments of check_call", -1);
+        return;
+    }
+
+    int arg0Type = sqlite3_value_type(argv[0]);
+    int arg1Type = sqlite3_value_type(argv[1]);
+    if ((arg0Type != SQLITE_TEXT && arg0Type != SQLITE_NULL) || (arg1Type != SQLITE_TEXT && arg1Type != SQLITE_NULL)) {
+        sqlite3_result_error(context, "invalid argument type of check_call", -1);
+        return;
+    }
+
+    if (arg0Type == SQLITE_NULL && arg1Type == SQLITE_NULL) {
+        sqlite3_result_int(context, 1);
+        return;
+    }
+
+    std::string callerName = arg0Type == SQLITE_TEXT ? std::string(reinterpret_cast<const char*>(sqlite3_value_text(argv[0]))) : "";
+    std::string calleeName = arg1Type == SQLITE_TEXT ? std::string(reinterpret_cast<const char*>(sqlite3_value_text(argv[1]))) : "";
+    if (arg0Type == SQLITE_NULL) {
+        std::string sql = "SELECT 1 FROM calls WHERE calleeName = ?;";
+        std::vector<int> results = db.selectFirstColumn<int>(sql, calleeName);
+        int result = results.size() >= 1 ? 1 : 0;
+        sqlite3_result_int(context, result);
+        return;
+    }
+
+    if (arg1Type == SQLITE_NULL) {
+        std::string sql = "SELECT 1 FROM calls WHERE callerName = ?;";
+        std::vector<int> results = db.selectFirstColumn<int>(sql, callerName);
+        int result = results.size() >= 1 ? 1 : 0;
+        sqlite3_result_int(context, result);
+        return;
+    }
+
+    std::string sql = R"(
+        WITH RECURSIVE calls_t AS (
+            SELECT callerName, calleeName FROM calls WHERE callerName = ?
+            UNION ALL
+            SELECT c.callerName, c.calleeName FROM calls AS c
+            INNER JOIN calls_t AS ct ON ct.calleeName = c.callerName
+            WHERE ct.calleeName != ?
+        )
+        SELECT 1 FROM calls_t WHERE calleeName = ? LIMIT 1;
+    )";
+    std::vector<int> results = db.selectFirstColumn<int>(sql, callerName, calleeName, calleeName);
+    int result = results.size() >= 1 ? 1 : 0;
+    sqlite3_result_int(context, result);
+    return;
+}
+
 // sqlite3 user function to check whether a specified object modifies a specified variable or any variable
 void Database::sqlite3_check_modify(sqlite3_context* context, int argc, sqlite3_value** argv) {
-    if (argc != 1 && argc != 2) {
+    if (argc != 2) {
         sqlite3_result_error(context, "invalid number of arguments of check_modify", -1);
         return;
     }
 
     int arg0Type = sqlite3_value_type(argv[0]);
-    if ((arg0Type != SQLITE_INTEGER && arg0Type != SQLITE_TEXT) || (argc == 2 && sqlite3_value_type(argv[1]) != SQLITE_TEXT)) {
+    int arg1Type = sqlite3_value_type(argv[1]);
+    if ((arg0Type != SQLITE_INTEGER && arg0Type != SQLITE_TEXT) || (arg1Type != SQLITE_TEXT && arg1Type != SQLITE_NULL)) {
         sqlite3_result_error(context, "invalid argument type of check_modify", -1);
         return;
     }
 
-    std::string variableName = argc == 2 ? std::string(reinterpret_cast<const char*>(sqlite3_value_text(argv[1]))) : "";
-    std::string sql;
-    std::vector<int> results;
+    uint32_t stmtNo = arg0Type == SQLITE_INTEGER ? static_cast<unsigned>(sqlite3_value_int64(argv[0])) : 0;
+    std::string procedureName = arg0Type == SQLITE_TEXT ? std::string(reinterpret_cast<const char*>(sqlite3_value_text(argv[0]))) : "";
+    std::string variableName = arg1Type == SQLITE_TEXT ? std::string(reinterpret_cast<const char*>(sqlite3_value_text(argv[1]))) : "";
 
-    // # statement
-    if (arg0Type == SQLITE_INTEGER) {
-        uint32_t stmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[0]));
+    std::string sql = std::format(R"(
+        WITH RECURSIVE parents_t AS (
+            SELECT stmtNo, parentStmtNo FROM parents WHERE parentStmtNo = ?
+            UNION ALL
+            SELECT p.stmtNo, p.parentStmtNo FROM parents AS p
+            INNER JOIN parents_t AS pt ON p.parentStmtNo = pt.stmtNo
+        ),
+        stmt_nos AS (
+            SELECT stmtNo FROM parents_t
+            UNION ALL
+            SELECT ?
+        ),
+        initial_calls AS (
+            SELECT callerName, calleeName FROM calls AS c1 WHERE EXISTS (SELECT 1 FROM stmt_nos AS sn WHERE sn.stmtNo = c1.stmtNo)
+            UNION ALL
+            SELECT '', ? WHERE ? = {}
+        ),
+        called_procedures_t AS (
+            SELECT callerName, calleeName FROM initial_calls
+            UNION ALL
+            SELECT c2.callerName, c2.calleeName FROM calls AS c2
+            INNER JOIN called_procedures_t AS cpt ON cpt.calleeName = c2.callerName
+        )
+        SELECT 1
+        FROM variables AS v
+        WHERE relation = 'modify'
+            AND (EXISTS (SELECT 1 FROM stmt_nos AS sn WHERE sn.stmtNo = v.stmtNo)
+                OR EXISTS (SELECT 1 FROM called_procedures_t AS cpt WHERE cpt.calleeName = v.procedureName))
+            AND ({} OR name = ?)
+        LIMIT 1;
+    )", std::to_string(SQLITE_TEXT), arg1Type == SQLITE_NULL ? "TRUE" : "FALSE");
+    std::vector<int> results = db.selectFirstColumn<int>(sql, stmtNo, stmtNo, procedureName, arg0Type, variableName);
 
-        // ## modifies at the statment number
-        sql = "SELECT 1 FROM variables WHERE relation = 'modify' AND stmtNo = ? AND (name = ? OR ? = '') LIMIT 1;";
-        results = db.selectFirstColumn<int>(sql, stmtNo, variableName, variableName);
-        if (results.size() >= 1) {
-            sqlite3_result_int(context, 1);
-            return;
-        }
+    int result = results.size() >= 1 ? 1 : 0;
+    sqlite3_result_int(context, result);
+}
 
-        // ## for container statements
-        sql = R"(
-            WITH RECURSIVE parents_t AS (
-                SELECT stmtNo, parentStmtNo FROM parents WHERE parentStmtNo = ?
-                UNION ALL
-                SELECT p.stmtNo, p.parentStmtNo FROM parents AS p
-                INNER JOIN parents_t AS pt ON p.parentStmtNo = pt.stmtNo
-            )
-            SELECT 1
-            FROM variables AS v
-            WHERE relation = 'modify'
-                AND EXISTS (SELECT 1 FROM parents_t AS pt WHERE pt.stmtNo = v.stmtNo)
-                AND (name = ? OR ? = '')
-            LIMIT 1;
-        )";
-        results = db.selectFirstColumn<int>(sql, stmtNo, variableName, variableName);
-        if (results.size() >= 1) {
-            sqlite3_result_int(context, 1);
-            return;
-        }
-
-        // ## for call statements
-        // TODO
-
-        sqlite3_result_int(context, 0);
+// sqlite3 user function to check whether a specified object uses a specified variable or any variable
+void Database::sqlite3_check_use(sqlite3_context* context, int argc, sqlite3_value** argv) {
+    if (argc != 2) {
+        sqlite3_result_error(context, "invalid number of arguments of check_use", -1);
         return;
     }
 
-    // # procedure
-    // ## modifies directly
-    std::string procedureName(reinterpret_cast<const char*>(sqlite3_value_text(argv[0])));
-    sql = "SELECT 1 FROM variables WHERE relation = 'modify' AND procedureName = ? AND (name = ? OR ? = '') LIMIT 1;";
-    results = db.selectFirstColumn<int>(sql, procedureName, variableName, variableName);
-    if (results.size() >= 1) {
-        sqlite3_result_int(context, 1);
+    int arg0Type = sqlite3_value_type(argv[0]);
+    int arg1Type = sqlite3_value_type(argv[1]);
+    if ((arg0Type != SQLITE_INTEGER && arg0Type != SQLITE_TEXT) || (arg1Type != SQLITE_TEXT && arg1Type != SQLITE_NULL)) {
+        sqlite3_result_error(context, "invalid argument type of check_use", -1);
         return;
     }
 
-    // ## for call statements
-    // TODO
+    uint32_t stmtNo = arg0Type == SQLITE_INTEGER ? static_cast<unsigned>(sqlite3_value_int64(argv[0])) : 0;
+    std::string procedureName = arg0Type == SQLITE_TEXT ? std::string(reinterpret_cast<const char*>(sqlite3_value_text(argv[0]))) : "";
+    std::string variableName = arg1Type == SQLITE_TEXT ? std::string(reinterpret_cast<const char*>(sqlite3_value_text(argv[1]))) : "";
 
-    sqlite3_result_int(context, 0);
-    return;
+    std::string sql = std::format(R"(
+        WITH RECURSIVE parents_t AS (
+            SELECT stmtNo, parentStmtNo FROM parents WHERE parentStmtNo = ?
+            UNION ALL
+            SELECT p.stmtNo, p.parentStmtNo FROM parents AS p
+            INNER JOIN parents_t AS pt ON p.parentStmtNo = pt.stmtNo
+        ),
+        stmt_nos AS (
+            SELECT stmtNo FROM parents_t
+            UNION ALL
+            SELECT ?
+        ),
+        initial_calls AS (
+            SELECT callerName, calleeName FROM calls AS c1 WHERE EXISTS (SELECT 1 FROM stmt_nos AS sn WHERE sn.stmtNo = c1.stmtNo)
+            UNION ALL
+            SELECT '', ? WHERE ? = {}
+        ),
+        called_procedures_t AS (
+            SELECT callerName, calleeName FROM initial_calls
+            UNION ALL
+            SELECT c2.callerName, c2.calleeName FROM calls AS c2
+            INNER JOIN called_procedures_t AS cpt ON cpt.calleeName = c2.callerName
+        )
+        SELECT 1
+        FROM variables AS v
+        WHERE relation = 'use'
+            AND (EXISTS (SELECT 1 FROM stmt_nos AS sn WHERE sn.stmtNo = v.stmtNo)
+                OR EXISTS (SELECT 1 FROM called_procedures_t AS cpt WHERE cpt.calleeName = v.procedureName))
+            AND ({} OR name = ?)
+        LIMIT 1;
+    )", std::to_string(SQLITE_TEXT), arg1Type == SQLITE_NULL ? "TRUE" : "FALSE");
+    std::vector<int> results = db.selectFirstColumn<int>(sql, stmtNo, stmtNo, procedureName, arg0Type, variableName);
+
+    int result = results.size() >= 1 ? 1 : 0;
+    sqlite3_result_int(context, result);
 }
 
 // insert functions

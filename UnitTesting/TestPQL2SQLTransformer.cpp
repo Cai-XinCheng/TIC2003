@@ -230,7 +230,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT p.procedureName";
             expectedOutput += " FROM procedures AS p, procedures AS q";
-            expectedOutput += " WHERE check_call(p.procedureName)";
+            expectedOutput += " WHERE check_call(p.procedureName, NULL)";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case

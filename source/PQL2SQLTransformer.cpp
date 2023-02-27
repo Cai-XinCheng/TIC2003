@@ -98,7 +98,7 @@ std::string PQL2SQLTransformer::transformSuchThat(const SuchThatClause* suchThat
 
     auto transformArg = [&](const std::string& arg) -> std::string {
         if (arg == "_") {
-            return "";
+            return "NULL";
         }
 
         char firstChar = arg.at(0);
@@ -120,9 +120,7 @@ std::string PQL2SQLTransformer::transformSuchThat(const SuchThatClause* suchThat
     std::string transformedArg1 = transformArg(arg1);
     std::string transformedArg2 = transformArg(arg2);
 
-    return !transformedArg2.empty()
-        ? std::format("{}({}, {})", functionName, transformedArg1, transformedArg2)
-        : std::format("{}({})", functionName, transformedArg1);
+    return std::format("{}({}, {})", functionName, transformedArg1, transformedArg2);
 }
 
 std::string PQL2SQLTransformer::transformPattern(const PatternClause* pattern, const std::vector<Declaration>& declarations) const {

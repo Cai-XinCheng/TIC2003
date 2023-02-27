@@ -285,21 +285,14 @@ namespace DatabaseTests
             Database::insertParent(2, 3);
             Database::insertParent(3, 4);
 
-            // query and expected output
-            std::vector<std::vector<std::string>> queryAndExpectedOutput = {
+            // query and expected outputs
+            std::vector<std::vector<std::string>> selectAndExpectedOutputs = {
                 {"SELECT 1 WHERE check_parent(1, 2);", "1$"},
                 {"SELECT 1 WHERE check_parent(1, 3);", ""},
             };
 
-            // test
-            for (std::vector<std::string> const& item : queryAndExpectedOutput) {
-                std::vector<std::vector<std::string>> dbResults;
-                std::string testOutput;
-                Database::select(dbResults, item.at(0));
-                generateTestOutput(dbResults, testOutput);
-                TestHelper::LogActualAndExpected(testOutput, item.at(1));
-                Assert::IsTrue(testOutput == item.at(1));
-            }
+            // test cases
+            testSelectCases(selectAndExpectedOutputs);
         }
 
         // Test check_parent_t
@@ -311,22 +304,15 @@ namespace DatabaseTests
             Database::insertParent(2, 3);
             Database::insertParent(3, 4);
 
-            // query and expected output
-            std::vector<std::vector<std::string>> queryAndExpectedOutput = {
+            // query and expected outputs
+            std::vector<std::vector<std::string>> selectAndExpectedOutputs = {
                 {"SELECT 1 WHERE check_parent_t(1, 2);", "1$"},
                 {"SELECT 1 WHERE check_parent_t(1, 3);", "1$"},
                 {"SELECT 1 WHERE check_parent_t(1, 4294967295);", ""},
             };
 
-            // test
-            for (std::vector<std::string> const& item : queryAndExpectedOutput) {
-                std::vector<std::vector<std::string>> dbResults;
-                std::string testOutput;
-                Database::select(dbResults, item.at(0));
-                generateTestOutput(dbResults, testOutput);
-                TestHelper::LogActualAndExpected(testOutput, item.at(1));
-                Assert::IsTrue(testOutput == item.at(1));
-            }
+            // test cases
+            testSelectCases(selectAndExpectedOutputs);
         }
 
         // Test check_next
@@ -338,21 +324,14 @@ namespace DatabaseTests
             Database::insertNext(2, 3);
             Database::insertNext(3, 4);
 
-            // query and expected output
-            std::vector<std::vector<std::string>> queryAndExpectedOutput = {
+            // query and expected outputs
+            std::vector<std::vector<std::string>> selectAndExpectedOutputs = {
                 {"SELECT 1 WHERE check_next(1, 2);", "1$"},
                 {"SELECT 1 WHERE check_next(1, 3);", ""},
             };
 
-            // test
-            for (std::vector<std::string> const& item : queryAndExpectedOutput) {
-                std::vector<std::vector<std::string>> dbResults;
-                std::string testOutput;
-                Database::select(dbResults, item.at(0));
-                generateTestOutput(dbResults, testOutput);
-                TestHelper::LogActualAndExpected(testOutput, item.at(1));
-                Assert::IsTrue(testOutput == item.at(1));
-            }
+            // test cases
+            testSelectCases(selectAndExpectedOutputs);
         }
 
         // Test check_next_t
@@ -364,89 +343,184 @@ namespace DatabaseTests
             Database::insertNext(2, 3);
             Database::insertNext(3, 4);
 
-            // query and expected output
-            std::vector<std::vector<std::string>> queryAndExpectedOutput = {
+            // query and expected outputs
+            std::vector<std::vector<std::string>> selectAndExpectedOutputs = {
                 {"SELECT 1 WHERE check_next_t(1, 2);", "1$"},
                 {"SELECT 1 WHERE check_next_t(1, 3);", "1$"},
                 {"SELECT 1 WHERE check_next_t(1, 4294967295);", ""},
             };
 
-            // test
-            for (std::vector<std::string> const& item : queryAndExpectedOutput) {
-                std::vector<std::vector<std::string>> dbResults;
-                std::string testOutput;
-                Database::select(dbResults, item.at(0));
-                generateTestOutput(dbResults, testOutput);
-                TestHelper::LogActualAndExpected(testOutput, item.at(1));
-                Assert::IsTrue(testOutput == item.at(1));
-            }
+            // test cases
+            testSelectCases(selectAndExpectedOutputs);
+        }
+
+        // Test check_call
+        TEST_METHOD(CheckDatabaseFunction_check_call)
+        {
+            // initialize the database and insert a statement
+            initializeSimplifiedCode6();
+
+            // query and expected outputs
+            std::vector<std::vector<std::string>> selectAndExpectedOutputs = {
+                {"SELECT 1 WHERE check_call('First', 'Second');", "1$"},
+                {"SELECT 1 WHERE check_call('Second', 'Third');", "1$"},
+                {"SELECT 1 WHERE check_call('First', 'Third');", ""},
+                {"SELECT 1 WHERE check_call('Second', 'First');", ""},
+                {"SELECT 1 WHERE check_call('Second', NULL);", "1$"},
+                {"SELECT 1 WHERE check_call('Third', NULL);", ""},
+                {"SELECT 1 WHERE check_call(NULL, 'Third');", "1$"},
+                {"SELECT 1 WHERE check_call(NULL, 'First');", ""},
+                {"SELECT 1 WHERE check_call(NULL, NULL);", "1$"},
+            };
+
+            // test cases
+            testSelectCases(selectAndExpectedOutputs);
+        }
+
+        // Test check_call_t
+        TEST_METHOD(CheckDatabaseFunction_check_call_t)
+        {
+            // initialize the database and insert a statement
+            initializeSimplifiedCode6();
+
+            // query and expected outputs
+            std::vector<std::vector<std::string>> selectAndExpectedOutputs = {
+                {"SELECT 1 WHERE check_call_t('First', 'Second');", "1$"},
+                {"SELECT 1 WHERE check_call_t('First', 'Third');", "1$"},
+                {"SELECT 1 WHERE check_call_t('Second', 'First');", ""},
+                {"SELECT 1 WHERE check_call_t('Second', NULL);", "1$"},
+                {"SELECT 1 WHERE check_call_t('Third', NULL);", ""},
+                {"SELECT 1 WHERE check_call_t(NULL, 'Third');", "1$"},
+                {"SELECT 1 WHERE check_call_t(NULL, 'First');", ""},
+                {"SELECT 1 WHERE check_call_t(NULL, NULL);", "1$"},
+            };
+
+            // test cases
+            testSelectCases(selectAndExpectedOutputs);
         }
 
         // Test check_modify
         TEST_METHOD(CheckDatabaseFunction_check_modify)
         {
             // initialize the database and insert a statement
-            Database::initialize();
-            Database::insertVariable("count", 1, "modify", "computeCentroid");
-            Database::insertVariable("cenX", 2, "modify", "computeCentroid");
-            Database::insertVariable("cenY", 3, "modify", "computeCentroid");
-            Database::insertVariable("x", 5, "use", "computeCentroid");
-            Database::insertVariable("y", 5, "use", "computeCentroid");
-            Database::insertVariable("count", 6, "modify", "computeCentroid");
-            Database::insertVariable("count", 6, "use", "computeCentroid");
-            Database::insertVariable("cenX", 7, "modify", "computeCentroid");
-            Database::insertVariable("cenX", 7, "use", "computeCentroid");
-            Database::insertVariable("x", 7, "use", "computeCentroid");
-            Database::insertVariable("cenY", 8, "modify", "computeCentroid");
-            Database::insertVariable("cenY", 8, "use", "computeCentroid");
-            Database::insertVariable("y", 8, "use", "computeCentroid");
-            Database::insertVariable("count", 10, "use", "computeCentroid");
-            Database::insertVariable("flag", 11, "modify", "computeCentroid");
-            Database::insertVariable("cenX", 12, "modify", "computeCentroid");
-            Database::insertVariable("cenX", 12, "use", "computeCentroid");
-            Database::insertVariable("count", 12, "use", "computeCentroid");
-            Database::insertVariable("cenY", 13, "modify", "computeCentroid");
-            Database::insertVariable("cenY", 13, "use", "computeCentroid");
-            Database::insertVariable("count", 13, "use", "computeCentroid");
-            Database::insertVariable("normSq", 14, "modify", "computeCentroid");
-            Database::insertVariable("cenX", 14, "use", "computeCentroid");
-            Database::insertVariable("cenY", 14, "use", "computeCentroid");
-            Database::insertParent(6, 5);
-            Database::insertParent(7, 5);
-            Database::insertParent(8, 5);
-            Database::insertParent(9, 5);
-            Database::insertParent(11, 10);
-            Database::insertParent(12, 10);
-            Database::insertParent(13, 10);
+            initializeSimplifiedCode5();
 
-            // query and expected output
-            std::vector<std::vector<std::string>> queryAndExpectedOutput = {
-                {"SELECT 1 WHERE check_modify(1, 'count');", "1$"},
-                {"SELECT 1 WHERE check_modify(7, 'cenX');", "1$"},
-                {"SELECT 1 WHERE check_modify(5, 'cenY');", "1$"},
-                {"SELECT 1 WHERE check_modify(10, 'flag');", "1$"},
+            // query and expected outputs
+            std::vector<std::vector<std::string>> selectAndExpectedOutputs = {
+                {"SELECT 1 WHERE check_modify(1 + 9, 'count');", "1$"},
+                {"SELECT 1 WHERE check_modify(7 + 9, 'cenX');", "1$"},
+                {"SELECT 1 WHERE check_modify(9 + 9, 'x');", "1$"},
+                {"SELECT 1 WHERE check_modify(10 + 9, 'flag');", "1$"},
+                {"SELECT 1 WHERE check_modify(5 + 9, 'x');", "1$"},
+                {"SELECT 1 WHERE check_modify('main', 'y');", "1$"},
                 {"SELECT 1 WHERE check_modify('computeCentroid', 'flag');", "1$"},
-                {"SELECT 1 WHERE check_modify(5, 'flag');", ""},
+                {"SELECT 1 WHERE check_modify(5 + 9, 'flag');", ""},
                 {"SELECT 1 WHERE check_modify('printResults', 'normSq');", ""},
-                {"SELECT 1 WHERE check_modify(1);", "1$"},
-                {"SELECT 1 WHERE check_modify(4);", ""},
-                {"SELECT 1 WHERE check_modify('computeCentroid');", "1$"},
-                {"SELECT 1 WHERE check_modify('printResults');", ""},
+                {"SELECT 1 WHERE check_modify(1 + 9, NULL);", "1$"},
+                {"SELECT 1 WHERE check_modify(4 + 9, NULL);", ""},
+                {"SELECT 1 WHERE check_modify('computeCentroid', NULL);", "1$"},
+                {"SELECT 1 WHERE check_modify('printResults', NULL);", ""},
             };
 
-            // test
-            for (std::vector<std::string> const& item: queryAndExpectedOutput){
-                std::vector<std::vector<std::string>> dbResults;
-                std::string testOutput;
-                Database::select(dbResults, item.at(0));
-                generateTestOutput(dbResults, testOutput);
-                TestHelper::LogActualAndExpected(testOutput, item.at(1));
-                Assert::IsTrue(testOutput == item.at(1));
-            }
+            // test cases
+            testSelectCases(selectAndExpectedOutputs);
+        }
+
+        // Test check_use
+        TEST_METHOD(CheckDatabaseFunction_check_use)
+        {
+            // initialize the database and insert a statement
+            initializeSimplifiedCode5();
+
+            // query and expected outputs
+            std::vector<std::vector<std::string>> selectAndExpectedOutputs = {
+                {"SELECT 1 WHERE check_use(7 + 9, 'x');", "1$"},
+                {"SELECT 1 WHERE check_use(10 + 9, 'count');", "1$"},
+                {"SELECT 1 WHERE check_use(10 + 9, 'cenX');", "1$"},
+                {"SELECT 1 WHERE check_use('main', 'cenX');", "1$"},
+                {"SELECT 1 WHERE check_use('main', 'flag');", "1$"},
+                {"SELECT 1 WHERE check_use('computeCentroid', 'x');", "1$"},
+                {"SELECT 1 WHERE check_use(3 + 9, 'count');", ""},
+                {"SELECT 1 WHERE check_use(10 + 9, 'flag');", ""},
+                {"SELECT 1 WHERE check_use(9 + 9, 'y');", ""},
+                {"SELECT 1 WHERE check_use('readPoint', 'x');", ""},
+                {"SELECT 1 WHERE check_use(6 + 9, NULL);", "1$"},
+                {"SELECT 1 WHERE check_use(2 + 9, NULL);", ""},
+                {"SELECT 1 WHERE check_use('printResults', NULL);", "1$"},
+                {"SELECT 1 WHERE check_use('readPoint', NULL);", ""},
+
+            };
+
+            // test cases
+            testSelectCases(selectAndExpectedOutputs);
         }
 
         // Some private helper functions can be added below.
     private:
+        static void initializeSimplifiedCode5() {
+            int baseStmtNo = 0;
+            Database::initialize();
+
+            Database::insertVariable("flag", 1 + baseStmtNo, "modify", "main");
+            Database::insertCall(2 + baseStmtNo, "main", "computeCentroid");
+            Database::insertCall(3 + baseStmtNo, "main", "printResults");
+            baseStmtNo += 3;
+
+            Database::insertVariable("x", 1 + baseStmtNo, "modify", "readPoint");
+            Database::insertVariable("y", 2 + baseStmtNo, "modify", "readPoint");
+            baseStmtNo += 2;
+
+            Database::insertVariable("flag", 1 + baseStmtNo, "use", "printResults");
+            Database::insertVariable("cenX", 2 + baseStmtNo, "use", "printResults");
+            Database::insertVariable("cenY", 3 + baseStmtNo, "use", "printResults");
+            Database::insertVariable("normSq", 4 + baseStmtNo, "use", "printResults");
+            baseStmtNo += 4;
+
+            Database::insertVariable("count", 1 + baseStmtNo, "modify", "computeCentroid");
+            Database::insertVariable("cenX", 2 + baseStmtNo, "modify", "computeCentroid");
+            Database::insertVariable("cenY", 3 + baseStmtNo, "modify", "computeCentroid");
+            Database::insertVariable("x", 5 + baseStmtNo, "use", "computeCentroid");
+            Database::insertVariable("y", 5 + baseStmtNo, "use", "computeCentroid");
+            Database::insertVariable("count", 6 + baseStmtNo, "modify", "computeCentroid");
+            Database::insertVariable("count", 6 + baseStmtNo, "use", "computeCentroid");
+            Database::insertVariable("cenX", 7 + baseStmtNo, "modify", "computeCentroid");
+            Database::insertVariable("cenX", 7 + baseStmtNo, "use", "computeCentroid");
+            Database::insertVariable("x", 7 + baseStmtNo, "use", "computeCentroid");
+            Database::insertVariable("cenY", 8 + baseStmtNo, "modify", "computeCentroid");
+            Database::insertVariable("cenY", 8 + baseStmtNo, "use", "computeCentroid");
+            Database::insertVariable("y", 8 + baseStmtNo, "use", "computeCentroid");
+            Database::insertCall(9 + baseStmtNo, "computeCentroid", "readPoint");
+            Database::insertVariable("count", 10 + baseStmtNo, "use", "computeCentroid");
+            Database::insertVariable("flag", 11 + baseStmtNo, "modify", "computeCentroid");
+            Database::insertVariable("cenX", 12 + baseStmtNo, "modify", "computeCentroid");
+            Database::insertVariable("cenX", 12 + baseStmtNo, "use", "computeCentroid");
+            Database::insertVariable("count", 12 + baseStmtNo, "use", "computeCentroid");
+            Database::insertVariable("cenY", 13 + baseStmtNo, "modify", "computeCentroid");
+            Database::insertVariable("cenY", 13 + baseStmtNo, "use", "computeCentroid");
+            Database::insertVariable("count", 13 + baseStmtNo, "use", "computeCentroid");
+            Database::insertVariable("normSq", 14 + baseStmtNo, "modify", "computeCentroid");
+            Database::insertVariable("cenX", 14 + baseStmtNo, "use", "computeCentroid");
+            Database::insertVariable("cenY", 14 + baseStmtNo, "use", "computeCentroid");
+
+            Database::insertParent(6 + baseStmtNo, 5 + baseStmtNo);
+            Database::insertParent(7 + baseStmtNo, 5 + baseStmtNo);
+            Database::insertParent(8 + baseStmtNo, 5 + baseStmtNo);
+            Database::insertParent(9 + baseStmtNo, 5 + baseStmtNo);
+            Database::insertParent(11 + baseStmtNo, 10 + baseStmtNo);
+            Database::insertParent(12 + baseStmtNo, 10 + baseStmtNo);
+            Database::insertParent(13 + baseStmtNo, 10 + baseStmtNo);
+        }
+
+        static void initializeSimplifiedCode6() {
+            int baseStmtNo = 0;
+            Database::initialize();
+
+            Database::insertCall(3 + baseStmtNo, "First", "Second");
+            baseStmtNo += 3;
+
+            Database::insertCall(5 + baseStmtNo, "Second", "Third");
+        }
+
         static void generateTestOutput(const std::vector<std::string>& dbResults, std::string& testOutput) {
             for (std::string const& element : dbResults)
             {
@@ -478,6 +552,25 @@ namespace DatabaseTests
                     testOutput.append(row[i]);
                 }
                 testOutput.append("$");
+            }
+        }
+
+        static void testSelectCases(const std::vector<std::vector<std::string>>& cases) {
+            for (std::vector<std::string> const& item : cases) {
+                // retrieve the results from the database
+                std::vector<std::vector<std::string>> dbResults;
+                Database::select(dbResults, item.at(0));
+
+                // create the test output string from the statements retrieved
+                std::string testOutput;
+                generateTestOutput(dbResults, testOutput);
+
+                // Logger messages can be viewed in the Test Explorer 
+                // under "open additional output for this result" for each test case
+                TestHelper::LogActualAndExpected(testOutput, item.at(1), false, item.at(0).c_str());
+
+                // compare the test output with expected output
+                Assert::IsTrue(testOutput == item.at(1));
             }
         }
     };

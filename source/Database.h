@@ -26,8 +26,17 @@ public:
     // sqlite3 user function to check whether a statement is a next (directly or indirectly) of another statement
     static void sqlite3_check_next_t(sqlite3_context* context, int argc, sqlite3_value** argv);
 
+    // sqlite3 user function to check whether a specified object calls a specified variable or any variable
+    static void sqlite3_check_call(sqlite3_context* context, int argc, sqlite3_value** argv);
+
+    // sqlite3 user function to check whether a specified object calls (directly or indirectly) a specified variable or any variable
+    static void sqlite3_check_call_t(sqlite3_context* context, int argc, sqlite3_value** argv);
+
     // sqlite3 user function to check whether a specified object modifies a specified variable or any variable
     static void sqlite3_check_modify(sqlite3_context* context, int argc, sqlite3_value** argv);
+
+    // sqlite3 user function to check whether a specified object uses a specified variable or any variable
+    static void sqlite3_check_use(sqlite3_context* context, int argc, sqlite3_value** argv);
 
     // method to insert a procedure into the database
     static void insertProcedure(std::string procedureName);
