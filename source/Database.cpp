@@ -19,7 +19,7 @@ void Database::initialize() {
     createTableSQLs["assignments"] = "CREATE TABLE assignments (stmtNo INTEGER NOT NULL PRIMARY KEY, variable VARCAHR(255) NOT NULL, expression VARCHAR(255) NOT NULL);";
     createTableSQLs["nexts"] = "CREATE TABLE nexts (stmtNo INTEGER NOT NULL, nextStmtNo INTEGER NOT NULL, PRIMARY KEY (stmtNo, nextStmtNo));";
     createTableSQLs["parents"] = "CREATE TABLE parents (stmtNo INTEGER NOT NULL PRIMARY KEY, parentStmtNo INTEGER NOT NULL);";
-    createTableSQLs["calls"] = "CREATE TABLE calls (stmtNo INTEGER NOT NULL PRIMARY KEY, procedureName VARCHAR(255) NOT NULL);";
+    createTableSQLs["calls"] = "CREATE TABLE calls (stmtNo INTEGER NOT NULL PRIMARY KEY, callerName VARCHAR(255) NOT NULL, calleeName VARCHAR(255) NOT NULL);";
 
     for (const auto& [tableName, createTableSQL] : createTableSQLs) {
         // drop the existing table (if any)
@@ -263,9 +263,9 @@ void Database::insertParent(uint32_t stmtNo, uint32_t parentStmtNo) {
 }
 
 // method to insert a parent into the database
-void Database::insertCall(uint32_t stmtNo, std::string procedureName) {
-    std::string insertStatementSQL = "INSERT INTO calls ('stmtNo', 'procedureName') VALUES(?, ?)";
-    db.execute(insertStatementSQL, stmtNo, procedureName);
+void Database::insertCall(uint32_t stmtNo, std::string callerName, std::string calleeName) {
+    std::string insertStatementSQL = "INSERT INTO calls ('stmtNo', 'callerName', 'calleeName') VALUES(?, ?, ?)";
+    db.execute(insertStatementSQL, stmtNo, callerName, calleeName);
 }
 
 // method to get data from the database

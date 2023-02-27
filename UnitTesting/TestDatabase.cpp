@@ -250,20 +250,20 @@ namespace DatabaseTests
         {
             // initialize the database and insert a statement
             Database::initialize();
-            Database::insertCall(1, "pro1");
-            Database::insertCall(2, "procedure");
-            Database::insertCall(4294967295, "pro123cedure");
+            Database::insertCall(1, "pro1", "pro2");
+            Database::insertCall(2, "procedure", "pro");
+            Database::insertCall(4294967295, "pro123cedure", "procedure123");
 
             // retrieve the calls from the database
             std::vector<std::vector<std::string>> dbResults;
-            Database::select(dbResults, "SELECT stmtNo, procedureName FROM calls;");
+            Database::select(dbResults, "SELECT stmtNo, callerName, calleeName FROM calls;");
 
             // create the test output string from the statements retrieved
             std::string testOutput;
             generateTestOutput(dbResults, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "1,pro1$2,procedure$4294967295,pro123cedure$";
+            std::string expectedOutput = "1,pro1,pro2$2,procedure,pro$4294967295,pro123cedure,procedure123$";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
