@@ -1,16 +1,13 @@
-procedure p {
-    flag = 0;
+procedure computeCentroid {
     count = 0;
     cenX = 0;
     cenY = 0;
-    read x;
-    read y;
+    call readPoint;
     while ((x * x + y * y) != 0) {
         count = count + 1;
         cenX = cenX + x;
         cenY = cenY + y;
-        read x;
-        read y;
+        call readPoint;
     }
     if (count == 0) then {
         flag = 1;
@@ -19,8 +16,4 @@ procedure p {
         cenY = cenY / count;
     }
     normSq = cenX * cenX + cenY * cenY;
-    print flag;
-    print cenX;
-    print cenY;
-    print normSq;
 }

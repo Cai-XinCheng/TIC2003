@@ -10,8 +10,7 @@ std::string normalize(std::string expression);
 // statement number
 uint32_t stmtNo = 0;
 
-// set to store all variables and constants in order to check duplication
-std::set<std::string> vars;
+// set to store all constants in order to check duplication
 std::set<std::string> cons;
 
 // method for processing the source program
@@ -39,7 +38,8 @@ void SourceProcessor::process(std::string program) {
     //processToken(tokens);
 
     // stack to store current parent statement number
-    std::stack<uint32_t> parent;
+    //std::stack<uint32_t> parent;
+    std::stack<std::vector<uint32_t>> parent;
     std::string procedureName;
 
     unsigned int i = 0;
@@ -56,7 +56,7 @@ void SourceProcessor::process(std::string program) {
             i++; // variable
 
             if (!parent.empty()) {
-                Database::insertParent(stmtNo, parent.top());
+                Database::insertParent(stmtNo, parent.top().at(0));
             }
             Database::insertStatement(stmtNo, "read");
             Database::insertVariable(tokens.at(i), stmtNo, "modify", procedureName);
@@ -69,7 +69,7 @@ void SourceProcessor::process(std::string program) {
             i++; // variable
 
             if (!parent.empty()) {
-                Database::insertParent(stmtNo, parent.top());
+                Database::insertParent(stmtNo, parent.top().at(0));
             }
             Database::insertStatement(stmtNo, "print");
             Database::insertVariable(tokens.at(i), stmtNo, "use", procedureName);
@@ -80,9 +80,10 @@ void SourceProcessor::process(std::string program) {
         }
         else if (token == "while" || token == "if") {
             if (!parent.empty()) {
-                Database::insertParent(stmtNo, parent.top());
+                Database::insertParent(stmtNo, parent.top().at(0));
             }
-            parent.push(stmtNo);
+            parent.push(std::vector{stmtNo});
+            Database::insertStatement(stmtNo, token);
             i++; // "("
             // loop condition expression
             readExpression(i, tokens, procedureName);
@@ -90,17 +91,33 @@ void SourceProcessor::process(std::string program) {
             insertNext(i, tokens);
             stmtNo++;
         }
+        else if (token == "call") {
+            if (!parent.empty()) {
+                Database::insertParent(stmtNo, parent.top().at(0));
+            }
+            Database::insertStatement(stmtNo, "call");
+            i++; // procedureName
+            Database::insertCall(stmtNo, procedureName, tokens.at(i));
+            i++; // ";"
+            insertNext(i, tokens);
+            stmtNo++;
+        }
         else if (token == "}") {
             if (i != tokens.size() - 1) {
                 if (tokens.at(i + 1) == "else") {
-                    Database::insertNext(parent.top(), stmtNo);
+                    parent.top().push_back(stmtNo - 1); // last stmt of if body
+                    Database::insertNext(parent.top().at(0), stmtNo); // condition stmtNo, first stmt of else body
                     i += 2;
                 }
                 else if (tokens.at(i + 1) == "procedure") {
                     parent.pop();
                 }
                 else {
-                    Database::insertNext(parent.top(), stmtNo);
+                    Database::insertNext(parent.top().at(0), stmtNo);
+                    // parent is if loop
+                    if (parent.top().size() > 1) {
+                        Database::insertNext(parent.top().at(1), stmtNo);
+                    }
                     parent.pop();
                 }
                 i++;
@@ -117,16 +134,12 @@ void SourceProcessor::process(std::string program) {
             Database::insertStatement(stmtNo, "assign");
 
             if (!parent.empty()) {
-                Database::insertParent(stmtNo, parent.top());
+                Database::insertParent(stmtNo, parent.top().at(0));
             }
 
-            // check if variable is declared
+            // variable
             std::string variableName = tokens.at(i);
-            auto itVars = vars.find(variableName);
-            if (itVars == vars.end()) { // not declared
-                Database::insertVariable(variableName, stmtNo, "modify", procedureName);
-                vars.insert(variableName);
-            }
+            Database::insertVariable(variableName, stmtNo, "modify", procedureName);
             i++; // "="
             i++; // RHS
 
@@ -137,23 +150,28 @@ void SourceProcessor::process(std::string program) {
             std::string normalizedExpression = normalize(expression);
 
             Database::insertAssignment(stmtNo, variableName, normalizedExpression);
-            i++;
-            if (i != token.size() - 1) { // not last statement
-                Database::insertNext(stmtNo, stmtNo + 1);
-            }
+            insertNext(i, tokens);
             stmtNo++;
         }
     }
 }
 
-// Only works without multiple procedure !!!
 void insertNext(unsigned int i, std::vector<std::string> tokens) {
-    if (i != tokens.size() - 1) { // not last statement
+    i++;
+    // not last statement
+    if (tokens.at(i) == "}") {
+        // not last statement of procedure or if body
+        if (i < tokens.size() - 1 && tokens.at(i + 1) != "procedure" && tokens.at(i + 1) != "else") {
+            Database::insertNext(stmtNo, stmtNo + 1);
+        }
+    }
+    else {
         Database::insertNext(stmtNo, stmtNo + 1);
     }
 }
 
 std::string readExpression(unsigned int& i, std::vector<std::string> tokens, std::string procedureName) {
+    std::set<std::string> vars;
     std::string expression = "";
     while (i < tokens.size()) {
         if (tokens.at(i) == ";" || tokens.at(i + 1) == "{") {
