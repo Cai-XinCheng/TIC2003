@@ -68,5 +68,8 @@ public:
 private:
     // the instance of SQLiteWrapper
     static SQLiteWrapper db;
+
+    // sqlite3 user function to check whether a specified object modifies or uses a specified variable or any variable
+    static void check_modify_or_use(const char* functionName, const char* relation, sqlite3_context* context, int argc, sqlite3_value** argv);
 };
 

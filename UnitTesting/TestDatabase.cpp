@@ -15,7 +15,7 @@ namespace DatabaseTests
         // Grammer: stmtNo: [1-9][0-9]*, procedureName: LETTER(LETTER | DIGIT)*
         TEST_METHOD(CheckDatabaseProcedure)
         {
-            // initialize the database and insert a procedure
+            // initialize the database and insert procedures
             Database::initialize();
             Database::insertProcedure("echo1");
             Database::insertProcedure("echo2");
@@ -47,7 +47,7 @@ namespace DatabaseTests
         // Grammer: name: LETTER(LETTER | DIGIT)*, stmtNo: [1-9][0-9]*
         TEST_METHOD(CheckDatabaseVariable)
         {
-            // initialize the database and insert a variable
+            // initialize the database and insert variables
             Database::initialize();
             Database::insertVariable("var1", 1, "use", "procedure1");
             Database::insertVariable("var2", 2, "use", "procedure1");
@@ -80,7 +80,7 @@ namespace DatabaseTests
         // Grammer: sequences of digits (0-9)
         TEST_METHOD(CheckDatabaseConstant)
         {
-            // initialize the database and insert a constant
+            // initialize the database and insert constants
             Database::initialize();
             Database::insertConstant(-9223372036854775807 - 1);
             Database::insertConstant(10);
@@ -113,7 +113,7 @@ namespace DatabaseTests
         // Grammer: stmtNo: [1-9][0-9]*, type: read|print|assign|call|while|if
         TEST_METHOD(CheckDatabaseStatement)
         {
-            // initialize the database and insert a statement
+            // initialize the database and insert statements
             Database::initialize();
             Database::insertStatement(1, "read");
             Database::insertStatement(2, "read");
@@ -150,7 +150,7 @@ namespace DatabaseTests
         // Grammer: stmtNo: [1-9][0-9]*, variable: LETTER (LETTER | DIGIT)*, expression: expr '+' term | expr '-' term | term
         TEST_METHOD(CheckDatabaseAssignment)
         {
-            // initialize the database and insert a statement
+            // initialize the database and insert assignments
             Database::initialize();
             Database::insertAssignment(1, "var1", "0");
             Database::insertAssignment(2, "var1", "x");
@@ -183,7 +183,7 @@ namespace DatabaseTests
         // Grammer: stmtNo: [1-9][0-9]*, nextStmtNo: [1-9][0-9]*
         TEST_METHOD(CheckDatabaseNext)
         {
-            // initialize the database and insert a statement
+            // initialize the database and insert nexts
             Database::initialize();
             Database::insertNext(1, 2);
             Database::insertNext(1, 3);
@@ -216,7 +216,7 @@ namespace DatabaseTests
         // Grammer: stmtNo: [1-9][0-9]*, parentStmtNo: [1-9][0-9]*
         TEST_METHOD(CheckDatabaseParent)
         {
-            // initialize the database and insert a statement
+            // initialize the database and insert parents
             Database::initialize();
             Database::insertParent(1, 2);
             Database::insertParent(2, 5);
@@ -248,7 +248,7 @@ namespace DatabaseTests
         // Grammer: stmtNo: [1-9][0-9]*, calleeStmtNo: [1-9][0-9]*
         TEST_METHOD(CheckDatabaseCall)
         {
-            // initialize the database and insert a statement
+            // initialize the database and insert calls
             Database::initialize();
             Database::insertCall(1, "pro1", "pro2");
             Database::insertCall(2, "procedure", "pro");
@@ -279,16 +279,18 @@ namespace DatabaseTests
         // Test check_parent
         TEST_METHOD(CheckDatabaseFunction_check_parent)
         {
-            // initialize the database and insert a statement
-            Database::initialize();
-            Database::insertParent(1, 2);
-            Database::insertParent(2, 3);
-            Database::insertParent(3, 4);
+            // initialize the database and initialize a simplified version of Code5
+            initializeSimplifiedCode5();
 
             // query and expected outputs
             std::vector<std::vector<std::string>> selectAndExpectedOutputs = {
-                {"SELECT 1 WHERE check_parent(2, 1);", "1$"},
-                {"SELECT 1 WHERE check_parent(3, 1);", ""},
+                {"SELECT 1 WHERE check_parent(5 + 9, 7 + 9);", "1$"},
+                {"SELECT 1 WHERE check_parent(5 + 9, 8 + 9);", "1$"},
+                {"SELECT 1 WHERE check_parent(10 + 9, 11 + 9);", "1$"},
+                {"SELECT 1 WHERE check_parent(10 + 9, 13 + 9);", "1$"},
+                {"SELECT 1 WHERE check_parent(2 + 9, 3 + 9);", ""},
+                {"SELECT 1 WHERE check_parent(4 + 9, 7 + 9);", ""},
+                {"SELECT 1 WHERE check_parent(9 + 9, 5 + 9);", ""},
             };
 
             // test cases
@@ -298,17 +300,14 @@ namespace DatabaseTests
         // Test check_parent_t
         TEST_METHOD(CheckDatabaseFunction_check_parent_t)
         {
-            // initialize the database and insert a statement
-            Database::initialize();
-            Database::insertParent(1, 2);
-            Database::insertParent(2, 3);
-            Database::insertParent(3, 4);
+            // initialize the database and initialize a simplified version of Code5
+            initializeSimplifiedCode5();
 
             // query and expected outputs
             std::vector<std::vector<std::string>> selectAndExpectedOutputs = {
-                {"SELECT 1 WHERE check_parent_t(2, 1);", "1$"},
-                {"SELECT 1 WHERE check_parent_t(3, 1);", "1$"},
-                {"SELECT 1 WHERE check_parent_t(4294967295, 1);", ""},
+                {"SELECT 1 WHERE check_parent_t(5 + 9, 7 + 9);", "1$"},
+                {"SELECT 1 WHERE check_parent_t(10 + 9, 13 + 9);", "1$"},
+                {"SELECT 1 WHERE check_parent_t(10 + 9, 14 + 9);", ""},
             };
 
             // test cases
@@ -318,16 +317,20 @@ namespace DatabaseTests
         // Test check_next
         TEST_METHOD(CheckDatabaseFunction_check_next)
         {
-            // initialize the database and insert a statement
-            Database::initialize();
-            Database::insertNext(1, 2);
-            Database::insertNext(2, 3);
-            Database::insertNext(3, 4);
+            // initialize the database and initialize a simplified version of Code6
+            initializeSimplifiedCode6();
 
             // query and expected outputs
             std::vector<std::vector<std::string>> selectAndExpectedOutputs = {
-                {"SELECT 1 WHERE check_next(1, 2);", "1$"},
-                {"SELECT 1 WHERE check_next(1, 3);", ""},
+                {"SELECT 1 WHERE check_next(2 + 3, 3 + 3);", "1$"},
+                {"SELECT 1 WHERE check_next(3 + 3, 4 + 3);", "1$"},
+                {"SELECT 1 WHERE check_next(3 + 3, 7 + 3);", "1$"},
+                {"SELECT 1 WHERE check_next(5 + 3, 6 + 3);", "1$"},
+                {"SELECT 1 WHERE check_next(7 + 3, 9 + 3);", "1$"},
+                {"SELECT 1 WHERE check_next(8 + 3, 10 + 3);", "1$"},
+                {"SELECT 1 WHERE check_next(6 + 3, 4 + 3);", ""},
+                {"SELECT 1 WHERE check_next(7 + 3, 10 + 3);", ""},
+                {"SELECT 1 WHERE check_next(8 + 3, 9 + 3);", ""},
             };
 
             // test cases
@@ -337,17 +340,20 @@ namespace DatabaseTests
         // Test check_next_t
         TEST_METHOD(CheckDatabaseFunction_check_next_t)
         {
-            // initialize the database and insert a statement
-            Database::initialize();
-            Database::insertNext(1, 2);
-            Database::insertNext(2, 3);
-            Database::insertNext(3, 4);
+            // initialize the database and initialize a simplified version of Code6
+            initializeSimplifiedCode6();
 
             // query and expected outputs
             std::vector<std::vector<std::string>> selectAndExpectedOutputs = {
-                {"SELECT 1 WHERE check_next_t(1, 2);", "1$"},
-                {"SELECT 1 WHERE check_next_t(1, 3);", "1$"},
-                {"SELECT 1 WHERE check_next_t(1, 4294967295);", ""},
+                {"SELECT 1 WHERE check_next_t(1 + 3, 2 + 3);", "1$"},
+                {"SELECT 1 WHERE check_next_t(1 + 3, 3 + 3);", "1$"},
+                {"SELECT 1 WHERE check_next_t(2 + 3, 5 + 3);", "1$"},
+                {"SELECT 1 WHERE check_next_t(4 + 3, 3 + 3);", "1$"},
+                {"SELECT 1 WHERE check_next_t(5 + 3, 5 + 3);", "1$"},
+                {"SELECT 1 WHERE check_next_t(5 + 3, 8 + 3);", "1$"},
+                {"SELECT 1 WHERE check_next_t(5 + 3, 12 + 3);", "1$"},
+                {"SELECT 1 WHERE check_next_t(8 + 3, 9 + 3);", ""},
+                {"SELECT 1 WHERE check_next_t(5 + 3, 2 + 3);", ""},
             };
 
             // test cases
@@ -357,7 +363,7 @@ namespace DatabaseTests
         // Test check_call
         TEST_METHOD(CheckDatabaseFunction_check_call)
         {
-            // initialize the database and insert a statement
+            // initialize the database and initialize a simplified version of Code6
             initializeSimplifiedCode6();
 
             // query and expected outputs
@@ -380,7 +386,7 @@ namespace DatabaseTests
         // Test check_call_t
         TEST_METHOD(CheckDatabaseFunction_check_call_t)
         {
-            // initialize the database and insert a statement
+            // initialize the database and initialize a simplified version of Code6
             initializeSimplifiedCode6();
 
             // query and expected outputs
@@ -402,7 +408,7 @@ namespace DatabaseTests
         // Test check_modify
         TEST_METHOD(CheckDatabaseFunction_check_modify)
         {
-            // initialize the database and insert a statement
+            // initialize the database and initialize a simplified version of Code5
             initializeSimplifiedCode5();
 
             // query and expected outputs
@@ -429,7 +435,7 @@ namespace DatabaseTests
         // Test check_use
         TEST_METHOD(CheckDatabaseFunction_check_use)
         {
-            // initialize the database and insert a statement
+            // initialize the database and initialize a simplified version of Code5
             initializeSimplifiedCode5();
 
             // query and expected outputs
@@ -519,6 +525,20 @@ namespace DatabaseTests
             baseStmtNo += 3;
 
             Database::insertCall(5 + baseStmtNo, "Second", "Third");
+
+            Database::insertNext(1 + baseStmtNo, 2 + baseStmtNo);
+            Database::insertNext(2 + baseStmtNo, 3 + baseStmtNo);
+            Database::insertNext(3 + baseStmtNo, 4 + baseStmtNo);
+            Database::insertNext(3 + baseStmtNo, 7 + baseStmtNo);
+            Database::insertNext(4 + baseStmtNo, 5 + baseStmtNo);
+            Database::insertNext(5 + baseStmtNo, 6 + baseStmtNo);
+            Database::insertNext(6 + baseStmtNo, 3 + baseStmtNo);
+            Database::insertNext(7 + baseStmtNo, 8 + baseStmtNo);
+            Database::insertNext(7 + baseStmtNo, 9 + baseStmtNo);
+            Database::insertNext(8 + baseStmtNo, 10 + baseStmtNo);
+            Database::insertNext(9 + baseStmtNo, 10 + baseStmtNo);
+            Database::insertNext(10 + baseStmtNo, 11 + baseStmtNo);
+            Database::insertNext(11 + baseStmtNo, 12 + baseStmtNo);
         }
 
         static void generateTestOutput(const std::vector<std::string>& dbResults, std::string& testOutput) {
