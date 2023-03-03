@@ -25,6 +25,12 @@
     <Filter Include="Source Files\AST\PQL">
       <UniqueIdentifier>{1b1cf103-4aca-4369-85a7-b5c5b38efe60}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\AST\SIMPLE">
+      <UniqueIdentifier>{727a7548-dc7e-498f-8331-3376dba0fcf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AST\SIMPLE">
+      <UniqueIdentifier>{800e177a-36b2-4d3b-9fac-aed857518af8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\Database.cpp">
@@ -65,6 +71,18 @@
     </ClCompile>
     <ClCompile Include="..\source\PQL2SQLTransformer.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\SIMPLE\ProgramParser.cpp">
+      <Filter>Source Files\AST\SIMPLE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\SIMPLE\Program.cpp">
+      <Filter>Source Files\AST\SIMPLE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\SIMPLE\ExpNode.cpp">
+      <Filter>Source Files\AST\SIMPLE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\SIMPLE\StatementNode.cpp">
+      <Filter>Source Files\AST\SIMPLE</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -112,6 +130,18 @@
     </ClInclude>
     <ClInclude Include="..\source\PQL2SQLTransformer.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\SIMPLE\Program.h">
+      <Filter>Header Files\AST\SIMPLE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\SIMPLE\StatementNode.h">
+      <Filter>Header Files\AST\SIMPLE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\SIMPLE\ExpNode.h">
+      <Filter>Header Files\AST\SIMPLE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\SIMPLE\ProgramParser.h">
+      <Filter>Header Files\AST\SIMPLE</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

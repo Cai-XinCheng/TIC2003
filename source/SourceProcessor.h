@@ -5,12 +5,10 @@
 #include <string>
 #include "Database.h"
 #include "Tokenizer.h"
-#include "./AST/ASTNode.h"
+#include "AST/SIMPLE/Program.h"
 
 class SourceProcessor {
 public:
 	// method for processing the source program
-	void process(std::string program);
-    void processToken(std::vector<std::string> token);
-    void processSingleStmt(std::vector<std::string> statement);
+	void process(std::string input);
 };

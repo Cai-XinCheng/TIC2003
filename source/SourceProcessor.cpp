@@ -1,205 +1,168 @@
 #include "SourceProcessor.h"
-#include<set>
-#include<stack>
-#include <numeric>
+#include "./AST/ASTNode.h"
+#include "./AST/SIMPLE/ProgramParser.h"
+#include <stack>
+#include <iostream>
 
-void insertNext(unsigned int i, std::vector<std::string> tokens);
-std::string readExpression(unsigned int& i, std::vector<std::string> tokens, std::string procedureName);
-std::string normalize(std::string expression);
+void processProcedure(ProcedureNode procedureNode);
+void processStatement(int i, const std::string& procedureName, std::vector<StatementNode*> statements, uint32_t nextStmtNo);
+void processExp(ExpNode* expression, uint32_t stmtNo, std::string procedureName);
 
-// statement number
-uint32_t stmtNo = 0;
+std::set<uint32_t> cons;
+std::set<std::string> vars;
+std::stack<StatementNode*> parent;
 
-// set to store all constants in order to check duplication
-std::set<std::string> cons;
-
-// method for processing the source program
-// This method currently only inserts the procedure name into the database
-// using some highly simplified logic.
-// You should modify this method to complete the logic for handling all the required syntax.
-void SourceProcessor::process(std::string program) {
-	// initialize the database
-	Database::initialize();
-
-	// tokenize the program
-	Tokenizer tk;
+void SourceProcessor::process(std::string input) {
+    // tokenize the program
+    Tokenizer tk;
     std::vector<std::string> tokens;
-	tk.tokenize(program, tokens);
+    tk.tokenize(input, tokens);
 
-    /*
-    // Debug, print out tokens
-    printf("-------------------------------\n");
-    for (auto const& string : tokens) {
-        printf("%s\n", string.c_str());
-    }
-    printf("-------------------------------\n");
-    */
+    ProgramParser parser(tokens);
+    Program program = parser.parse();
+    //std::cout << program->toString() << std::endl;
 
-    //processToken(tokens);
-
-    // stack to store current parent statement number
-    //std::stack<uint32_t> parent;
-    std::stack<std::vector<uint32_t>> parent;
-    std::string procedureName;
-
-    unsigned int i = 0;
-    while (i < tokens.size()) {
-        std::string token = tokens.at(i);
-        if (token == "procedure") {
-            i++; // procedure name
-            procedureName = tokens.at(i);
-            Database::insertProcedure(procedureName);
-            i++; // "{"
-            stmtNo++;
-        }
-        else if (token == "read") {
-            i++; // variable
-
-            if (!parent.empty()) {
-                Database::insertParent(stmtNo, parent.top().at(0));
-            }
-            Database::insertStatement(stmtNo, "read");
-            Database::insertVariable(tokens.at(i), stmtNo, "modify", procedureName);
-
-            i++; // ";"
-            insertNext(i, tokens);
-            stmtNo++;
-        }
-        else if (token == "print") {
-            i++; // variable
-
-            if (!parent.empty()) {
-                Database::insertParent(stmtNo, parent.top().at(0));
-            }
-            Database::insertStatement(stmtNo, "print");
-            Database::insertVariable(tokens.at(i), stmtNo, "use", procedureName);
-
-            i++; // ";"
-            insertNext(i, tokens);
-            stmtNo++;
-        }
-        else if (token == "while" || token == "if") {
-            if (!parent.empty()) {
-                Database::insertParent(stmtNo, parent.top().at(0));
-            }
-            parent.push(std::vector{stmtNo});
-            Database::insertStatement(stmtNo, token);
-            i++; // "("
-            // loop condition expression
-            readExpression(i, tokens, procedureName);
-            i++; // "{"
-            insertNext(i, tokens);
-            stmtNo++;
-        }
-        else if (token == "call") {
-            if (!parent.empty()) {
-                Database::insertParent(stmtNo, parent.top().at(0));
-            }
-            Database::insertStatement(stmtNo, "call");
-            i++; // procedureName
-            Database::insertCall(stmtNo, procedureName, tokens.at(i));
-            i++; // ";"
-            insertNext(i, tokens);
-            stmtNo++;
-        }
-        else if (token == "}") {
-            if (i != tokens.size() - 1) {
-                if (tokens.at(i + 1) == "else") {
-                    parent.top().push_back(stmtNo - 1); // last stmt of if body
-                    Database::insertNext(parent.top().at(0), stmtNo); // condition stmtNo, first stmt of else body
-                    i += 2;
-                }
-                else if (tokens.at(i + 1) == "procedure") {
-                    parent.pop();
-                }
-                else {
-                    Database::insertNext(parent.top().at(0), stmtNo);
-                    // parent is if loop
-                    if (parent.top().size() > 1) {
-                        Database::insertNext(parent.top().at(1), stmtNo);
-                    }
-                    parent.pop();
-                }
-                i++;
-            }
-            else {
-                break;
-            }
-            
-        }
-        else if (token == "{" || token == ";") {
-            i++;
-        }
-        else { // assignment 
-            Database::insertStatement(stmtNo, "assign");
-
-            if (!parent.empty()) {
-                Database::insertParent(stmtNo, parent.top().at(0));
-            }
-
-            // variable
-            std::string variableName = tokens.at(i);
-            Database::insertVariable(variableName, stmtNo, "modify", procedureName);
-            i++; // "="
-            i++; // RHS
-
-            // loop RHS
-            std::string expression = readExpression(i, tokens, procedureName);
-            
-            // normalize expression
-            std::string normalizedExpression = normalize(expression);
-
-            Database::insertAssignment(stmtNo, variableName, normalizedExpression);
-            insertNext(i, tokens);
-            stmtNo++;
-        }
+	// initialize the database
+	Database::initialize();    
+    
+    // get procedure list from AST
+    std::vector<ProcedureNode> procedures = program.getProcedures();
+    for (auto& procedure : procedures) {
+        processProcedure(procedure);
     }
 }
 
-void insertNext(unsigned int i, std::vector<std::string> tokens) {
-    i++;
-    // not last statement
-    if (tokens.at(i) == "}") {
-        // not last statement of procedure or if body
-        if (i < tokens.size() - 1 && tokens.at(i + 1) != "procedure" && tokens.at(i + 1) != "else") {
+void processProcedure(ProcedureNode procedureNode) {
+    std::string procedureName = procedureNode.getProcedureName();
+    Database::insertProcedure(procedureName);
+    // get statement linked list
+    std::vector<StatementNode*> statements = procedureNode.getStatements();
+    for (unsigned int i = 0; i < statements.size(); i++) {
+        processStatement(i, procedureName, statements, 0);
+    }
+}
+
+void processStatement(int i,const std::string& procedureName, std::vector<StatementNode*> statements, uint32_t nextStmtNo) {
+    std::string stmtType = statements.at(i)->getStmtType();
+    StatementNode* stmtNode = statements.at(i)->getStmtNode();
+    uint32_t stmtNo = statements.at(i)->getStmtNo();
+    Database::insertStatement(stmtNo, stmtType);
+
+    // process direct parent relation
+    if (stmtType == "read" || stmtType == "print" || stmtType == "assign" || stmtType == "call") {
+        if (!parent.empty()) {
+            Database::insertParent(stmtNo, parent.top()->StatementNode::getStmtNo());
+        }
+    }
+    // process direct next relation
+    // not the last statement in the current stmt list
+    if (i != statements.size() - 1) {
+        Database::insertNext(stmtNo, statements.at(i + 1)->getStmtNo());
+    }
+    else if (nextStmtNo != 0) { // not the end of procedure
+        Database::insertNext(stmtNo, nextStmtNo);
+    }
+
+    // process statement in different cases
+    if (stmtType == "read") {
+        std::string variableName = static_cast<ReadNode*>(stmtNode)->getVariableName();
+        Database::insertVariable(variableName, stmtNo, "modify", procedureName);
+    }
+    else if (stmtType == "print") {
+        std::string variableName = static_cast<PrintNode*>(stmtNode)->getVariableName();
+        Database::insertVariable(variableName, stmtNo, "use", procedureName);
+    }
+    else if (stmtType == "assign") {
+        AssignNode* assignNode = static_cast<AssignNode*>(stmtNode);
+        std::string variableName = assignNode->getVariableName();
+        ExpNode* expression = assignNode->getExpression();
+        // insert LHS variable into DB
+        Database::insertVariable(variableName, stmtNo, "modify", procedureName);
+        // process expression
+        processExp(expression, stmtNo, procedureName);
+        vars.clear();
+        // insert assignemnt into DB
+        Database::insertAssignment(stmtNo, variableName, expression->toString());
+
+    }
+    else if (stmtType == "call") {
+        std::string calleeName = static_cast<CallNode*>(stmtNode)->getProcedureName();
+        Database::insertCall(stmtNo, procedureName, calleeName);
+    }
+    else if (stmtType == "while") {
+        WhileNode* whileNode = static_cast<WhileNode*>(stmtNode);
+        parent.push(whileNode);
+        ConExpNode* conExpNode = static_cast<ConExpNode*>(whileNode->getConExp());
+        // process condition expression
+        processExp(conExpNode, stmtNo, procedureName);
+        vars.clear();
+        // get statement list from while node
+        std::vector<StatementNode*> whileStatements = whileNode->getStatements();
+        // process next relation
+        if (whileStatements.size() > 0) {
             Database::insertNext(stmtNo, stmtNo + 1);
         }
+        for (unsigned int i = 0; i < whileStatements.size(); i++) {
+            processStatement(i, procedureName, whileStatements, stmtNo);
+        }
+        parent.pop();
+    }
+    else if (stmtType == "if") {
+        IfNode* ifNode = static_cast<IfNode*>(stmtNode);
+        parent.push(ifNode);
+
+
+        ConExpNode* conExpNode = static_cast<ConExpNode*>(ifNode->getConExp());
+        // process condition expression
+        processExp(conExpNode, stmtNo, procedureName);
+        vars.clear();
+        // get statement list from if node
+        std::vector<StatementNode*> ifStatements = ifNode->getIfStatements();
+        // process next relation
+        if (ifStatements.size() > 0) {
+            Database::insertNext(stmtNo, stmtNo + 1);
+        }
+        for (unsigned int i = 0; i < ifStatements.size(); i++) {
+            processStatement(i, procedureName, ifStatements, nextStmtNo);
+        }
+        std::vector<StatementNode*> elseStatements = ifNode->getElseStatements();
+        // process next relation
+        if (elseStatements.size() > 0) {
+            Database::insertNext(stmtNo, elseStatements.at(0)->getStmtNo());
+        }
+        for (unsigned int i = 0; i < elseStatements.size(); i++) {
+            processStatement(i, procedureName, elseStatements, nextStmtNo);
+        }
+        parent.pop();
     }
     else {
-        Database::insertNext(stmtNo, stmtNo + 1);
+        throw std::invalid_argument("SourceProcessor: invalid statement type");
     }
 }
 
-std::string readExpression(unsigned int& i, std::vector<std::string> tokens, std::string procedureName) {
-    std::set<std::string> vars;
-    std::string expression = "";
-    while (i < tokens.size()) {
-        if (tokens.at(i) == ";" || tokens.at(i + 1) == "{") {
-            break;
-        }
-        std::string str = tokens.at(i);
-        // a constant
-        if (isdigit(str[0])) {
-            auto itCons = cons.find(str);
-            if (itCons == cons.end()) { // not declared
-                cons.insert(str);
-                Database::insertConstant(static_cast<int64_t>(stoul(str)));
-            }
-        } // a variable
-        else if (isalpha(str[0])) {
-            auto itVars = vars.find(str);
+
+void processExp(ExpNode* expression, uint32_t stmtNo, std::string procedureName) {
+    if (expression != NULL) {
+        if (typeid(*expression) == typeid(VarNode)) {
+            std::string var = static_cast<VarNode*>(expression)->getVariableName();
+            auto itVars = vars.find(var);
             if (itVars == vars.end()) { // not declared
-                vars.insert(str);
-                Database::insertVariable(str, stmtNo, "use", procedureName);
+                vars.insert(var);
+                Database::insertVariable(var, stmtNo, "use", procedureName);
             }
         }
-        expression += str;
-        i++;
+        else if (typeid(*expression) == typeid(ConstNode)) {
+            uint32_t value = static_cast<ConstNode*>(expression)->getValue();
+            auto itCons = cons.find(value);
+            if (itCons == cons.end()) { // not declared
+                cons.insert(value);
+                Database::insertConstant(static_cast<int64_t>(value));
+            }
+        }
+        else {
+            processExp(expression->ExpNode::getLhs(), stmtNo, procedureName);
+            processExp(expression->ExpNode::getRhs(), stmtNo, procedureName);
+        }
     }
-    vars.clear();
-    return expression;
 }
 
-std::string normalize(std::string expression) {
-    return expression;
-}
