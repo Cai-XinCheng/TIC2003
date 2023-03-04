@@ -1,6 +1,8 @@
 #pragma once
 
 #include "PQL2SQLTransformer.h"
+#include "Tokenizer.h"
+#include "ExpressionParser.h"
 #include <map>
 #include <numeric>
 #include <format>
@@ -166,7 +168,28 @@ std::string PQL2SQLTransformer::transformPattern(const PatternClause* pattern, c
         }
 
         std::string stringContent = temp.substr(1, temp.length() - 2);
-        transformedRight = std::format("{}.expression LIKE '{}{}{}'", synonymAssignment, beginningWildcard, stringContent, endWildcard);
+
+        // tokenize the expression
+        Tokenizer tk;
+        std::vector<std::string> tokens;
+        tk.tokenize(stringContent, tokens);
+
+        // parse the AST
+        ExpressionParser parser;
+        ExpressionNode* expressionNode = parser.parse(tokens);
+
+        // normalized expression
+        std::string normalizedStringContent;
+        try {
+            normalizedStringContent = expressionNode->toString();
+        }
+        catch (...) {
+            delete expressionNode;
+            throw;
+        }
+        delete expressionNode;
+
+        transformedRight = std::format("{}.expression LIKE '{}{}{}'", synonymAssignment, beginningWildcard, normalizedStringContent, endWildcard);
     }
 
     return !transformedLeft.empty() && !transformedRight.empty()

@@ -330,7 +330,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT a.stmtNo";
             expectedOutput += " FROM assignments AS a";
-            expectedOutput += " WHERE a.expression LIKE '%count + 1%'";
+            expectedOutput += " WHERE a.expression LIKE '%((count) + (1))%'";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -355,7 +355,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT a.stmtNo";
             expectedOutput += " FROM assignments AS a";
-            expectedOutput += " WHERE a.variable = 'normSq' AND a.expression LIKE '%cenX * cenX%'";
+            expectedOutput += " WHERE a.variable = 'normSq' AND a.expression LIKE '%((cenX) * (cenX))%'";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -380,7 +380,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT newa.stmtNo";
             expectedOutput += " FROM assignments AS newa";
-            expectedOutput += " WHERE newa.variable = 'normSq' AND newa.expression LIKE '%cenX * cenX%'";
+            expectedOutput += " WHERE newa.variable = 'normSq' AND newa.expression LIKE '%((cenX) * (cenX))%'";
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -655,7 +655,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT a1.stmtNo";
             expectedOutput += " FROM assignments AS a1, assignments AS a2, (SELECT * FROM statements WHERE type = 'while') AS w1, (SELECT * FROM statements WHERE type = 'while') AS w2";
-            expectedOutput += " WHERE a1.variable = 'x' AND a2.variable = 'x' AND a2.expression LIKE '%x%' AND check_next_t(a1.stmtNo, a2.stmtNo) AND check_parent_t(w2.stmtNo, a2.stmtNo) AND check_parent_t(w1.stmtNo, w2.stmtNo)";
+            expectedOutput += " WHERE a1.variable = 'x' AND a2.variable = 'x' AND a2.expression LIKE '%(x)%' AND check_next_t(a1.stmtNo, a2.stmtNo) AND check_parent_t(w2.stmtNo, a2.stmtNo) AND check_parent_t(w1.stmtNo, w2.stmtNo)";
 
             // Logger messages can be viewed in the Test Explorer
             // under "open additional output for this result" for each test case

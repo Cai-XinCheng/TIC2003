@@ -1,5 +1,4 @@
 #include "ASTNode.h"
-#include <stack>
 
 ASTNode::ASTNode(const std::string& type) : type(type) {
 }

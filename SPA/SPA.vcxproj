@@ -12,6 +12,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\AST\ASTNode.cpp" />
+    <ClCompile Include="..\source\AST\Expression\BinaryExpression.cpp" />
+    <ClCompile Include="..\source\AST\Expression\BinaryTerm.cpp" />
+    <ClCompile Include="..\source\AST\Expression\ConstFactor.cpp" />
+    <ClCompile Include="..\source\AST\Expression\Expression.cpp" />
+    <ClCompile Include="..\source\AST\Expression\ExpressionFactor.cpp" />
+    <ClCompile Include="..\source\AST\Expression\ExpressionNode.cpp" />
+    <ClCompile Include="..\source\AST\Expression\Factor.cpp" />
+    <ClCompile Include="..\source\AST\Expression\Term.cpp" />
+    <ClCompile Include="..\source\AST\Expression\VariableFactor.cpp" />
     <ClCompile Include="..\source\AST\PQL\Declaration.cpp" />
     <ClCompile Include="..\source\AST\PQL\FilterClause.cpp" />
     <ClCompile Include="..\source\AST\PQL\PatternClause.cpp" />
@@ -21,6 +30,7 @@
     <ClCompile Include="..\source\AST\SIMPLE\Program.cpp" />
     <ClCompile Include="..\source\AST\SIMPLE\ProgramParser.cpp" />
     <ClCompile Include="..\source\AST\SIMPLE\StatementNode.cpp" />
+    <ClCompile Include="..\source\ExpressionParser.cpp" />
     <ClCompile Include="..\source\PQL2SQLTransformer.cpp" />
     <ClCompile Include="..\source\PQLParser.cpp" />
     <ClCompile Include="..\source\QueryProcessor.cpp" />
@@ -31,6 +41,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\AST\ASTNode.h" />
+    <ClInclude Include="..\source\AST\Expression\BinaryExpression.h" />
+    <ClInclude Include="..\source\AST\Expression\BinaryTerm.h" />
+    <ClInclude Include="..\source\AST\Expression\ConstFactor.h" />
+    <ClInclude Include="..\source\AST\Expression\Expression.h" />
+    <ClInclude Include="..\source\AST\Expression\ExpressionFactor.h" />
+    <ClInclude Include="..\source\AST\Expression\ExpressionNode.h" />
+    <ClInclude Include="..\source\AST\Expression\Factor.h" />
+    <ClInclude Include="..\source\AST\Expression\Term.h" />
+    <ClInclude Include="..\source\AST\Expression\VariableFactor.h" />
     <ClInclude Include="..\source\AST\PQL\Declaration.h" />
     <ClInclude Include="..\source\AST\PQL\FilterClause.h" />
     <ClInclude Include="..\source\AST\PQL\PatternClause.h" />
@@ -41,6 +60,7 @@
     <ClInclude Include="..\source\AST\SIMPLE\ProgramParser.h" />
     <ClInclude Include="..\source\AST\SIMPLE\StatementNode.h" />
     <ClInclude Include="..\source\Database.h" />
+    <ClInclude Include="..\source\ExpressionParser.h" />
     <ClInclude Include="..\source\PQL2SQLTransformer.h" />
     <ClInclude Include="..\source\PQLParser.h" />
     <ClInclude Include="..\source\QueryProcessor.h" />

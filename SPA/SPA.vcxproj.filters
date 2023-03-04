@@ -31,6 +31,12 @@
     <Filter Include="Header Files\AST\SIMPLE">
       <UniqueIdentifier>{800e177a-36b2-4d3b-9fac-aed857518af8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\AST\Expression">
+      <UniqueIdentifier>{68c6a78a-c88c-412d-b83b-dc4fd4603b35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AST\Expression">
+      <UniqueIdentifier>{7b17ea32-2b65-4325-a548-318775ba92bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\Database.cpp">
@@ -83,6 +89,36 @@
     </ClCompile>
     <ClCompile Include="..\source\AST\SIMPLE\StatementNode.cpp">
       <Filter>Source Files\AST\SIMPLE</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\Expression\BinaryExpression.cpp">
+      <Filter>Source Files\AST\Expression</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\Expression\BinaryTerm.cpp">
+      <Filter>Source Files\AST\Expression</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\Expression\ConstFactor.cpp">
+      <Filter>Source Files\AST\Expression</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\Expression\Expression.cpp">
+      <Filter>Source Files\AST\Expression</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\Expression\ExpressionFactor.cpp">
+      <Filter>Source Files\AST\Expression</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\Expression\ExpressionNode.cpp">
+      <Filter>Source Files\AST\Expression</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\Expression\Factor.cpp">
+      <Filter>Source Files\AST\Expression</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\Expression\Term.cpp">
+      <Filter>Source Files\AST\Expression</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AST\Expression\VariableFactor.cpp">
+      <Filter>Source Files\AST\Expression</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ExpressionParser.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +178,36 @@
     </ClInclude>
     <ClInclude Include="..\source\AST\SIMPLE\ProgramParser.h">
       <Filter>Header Files\AST\SIMPLE</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\Expression\BinaryExpression.h">
+      <Filter>Header Files\AST\Expression</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\Expression\BinaryTerm.h">
+      <Filter>Header Files\AST\Expression</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\Expression\ConstFactor.h">
+      <Filter>Header Files\AST\Expression</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\Expression\Expression.h">
+      <Filter>Header Files\AST\Expression</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\Expression\ExpressionFactor.h">
+      <Filter>Header Files\AST\Expression</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\Expression\ExpressionNode.h">
+      <Filter>Header Files\AST\Expression</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\Expression\Factor.h">
+      <Filter>Header Files\AST\Expression</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\Expression\Term.h">
+      <Filter>Header Files\AST\Expression</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AST\Expression\VariableFactor.h">
+      <Filter>Header Files\AST\Expression</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ExpressionParser.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
