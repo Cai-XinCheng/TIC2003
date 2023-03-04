@@ -17,7 +17,7 @@ void TestHelper::LogActualAndExpected(
         Logger::WriteMessage("\n");
     }
 
-    Logger::WriteMessage("Test Output:");
+    Logger::WriteMessage("Test Output: ");
     if (multilineMode) {
         Logger::WriteMessage("\n");
     }
@@ -28,7 +28,7 @@ void TestHelper::LogActualAndExpected(
         Logger::WriteMessage("\n");
     }
 
-    Logger::WriteMessage("Expected Output:");
+    Logger::WriteMessage("Expected Output: ");
     if (multilineMode) {
         Logger::WriteMessage("\n");
     }

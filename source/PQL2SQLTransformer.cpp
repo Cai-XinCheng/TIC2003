@@ -64,7 +64,7 @@ std::string PQL2SQLTransformer::transformResult(const std::vector<std::string>& 
 
         commaSeparatedColumns += generateColumnRefBySynonym(element, declarations);
     }
-    return std::format("SELECT {}", commaSeparatedColumns);
+    return std::format("SELECT DISTINCT {}", commaSeparatedColumns);
 }
 
 std::string PQL2SQLTransformer::transformFilters(const std::vector<const FilterClause*>& filters, const std::vector<Declaration>& declarations) const {

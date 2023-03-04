@@ -19,7 +19,7 @@ namespace PQLParserTests
                 Select p
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -47,7 +47,7 @@ namespace PQLParserTests
                 Select v
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -72,7 +72,7 @@ namespace PQLParserTests
                 Select s such that Next* (6, s)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -97,7 +97,7 @@ namespace PQLParserTests
                 Select v such that Modifies (6, v)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -122,7 +122,7 @@ namespace PQLParserTests
                 Select v such that Uses (14, v)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -147,7 +147,7 @@ namespace PQLParserTests
                 Select a such that Parent* (w, a)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -172,7 +172,7 @@ namespace PQLParserTests
                 Select s such that Parent (s, 7)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -197,7 +197,7 @@ namespace PQLParserTests
                 Select p such that Modifies (p, "x")
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -222,7 +222,7 @@ namespace PQLParserTests
                 Select p such that Calls (p, _)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -247,7 +247,7 @@ namespace PQLParserTests
                 Select p such that Calls* (p, "Third")
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -272,7 +272,7 @@ namespace PQLParserTests
                 Select <p, q> such that Calls (p, q)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -297,7 +297,7 @@ namespace PQLParserTests
                 Select a pattern a ("x", _)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -322,7 +322,7 @@ namespace PQLParserTests
                 Select a pattern a (_, _"count + 1"_)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -347,7 +347,7 @@ namespace PQLParserTests
                 Select a pattern a ("normSq", _"cenX * cenX"_)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -372,7 +372,7 @@ namespace PQLParserTests
                 Select newa pattern newa ("normSq", _"cenX * cenX"_)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -397,7 +397,7 @@ namespace PQLParserTests
                 Select w such that Parent* (w, a) pattern a ("count", _)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -422,7 +422,7 @@ namespace PQLParserTests
                 Select a such that Uses (a, v) pattern a (v, _)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -447,7 +447,7 @@ namespace PQLParserTests
                 Select a pattern a ("x", _) such that Uses (a, "x")
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -472,7 +472,7 @@ namespace PQLParserTests
                 Select a such that Uses (a, "x") pattern a ("x", _)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -497,7 +497,7 @@ namespace PQLParserTests
                 Select a such that Parent* (w, a) pattern a ("count", _)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -522,7 +522,7 @@ namespace PQLParserTests
                 Select a pattern a ("count", _) such that Parent* (w, a)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -547,7 +547,7 @@ namespace PQLParserTests
                 Select s such that Next* (5, s) such that Next* (s, 12)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -572,7 +572,7 @@ namespace PQLParserTests
                 Select a pattern a ("x", _) such that Parent* (w, a) such that Next* (1, a)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -597,7 +597,7 @@ namespace PQLParserTests
                 Select a such that Modifies (a, "x") such that Parent* (w, a) such that Next* (1, a)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -622,7 +622,7 @@ namespace PQLParserTests
                 Select <w1, w2, w3> such that Parent* (w1, w2) such that Parent* (w2, w3)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 
@@ -647,7 +647,7 @@ namespace PQLParserTests
                 Select a1 pattern a1 ("x", _) pattern a2 ("x", _"x"_) such that Next* (a1, a2) such that Parent* (w2, a2) such that Parent* (w1, w2)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             generateTestOutput(testInput, testOutput);
 

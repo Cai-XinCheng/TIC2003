@@ -20,12 +20,12 @@ namespace PQL2SQLTransformerTests
                 Select p
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT p.procedureName";
+            std::string expectedOutput = "SELECT DISTINCT p.procedureName";
             expectedOutput += " FROM procedures AS p";
             expectedOutput += "";
 
@@ -48,12 +48,12 @@ namespace PQL2SQLTransformerTests
                 Select v
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT v.name";
+            std::string expectedOutput = "SELECT DISTINCT v.name";
             expectedOutput += " FROM variables AS v";
             expectedOutput += "";
 
@@ -73,12 +73,12 @@ namespace PQL2SQLTransformerTests
                 Select s such that Next* (6, s)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT s.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT s.stmtNo";
             expectedOutput += " FROM statements AS s";
             expectedOutput += " WHERE check_next_t(6, s.stmtNo)";
 
@@ -98,12 +98,12 @@ namespace PQL2SQLTransformerTests
                 Select v such that Modifies (6, v)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT v.name";
+            std::string expectedOutput = "SELECT DISTINCT v.name";
             expectedOutput += " FROM variables AS v";
             expectedOutput += " WHERE check_modify(6, v.name)";
 
@@ -123,12 +123,12 @@ namespace PQL2SQLTransformerTests
                 Select v such that Uses (14, v)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT v.name";
+            std::string expectedOutput = "SELECT DISTINCT v.name";
             expectedOutput += " FROM variables AS v";
             expectedOutput += " WHERE check_use(14, v.name)";
 
@@ -148,12 +148,12 @@ namespace PQL2SQLTransformerTests
                 Select a such that Parent* (w, a)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT a.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT a.stmtNo";
             expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
             expectedOutput += " WHERE check_parent_t(w.stmtNo, a.stmtNo)";
 
@@ -173,12 +173,12 @@ namespace PQL2SQLTransformerTests
                 Select s such that Parent (s, 7)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT s.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT s.stmtNo";
             expectedOutput += " FROM statements AS s";
             expectedOutput += " WHERE check_parent(s.stmtNo, 7)";
 
@@ -198,12 +198,12 @@ namespace PQL2SQLTransformerTests
                 Select p such that Modifies (p, "x")
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT p.procedureName";
+            std::string expectedOutput = "SELECT DISTINCT p.procedureName";
             expectedOutput += " FROM variables AS v, procedures AS p";
             expectedOutput += " WHERE check_modify(p.procedureName, 'x')";
 
@@ -223,12 +223,12 @@ namespace PQL2SQLTransformerTests
                 Select p such that Calls (p, _)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT p.procedureName";
+            std::string expectedOutput = "SELECT DISTINCT p.procedureName";
             expectedOutput += " FROM procedures AS p, procedures AS q";
             expectedOutput += " WHERE check_call(p.procedureName, NULL)";
 
@@ -248,12 +248,12 @@ namespace PQL2SQLTransformerTests
                 Select p such that Calls* (p, "Third")
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT p.procedureName";
+            std::string expectedOutput = "SELECT DISTINCT p.procedureName";
             expectedOutput += " FROM procedures AS p";
             expectedOutput += " WHERE check_call_t(p.procedureName, 'Third')";
 
@@ -273,12 +273,12 @@ namespace PQL2SQLTransformerTests
                 Select <p, q> such that Calls (p, q)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT p.procedureName, q.procedureName";
+            std::string expectedOutput = "SELECT DISTINCT p.procedureName, q.procedureName";
             expectedOutput += " FROM procedures AS p, procedures AS q";
             expectedOutput += " WHERE check_call(p.procedureName, q.procedureName)";
 
@@ -298,12 +298,12 @@ namespace PQL2SQLTransformerTests
                 Select a pattern a ("x", _)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT a.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT a.stmtNo";
             expectedOutput += " FROM assignments AS a";
             expectedOutput += " WHERE a.variable = 'x'";
 
@@ -323,12 +323,12 @@ namespace PQL2SQLTransformerTests
                 Select a pattern a (_, _"count + 1"_)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT a.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT a.stmtNo";
             expectedOutput += " FROM assignments AS a";
             expectedOutput += " WHERE a.expression LIKE '%((count) + (1))%'";
 
@@ -348,12 +348,12 @@ namespace PQL2SQLTransformerTests
                 Select a pattern a ("normSq", _"cenX * cenX"_)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT a.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT a.stmtNo";
             expectedOutput += " FROM assignments AS a";
             expectedOutput += " WHERE a.variable = 'normSq' AND a.expression LIKE '%((cenX) * (cenX))%'";
 
@@ -373,12 +373,12 @@ namespace PQL2SQLTransformerTests
                 Select newa pattern newa ("normSq", _"cenX * cenX"_)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT newa.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT newa.stmtNo";
             expectedOutput += " FROM assignments AS newa";
             expectedOutput += " WHERE newa.variable = 'normSq' AND newa.expression LIKE '%((cenX) * (cenX))%'";
 
@@ -398,12 +398,12 @@ namespace PQL2SQLTransformerTests
                 Select w such that Parent* (w, a) pattern a ("count", _)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT w.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT w.stmtNo";
             expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
             expectedOutput += " WHERE check_parent_t(w.stmtNo, a.stmtNo) AND a.variable = 'count'";
 
@@ -423,12 +423,12 @@ namespace PQL2SQLTransformerTests
                 Select a such that Uses (a, v) pattern a (v, _)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT a.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT a.stmtNo";
             expectedOutput += " FROM assignments AS a, variables AS v";
             expectedOutput += " WHERE check_use(a.stmtNo, v.name) AND a.variable = v.name";
 
@@ -448,12 +448,12 @@ namespace PQL2SQLTransformerTests
                 Select a pattern a ("x", _) such that Uses (a, "x")
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT a.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT a.stmtNo";
             expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
             expectedOutput += " WHERE a.variable = 'x' AND check_use(a.stmtNo, 'x')";
 
@@ -473,12 +473,12 @@ namespace PQL2SQLTransformerTests
                 Select a such that Uses (a, "x") pattern a ("x", _)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT a.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT a.stmtNo";
             expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
             expectedOutput += " WHERE check_use(a.stmtNo, 'x') AND a.variable = 'x'";
 
@@ -498,12 +498,12 @@ namespace PQL2SQLTransformerTests
                 Select a such that Parent* (w, a) pattern a ("count", _)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT a.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT a.stmtNo";
             expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
             expectedOutput += " WHERE check_parent_t(w.stmtNo, a.stmtNo) AND a.variable = 'count'";
 
@@ -523,12 +523,12 @@ namespace PQL2SQLTransformerTests
                 Select a pattern a ("count", _) such that Parent* (w, a)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT a.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT a.stmtNo";
             expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
             expectedOutput += " WHERE a.variable = 'count' AND check_parent_t(w.stmtNo, a.stmtNo)";
 
@@ -548,12 +548,12 @@ namespace PQL2SQLTransformerTests
                 Select s such that Next* (5, s) such that Next* (s, 12)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT s.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT s.stmtNo";
             expectedOutput += " FROM statements AS s";
             expectedOutput += " WHERE check_next_t(5, s.stmtNo) AND check_next_t(s.stmtNo, 12)";
 
@@ -573,12 +573,12 @@ namespace PQL2SQLTransformerTests
                 Select a pattern a ("x", _) such that Parent* (w, a) such that Next* (1, a)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT a.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT a.stmtNo";
             expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
             expectedOutput += " WHERE a.variable = 'x' AND check_parent_t(w.stmtNo, a.stmtNo) AND check_next_t(1, a.stmtNo)";
 
@@ -598,12 +598,12 @@ namespace PQL2SQLTransformerTests
                 Select a such that Modifies (a, "x") such that Parent* (w, a) such that Next* (1, a)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT a.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT a.stmtNo";
             expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
             expectedOutput += " WHERE check_modify(a.stmtNo, 'x') AND check_parent_t(w.stmtNo, a.stmtNo) AND check_next_t(1, a.stmtNo)";
 
@@ -623,12 +623,12 @@ namespace PQL2SQLTransformerTests
                 Select <w1, w2, w3> such that Parent* (w1, w2) such that Parent* (w2, w3)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT w1.stmtNo, w2.stmtNo, w3.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT w1.stmtNo, w2.stmtNo, w3.stmtNo";
             expectedOutput += " FROM (SELECT * FROM statements WHERE type = 'while') AS w1, (SELECT * FROM statements WHERE type = 'while') AS w2, (SELECT * FROM statements WHERE type = 'while') AS w3";
             expectedOutput += " WHERE check_parent_t(w1.stmtNo, w2.stmtNo) AND check_parent_t(w2.stmtNo, w3.stmtNo)";
 
@@ -648,12 +648,12 @@ namespace PQL2SQLTransformerTests
                 Select a1 pattern a1 ("x", _) pattern a2 ("x", _"x"_) such that Next* (a1, a2) such that Parent* (w2, a2) such that Parent* (w1, w2)
             )";
 
-            // create the test output string from the tokens
+            // create the test output string from the query
             std::string testOutput;
             getTestOutput(testInput, testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "SELECT a1.stmtNo";
+            std::string expectedOutput = "SELECT DISTINCT a1.stmtNo";
             expectedOutput += " FROM assignments AS a1, assignments AS a2, (SELECT * FROM statements WHERE type = 'while') AS w1, (SELECT * FROM statements WHERE type = 'while') AS w2";
             expectedOutput += " WHERE a1.variable = 'x' AND a2.variable = 'x' AND a2.expression LIKE '%(x)%' AND check_next_t(a1.stmtNo, a2.stmtNo) AND check_parent_t(w2.stmtNo, a2.stmtNo) AND check_parent_t(w1.stmtNo, w2.stmtNo)";
 

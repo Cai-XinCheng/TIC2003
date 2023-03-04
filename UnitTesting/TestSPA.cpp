@@ -1,29 +1,33 @@
 #include "stdafx.h"
-#include "../source/Tokenizer.h"
+#include "../source/SourceProcessor.h"
+#include "../source/QueryProcessor.h"
+#include <algorithm>
 
 using Assert = Microsoft::VisualStudio::CppUnitTestFramework::Assert;
 
-namespace TokenizerTests
+namespace SPATests
 {
     // Each cpp is a set of test cases for a specific component.
-    TEST_CLASS(TestTokenizer)
+    TEST_CLASS(TestSPA)
     {
     public:
         // Each test method is a separate test case. The name should be unique and meaningful.
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ1) 
+        TEST_METHOD(CheckSPA_ExampleQ1) 
         {
-            // create the input string
-            std::string testInput = R"(
+            initializeCode5();
+
+            std::string query = R"(
                 procedure p;
                 Select p
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "procedure$p$;$Select$p$"; 
+            std::string expectedOutput = reorderOutput("main, readPoint, printResults, computeCentroid");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -36,20 +40,23 @@ namespace TokenizerTests
             // and hence the assertion would be true.
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ2)
+        TEST_METHOD(CheckSPA_ExampleQ2)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 variable v;
                 Select v
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "variable$v$;$Select$v$";
+            std::string expectedOutput = reorderOutput("flag, count, cenX, cenY, x, y, normSq");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -59,20 +66,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ3)
+        TEST_METHOD(CheckSPA_ExampleQ3)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 stmt s;
-                Select s such that Next* (6, s)
+                Select s such that Next* (15, s)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "stmt$s$;$Select$s$such$that$Next*$($6$,$s$)$";
+
+            std::string expectedOutput = reorderOutput("14, 15, 16, 17, 18, 19, 20, 21, 22, 23");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -82,20 +93,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ4)
+        TEST_METHOD(CheckSPA_ExampleQ4)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 variable v;
-                Select v such that Modifies (6, v)
+                Select v such that Modifies (15, v)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "variable$v$;$Select$v$such$that$Modifies$($6$,$v$)$";
+
+            std::string expectedOutput = reorderOutput("count");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -105,20 +120,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ5)
+        TEST_METHOD(CheckSPA_ExampleQ5)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 variable v;
-                Select v such that Uses (14, v)
+                Select v such that Uses (23, v)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "variable$v$;$Select$v$such$that$Uses$($14$,$v$)$";
+
+            std::string expectedOutput = reorderOutput("cenX, cenY");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -128,20 +147,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ6)
+        TEST_METHOD(CheckSPA_ExampleQ6)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 assign a; while w;
                 Select a such that Parent* (w, a)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "assign$a$;$while$w$;$Select$a$such$that$Parent*$($w$,$a$)$";
+
+            std::string expectedOutput = reorderOutput("15, 16, 17");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -151,20 +174,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ7)
+        TEST_METHOD(CheckSPA_ExampleQ7)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 stmt s;
-                Select s such that Parent (s, 7)
+                Select s such that Parent (s, 16)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "stmt$s$;$Select$s$such$that$Parent$($s$,$7$)$";
+
+            std::string expectedOutput = reorderOutput("14");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -174,20 +201,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ8)
+        TEST_METHOD(CheckSPA_ExampleQ8)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 variable v; procedure p;
                 Select p such that Modifies (p, "x")
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = R"(variable$v$;$procedure$p$;$Select$p$such$that$Modifies$($p$,$"x"$)$)";
+
+            std::string expectedOutput = reorderOutput("main, computeCentroid, readPoint");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -197,20 +228,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ9)
+        TEST_METHOD(CheckSPA_ExampleQ9)
         {
+            initializeCode6();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 procedure p, q;
                 Select p such that Calls (p, _)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "procedure$p$,$q$;$Select$p$such$that$Calls$($p$,$_$)$";
+
+            std::string expectedOutput = reorderOutput("First, Second");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -220,20 +255,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ10)
+        TEST_METHOD(CheckSPA_ExampleQ10)
         {
+            initializeCode6();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 procedure p;
                 Select p such that Calls* (p, "Third")
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = R"!(procedure$p$;$Select$p$such$that$Calls*$($p$,$"Third"$)$)!";
+
+            std::string expectedOutput = reorderOutput("First, Second");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -243,20 +282,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ11)
+        TEST_METHOD(CheckSPA_ExampleQ11)
         {
+            initializeCode6();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 procedure p, q;
                 Select <p, q> such that Calls (p, q)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "procedure$p$,$q$;$Select$<$p$,$q$>$such$that$Calls$($p$,$q$)$";
+
+            std::string expectedOutput = reorderOutput("First Second, Second Third");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -266,20 +309,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ12)
+        TEST_METHOD(CheckSPA_ExampleQ12)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 assign a;
-                Select a pattern a ("x", _)
+                Select a pattern a ("cenX", _)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = R"!(assign$a$;$Select$a$pattern$a$($"x"$,$_$)$)!";
+
+            std::string expectedOutput = reorderOutput("11, 16, 21");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -289,20 +336,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ13)
+        TEST_METHOD(CheckSPA_ExampleQ13)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 assign a;
                 Select a pattern a (_, _"count + 1"_)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = R"!(assign$a$;$Select$a$pattern$a$($_$,$_"count + 1"_$)$)!";
+
+            std::string expectedOutput = reorderOutput("15");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -312,20 +363,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ14_1)
+        TEST_METHOD(CheckSPA_ExampleQ14_1)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 assign a;
                 Select a pattern a ("normSq", _"cenX * cenX"_)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = R"!(assign$a$;$Select$a$pattern$a$($"normSq"$,$_"cenX * cenX"_$)$)!";
+
+            std::string expectedOutput = reorderOutput("23");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -335,20 +390,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ14_2)
+        TEST_METHOD(CheckSPA_ExampleQ14_2)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 assign newa;
                 Select newa pattern newa ("normSq", _"cenX * cenX"_)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = R"!(assign$newa$;$Select$newa$pattern$newa$($"normSq"$,$_"cenX * cenX"_$)$)!";
+
+            std::string expectedOutput = reorderOutput("23");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -358,20 +417,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ15)
+        TEST_METHOD(CheckSPA_ExampleQ15)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 assign a; while w;
                 Select w such that Parent* (w, a) pattern a ("count", _)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = R"!(assign$a$;$while$w$;$Select$w$such$that$Parent*$($w$,$a$)$pattern$a$($"count"$,$_$)$)!";
+
+            std::string expectedOutput = reorderOutput("14");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -381,20 +444,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ16)
+        TEST_METHOD(CheckSPA_ExampleQ16)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 assign a; variable v;
                 Select a such that Uses (a, v) pattern a (v, _)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "assign$a$;$variable$v$;$Select$a$such$that$Uses$($a$,$v$)$pattern$a$($v$,$_$)$";
+
+            std::string expectedOutput = reorderOutput("15, 16, 17, 21, 22");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -404,20 +471,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ17_1)
+        TEST_METHOD(CheckSPA_ExampleQ17_1)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 assign a; while w;
                 Select a pattern a ("x", _) such that Uses (a, "x")
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = R"!(assign$a$;$while$w$;$Select$a$pattern$a$($"x"$,$_$)$such$that$Uses$($a$,$"x"$)$)!";
+
+            std::string expectedOutput = reorderOutput("");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -427,20 +498,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ17_2)
+        TEST_METHOD(CheckSPA_ExampleQ17_2)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 assign a; while w;
                 Select a such that Uses (a, "x") pattern a ("x", _)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = R"!(assign$a$;$while$w$;$Select$a$such$that$Uses$($a$,$"x"$)$pattern$a$($"x"$,$_$)$)!";
+
+            std::string expectedOutput = reorderOutput("");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -450,20 +525,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ18_1)
+        TEST_METHOD(CheckSPA_ExampleQ18_1)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 assign a; while w;
                 Select a such that Parent* (w, a) pattern a ("count", _)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = R"!(assign$a$;$while$w$;$Select$a$such$that$Parent*$($w$,$a$)$pattern$a$($"count"$,$_$)$)!";
+
+            std::string expectedOutput = reorderOutput("15");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -473,20 +552,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ18_2)
+        TEST_METHOD(CheckSPA_ExampleQ18_2)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 assign a; while w;
                 Select a pattern a ("count", _) such that Parent* (w, a)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = R"!(assign$a$;$while$w$;$Select$a$pattern$a$($"count"$,$_$)$such$that$Parent*$($w$,$a$)$)!";
+
+            std::string expectedOutput = reorderOutput("15");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -496,20 +579,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ19)
+        TEST_METHOD(CheckSPA_ExampleQ19)
         {
+            initializeCode6();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 stmt s;
-                Select s such that Next* (5, s) such that Next* (s, 12)
+                Select s such that Next* (8, s) such that Next* (s, 15)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "stmt$s$;$Select$s$such$that$Next*$($5$,$s$)$such$that$Next*$($s$,$12$)$";
+
+            std::string expectedOutput = reorderOutput("6, 7, 8, 9, 10, 11, 12, 13, 14");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -519,20 +606,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ20_1)
+        TEST_METHOD(CheckSPA_ExampleQ20_1)
         {
+            initializeCode6();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 assign a; while w;
-                Select a pattern a ("x", _) such that Parent* (w, a) such that Next* (1, a)
+                Select a pattern a ("x", _) such that Parent* (w, a) such that Next* (4, a)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = R"!(assign$a$;$while$w$;$Select$a$pattern$a$($"x"$,$_$)$such$that$Parent*$($w$,$a$)$such$that$Next*$($1$,$a$)$)!";
+
+            std::string expectedOutput = reorderOutput("7");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -542,20 +633,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ20_2)
+        TEST_METHOD(CheckSPA_ExampleQ20_2)
         {
+            initializeCode6();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 assign a; while w;
-                Select a such that Modifies (a, "x") such that Parent* (w, a) such that Next* (1, a)
+                Select a such that Modifies (a, "x") such that Parent* (w, a) such that Next* (4, a)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = R"!(assign$a$;$while$w$;$Select$a$such$that$Modifies$($a$,$"x"$)$such$that$Parent*$($w$,$a$)$such$that$Next*$($1$,$a$)$)!";
+
+            std::string expectedOutput = reorderOutput("7");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -565,20 +660,24 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ21)
+        TEST_METHOD(CheckSPA_ExampleQ21_Code5)
         {
+            initializeCode5();
+
             // create the input string
-            std::string testInput = R"(
+            std::string query = R"(
                 while w1, w2, w3;
                 Select <w1, w2, w3> such that Parent* (w1, w2) such that Parent* (w2, w3)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = "while$w1$,$w2$,$w3$;$Select$<$w1$,$w2$,$w3$>$such$that$Parent*$($w1$,$w2$)$such$that$Parent*$($w2$,$w3$)$";
+
+            std::string expectedOutput = reorderOutput("");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -588,22 +687,26 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ22)
+        TEST_METHOD(CheckSPA_ExampleQ21_Code6)
         {
+            initializeCode6();
+
             // create the input string
-            std::string testInput = R"(
-                assign a1, a2; while w1, w2;
-                Select a1 pattern a1 ("x", _) pattern a2 ("x", _"x"_) such that Next* (a1, a2) such that Parent* (w2, a2) such that Parent* (w1, w2)
+            std::string query = R"(
+                while w1, w2, w3;
+                Select <w1, w2, w3> such that Parent* (w1, w2) such that Parent* (w2, w3)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = R"!(assign$a1$,$a2$;$while$w1$,$w2$;$Select$a1$pattern$a1$($"x"$,$_$)$pattern$a2$($"x"$,$_"x"_$)$such$that$Next*$($a1$,$a2$)$such$that$Parent*$($w2$,$a2$)$such$that$Parent*$($w1$,$w2$)$)!";
 
-            // Logger messages can be viewed in the Test Explorer
+            std::string expectedOutput = reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
             TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
@@ -611,101 +714,73 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeSource_ExampleCode1)
+        TEST_METHOD(CheckSPA_ExampleQ22_Code5)
         {
-            std::string testInput = R"(
-                procedure computeAverage {
+            initializeCode5();
 
-                    read num1;
-                    read num2;
-                    read num3;
-
-                    sum = num1 + num2 + num3;
-                    ave = sum / 3;
-
-                    print ave;
-                }
+            // create the input string
+            std::string query = R"(
+                assign a1, a2; while w1, w2;
+                Select a1 pattern a1 ("x", _) pattern a2 ("x", _"x"_) such that Next* (a1, a2) such that Parent* (w2, a2) such that Parent* (w1, w2)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
-            std::string expectedOutput = "procedure$computeAverage${$read$num1$;$read$num2$;$read$num3$;$sum$=$num1$+$num2$+$num3$;$ave$=$sum$/$3$;$print$ave$;$}$";
+            // create the expected output string
 
+            std::string expectedOutput = reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
             TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
+            // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeSource_ExampleCode2)
+        TEST_METHOD(CheckSPA_ExampleQ22_Code6)
         {
-            std::string testInput = R"(
-                procedure printAscending {
-                    read num1;
-                    read num2;
-                    noSwap = 0;
+            initializeCode6();
 
-                    if (num1 > num2) then {
-                      temp = num1;
-                      num1 = num2;
-                      num2 = temp;
-                    } else {
-                      noSwap = 1;
-                    }
-
-                    print num1;
-                    print num2;
-                    print noSwap;
-                }
+            // create the input string
+            std::string query = R"(
+                assign a1, a2; while w1, w2;
+                Select a1 pattern a1 ("x", _) pattern a2 ("x", _"x"_) such that Next* (a1, a2) such that Parent* (w2, a2) such that Parent* (w1, w2)
             )";
 
-            // create the test output string from a string
+            // create the test output string from the query
             std::string testOutput;
-            generateTestOutput(testInput, testOutput);
+            generateTestOutput(query, testOutput);
+            testOutput = reorderOutput(testOutput);
 
-            std::string expectedOutput = "procedure$printAscending${$read$num1$;$read$num2$;$noSwap$=$0$;$if$($num1$>$num2$)$then${$temp$=$num1$;$num1$=$num2$;$num2$=$temp$;$}$else${$noSwap$=$1$;$}$print$num1$;$print$num2$;$print$noSwap$;$}$";
+            // create the expected output string
 
+            std::string expectedOutput = reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
             TestHelper::LogActualAndExpected(testOutput, expectedOutput);
 
+            // compare the testOutput with expected output
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeSource_ExampleCode3)
-        {
-            std::string testInput = R"(
-                procedure sumDigits {
-                    read number;
-                    sum = 0;
-
-                    while (number > 0) {
-                        digit = number % 10;
-                        sum = sum + digit;
-                        number = number / 10;
-                    }
-
-                    print sum;
-                }
-            )";
-
-            // create the test output string from a string
-            std::string testOutput;
-            generateTestOutput(testInput, testOutput);
-
-            std::string expectedOutput = "procedure$sumDigits${$read$number$;$sum$=$0$;$while$($number$>$0$)${$digit$=$number$%$10$;$sum$=$sum$+$digit$;$number$=$number$/$10$;$}$print$sum$;$}$";
-
-            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
-
-            Assert::IsTrue(testOutput == expectedOutput);
+    // Some private helper functions can be added below.
+    private:
+        static void initializeSource(const std::string& source) {
+            SourceProcessor sp;
+            sp.process(source);
         }
 
-        TEST_METHOD(CheckTokenizeSource_ExampleCode4AndCode5)
-        {
-            std::string testInput = R"(
+        static void initializeCode5() {
+            std::string source = R"(
                 procedure main {
-                    flag = 0;
-                    call computeCentroid;
-                    call printResults;
+                  flag = 0;
+                  call computeCentroid;
+                  call printResults;
                 }
                 procedure readPoint {
                     read x;
@@ -737,28 +812,15 @@ namespace TokenizerTests
                     normSq = cenX * cenX + cenY * cenY;
                 }
             )";
-
-            // create the test output string from a string
-            std::string testOutput;
-            generateTestOutput(testInput, testOutput);
-
-            std::string expectedOutput = "procedure$main${$flag$=$0$;$call$computeCentroid$;$call$printResults$;$}$";
-            expectedOutput += "procedure$readPoint${$read$x$;$read$y$;$}$";
-            expectedOutput += "procedure$printResults${$print$flag$;$print$cenX$;$print$cenY$;$print$normSq$;$}$";
-            expectedOutput += "procedure$computeCentroid${$count$=$0$;$cenX$=$0$;$cenY$=$0$;$call$readPoint$;$while$($($x$*$x$+$y$*$y$)$!=$0$)${$count$=$count$+$1$;$cenX$=$cenX$+$x$;$cenY$=$cenY$+$y$;$call$readPoint$;$}$if$($count$==$0$)$then${$flag$=$1$;$}$else${$cenX$=$cenX$/$count$;$cenY$=$cenY$/$count$;$}$normSq$=$cenX$*$cenX$+$cenY$*$cenY$;$}$";
-
-            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
-
-            Assert::IsTrue(testOutput == expectedOutput);
+            initializeSource(source);
         }
 
-        TEST_METHOD(CheckTokenizeSource_ExampleCode6)
-        {
-            std::string testInput = R"(
+        static void initializeCode6() {
+            std::string source = R"(
                 procedure First {
-                    read x;
-                    read z;
-                    call Second; }
+                read x;
+                read z;
+                call Second; }
 
                 procedure Second {
                     x = 0;
@@ -780,36 +842,57 @@ namespace TokenizerTests
                     v = z;
                     print v; }
             )";
-
-            // create the test output string from a string
-            std::string testOutput;
-            generateTestOutput(testInput, testOutput);
-
-            std::string expectedOutput = "procedure$First${$read$x$;$read$z$;$call$Second$;$}$";
-            expectedOutput += "procedure$Second${$x$=$0$;$i$=$5$;$while$($i$!=$0$)${$x$=$x$+$2$*$y$;$call$Third$;$i$=$i$-$1$;$}$if$($x$==$1$)$then${$x$=$x$+$1$;$}$else${$z$=$1$;$}$z$=$z$+$x$+$i$;$y$=$z$+$2$;$x$=$x$*$y$+$z$;$}$";
-            expectedOutput += "procedure$Third${$z$=$5$;$v$=$z$;$print$v$;$}$";
-
-            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
-
-            Assert::IsTrue(testOutput == expectedOutput);
+            initializeSource(source);
         }
 
-    // Some private helper functions can be added below.
-    private:
+        static std::string reorderOutput(const std::string& original) {
+            // split into vector
+            std::vector<std::string> vec;
+            size_t from = 0;
+            size_t index;
+            do {
+                index = original.find(", ", from);
+
+                if (index != std::string::npos) {
+                    vec.push_back(original.substr(from, index - from));
+                    from = index + 2;
+                    continue;
+                }
+
+                vec.push_back(original.substr(from));
+                break;
+            } while (true);
+
+            // reorder
+            std::ranges::sort(vec.begin(), vec.end());
+
+            std::string output = "";
+            for (size_t i = 0; i < vec.size(); i++) {
+                if (i != 0) {
+                    output.append(", ");
+                }
+                output.append(vec[i]);
+            }
+
+            return output;
+        }
+
         // method to generate tokenized test output
         static void generateTestOutput(const std::string& input, std::string& testOutput)
         {
-            // run the tokenizer method
-            Tokenizer tk;
-            std::vector<std::string> tokens;
-            tk.tokenize(input, tokens);
+            // evaluate a query
+            std::vector<std::string> output;
+            QueryProcessor qp;
+            qp.evaluate(input, output);
 
             // reset test output
             testOutput = "";
 
-            for (std::string token : tokens)
-            {
-                testOutput.append(token + "$");
+            for (size_t i = 0; i < output.size(); i++) {
+                if (i != 0) {
+                    testOutput.append(", ");
+                }
+                testOutput.append(output[i]);
             }
         }
     };
