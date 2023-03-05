@@ -83,7 +83,8 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
         processExp(expression, stmtNo, procedureName);
         vars.clear();
         // insert assignemnt into DB
-        Database::insertAssignment(stmtNo, variableName, expression->toString());
+        std::string expStr = "(" + expression->toString() + ")";
+        Database::insertAssignment(stmtNo, variableName, expStr);
 
     }
     else if (stmtType == "call") {
