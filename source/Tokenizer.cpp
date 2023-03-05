@@ -50,7 +50,7 @@ void Tokenizer::tokenize(std::string text, std::vector<std::string>& tokens) {
                 ch = text.at(i);
                 if (isalpha(ch)
                     || isdigit(ch)
-                    || ch == '*' // scan for Next*, Parent*, Calls* etc...
+                    || (ch == '*' && isspace(text.at(i + 1))) // scan for Next*, Parent*, Calls* etc...
                 ) {
                     token.push_back(ch);
                     i++;
