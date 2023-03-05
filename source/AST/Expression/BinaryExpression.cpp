@@ -12,7 +12,7 @@ BinaryExpression::~BinaryExpression() {
 }
 
 std::string BinaryExpression::toString() const {
-    return std::format("({} {} {})", left->toString(), op, right->toString());
+    return std::format("{} {} {}", left->toString(), op, right->toString());
 }
 
 std::string BinaryExpression::getOperator() const {

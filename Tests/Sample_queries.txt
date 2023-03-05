@@ -1,5 +1,35 @@
-10 - Q13
+1 - Q1
 assign a;
-Select a pattern a ( _ , _"0"_)
-15
+Select a pattern a ( _ , _"v"_)
+1
+5000
+1 - Q1
+assign a;
+Select a pattern a ( _ , _"x*y"_)
+1
+5000
+1 - Q1
+assign a;
+Select a pattern a ( _ , _"v+x"_)
+
+5000
+1 - Q1
+assign a;
+Select a pattern a ( _ , _"v+x*y"_)
+1
+5000
+1 - Q1
+assign a;
+Select a pattern a ( _ , _"y+z*t"_)
+
+5000
+1 - Q1
+assign a;
+Select a pattern a (_, _"x * y + z * t"_)
+
+5000
+1 - Q1
+assign a;
+Select a pattern a ( _ , _"v + x * y + z * t"_)
+1
 5000
