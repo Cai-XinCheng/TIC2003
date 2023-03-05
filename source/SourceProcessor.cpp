@@ -55,12 +55,13 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
         }
     }
     // process direct next relation
-    // not the last statement in the current stmt list
-    if (i != statements.size() - 1) {
-        Database::insertNext(stmtNo, statements.at(i + 1)->getStmtNo());
-    }
-    else if (nextStmtNo != 0) { // not the end of procedure
-        Database::insertNext(stmtNo, nextStmtNo);
+    if (stmtType != "if") { // specially process next in if case
+        if (i != statements.size() - 1) { // not the last statement in the current stmt list
+            Database::insertNext(stmtNo, statements.at(i + 1)->getStmtNo());
+        }
+        else if (nextStmtNo != 0) { // not the end of procedure
+            Database::insertNext(stmtNo, nextStmtNo);
+        }
     }
 
     // process statement in different cases
@@ -110,7 +111,8 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
     else if (stmtType == "if") {
         IfNode* ifNode = static_cast<IfNode*>(stmtNode);
         parent.push(ifNode);
-
+        // store next stmtNo of if node
+        uint32_t nextStmtNo = statements.at(i + 1)->getStmtNo();
 
         ConExpNode* conExpNode = static_cast<ConExpNode*>(ifNode->getConExp());
         // process condition expression
@@ -132,6 +134,10 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
         }
         for (unsigned int i = 0; i < elseStatements.size(); i++) {
             processStatement(i, procedureName, elseStatements, nextStmtNo);
+        }
+        // process next relation of ifNode
+        if (ifStatements.size() == 0 || elseStatements.size() == 0) { // if one of the body is empty
+            Database::insertNext(stmtNo, nextStmtNo);
         }
         parent.pop();
     }

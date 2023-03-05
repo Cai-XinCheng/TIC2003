@@ -1,15 +1,5 @@
-1 - Parent
-stmt s;
-Select s such that Parent (s, 16)
-14
-5000
-2 - Parent
-stmt s;
-Select s such that Parent (s, 20)
-19
-5000
-3 - Parent
-stmt s;
-Select s such that Parent (s, 21)
-19
+10 - Q13
+assign a;
+Select a pattern a ( _ , _"0"_)
+15
 5000
