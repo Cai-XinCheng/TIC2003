@@ -8,8 +8,8 @@ BinaryExpression::BinaryExpression(const std::string& op, Factor* left, Factor* 
 }
 
 BinaryExpression::~BinaryExpression() {
-    delete left;
-    delete right;
+    //delete left;
+    //delete right;
 }
 
 std::string BinaryExpression::toString() const {

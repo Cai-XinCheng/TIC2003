@@ -3,6 +3,33 @@
 #include <string>
 #include <format>
 
+const std::string& StatementNode::type = "statement";
+const std::string& ConExpNode::type = "conExp";
+
+StatementNode::StatementNode(const uint32_t& stmtNo) : ASTNode(type), stmtNo(stmtNo) {}
+ConExpNode::ConExpNode(const std::string& operate, ExpressionNode* lhs, ExpressionNode* rhs) : ExpressionNode(type), operate(operate), lhs(lhs), rhs(rhs) {}
+
+AssignNode::~AssignNode() {
+    //delete expression;
+}
+
+WhileNode::~WhileNode() {
+    //delete conExp;
+    for (auto& statement : statements) {
+        //delete statement;
+    }
+}
+
+IfNode::~IfNode() {
+    //delete conExp;
+    for (auto& ifStatement : ifStatements) {
+        //delete ifStatement;
+    }
+    for (auto& elseStatement : elseStatements) {
+        //delete elseStatement;
+    }
+}
+
 std::string StatementNode::toString() const {
     return stmtNode->toString();
 }

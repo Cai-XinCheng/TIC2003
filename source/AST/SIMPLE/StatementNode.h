@@ -7,16 +7,15 @@
 
 class StatementNode : public ASTNode {
 public:
-    explicit StatementNode(const uint32_t& stmtNo)
-        : ASTNode(type), stmtNo(stmtNo) {};
+    explicit StatementNode(const uint32_t& stmtNo);
     void setStatementNode(StatementNode* stmtNode) { this->stmtNode = stmtNode; };
     std::string toString() const override;
     void setStmtType(const std::string& stmtType) { this->stmtType = stmtType; }
     uint32_t getStmtNo() { return stmtNo; }
     std::string getStmtType() { return stmtType; }
     StatementNode* getStmtNode() { return stmtNode; }
+    static const std::string& type;
 private:
-    std::string type = "statement";
     uint32_t stmtNo;
     std::string stmtType;
     StatementNode* stmtNode;
@@ -46,6 +45,7 @@ class AssignNode : public StatementNode {
 public:
     explicit AssignNode(const uint32_t& stmtNo, const std::string& variableName, ExpressionNode* expression)
         : StatementNode(stmtNo), variableName(variableName), expression(expression) {};
+    ~AssignNode();
     std::string toString() const override;
     std::string getVariableName() { return variableName; }
     ExpressionNode* getExpression() { return expression; }
@@ -58,6 +58,7 @@ class WhileNode : public StatementNode {
 public: 
     explicit WhileNode(const uint32_t& stmtNo, ExpressionNode* conExp)
             : StatementNode(stmtNo), conExp(conExp) {};
+    ~WhileNode();
     std::string toString() const override;
     void setStatements(const std::vector<StatementNode*>& statements) { this->statements = statements; }
     ExpressionNode* getConExp() { return conExp; }
@@ -71,6 +72,7 @@ class IfNode : public StatementNode {
 public:
     explicit IfNode(const uint32_t& stmtNo, ExpressionNode* conExp)
             : StatementNode(stmtNo), conExp(conExp) {};
+    ~IfNode();
     std::string toString() const override;
     void setIfStatements(const std::vector<StatementNode*>& ifStatements) { this->ifStatements = ifStatements; }
     void setElseStatements(const std::vector<StatementNode*>& elseStatements) { this->elseStatements = elseStatements; }
@@ -95,8 +97,10 @@ private:
 
 class ConExpNode : public ExpressionNode {
 public:
-    explicit ConExpNode(const std::string& operate, ExpressionNode* lhs, ExpressionNode* rhs)
-        : ExpressionNode(type) {};
+    explicit ConExpNode(const std::string& operate, ExpressionNode* lhs, ExpressionNode* rhs);
+    static const std::string& type;
 private:
-    std::string type = "conditionExpression";
+    std::string operate;
+    ExpressionNode* lhs;
+    ExpressionNode* rhs;
 };

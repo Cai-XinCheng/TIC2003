@@ -7,8 +7,8 @@ BinaryTerm::BinaryTerm(const std::string& op, Factor* left, Factor* right) : Ter
 }
 
 BinaryTerm::~BinaryTerm() {
-    delete left;
-    delete right;
+    //delete left;
+    //delete right;
 }
 
 std::string BinaryTerm::toString() const {

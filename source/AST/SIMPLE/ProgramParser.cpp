@@ -84,13 +84,16 @@ AssignNode* ProgramParser::parseAssign() {
     i++; // "="
 
     // read expression into temp tokens
-    std::string tempToken = tokens.at(i);
+    std::string tempToken;
     std::vector<std::string> tempTokens;
-    while (tempToken != ";") {
+    do {
+        tempToken = tokens.at(i);
         tempTokens.push_back(tempToken);
-    }
+        i++;
+    } while (tempToken != ";");
+    tempTokens.pop_back();
     ExpressionNode* exp = ep.parse(tempTokens);
-
+    i--;
     i++; // ";"
     return new AssignNode(stmtNo++, variableName, exp);
 }
@@ -101,22 +104,31 @@ WhileNode* ProgramParser::parseWhile() {
 
     // parse condition expression
     // read expression into temp tokens
-    std::string tempToken = tokens.at(i);
+    std::string tempToken;
     std::vector<std::string> tempTokens;
-    while (tempToken != "<" 
-            && tempToken != ">"
-            && tempToken != "="
-            && tempToken != "!="
-            && tempToken != ">="
-            && tempToken != "<=") {
+    do {
+        tempToken = tokens.at(i);
         tempTokens.push_back(tempToken);
-    }
+        i++;
+    } while (tempToken != "<"
+        && tempToken != ">"
+        && tempToken != "="
+        && tempToken != "!="
+        && tempToken != ">="
+        && tempToken != "<="
+        && tempToken != "==");
+    tempTokens.pop_back();
+    i--;
     ExpressionNode* lhs = ep.parse(tempTokens);
     std::string op = tokens.at(i++);
     tempTokens.clear();
-    while (tempToken != ")") {
+    do {
+        tempToken = tokens.at(i);
         tempTokens.push_back(tempToken);
-    }
+        i++;
+    } while (tempToken != ")");
+    tempTokens.pop_back();
+    i--;
     ExpressionNode* rhs = ep.parse(tempTokens);
     ExpressionNode* conExp = new ConExpNode(op, lhs, rhs);
     i++; // ")"
@@ -142,23 +154,31 @@ IfNode* ProgramParser::parseIf() {
     // read expression into temp tokens
     std::string tempToken = tokens.at(i);
     std::vector<std::string> tempTokens;
-    while (tempToken != "<"
+    do {
+        tempToken = tokens.at(i);
+        tempTokens.push_back(tempToken);
+        i++;
+    } while (tempToken != "<"
         && tempToken != ">"
         && tempToken != "="
         && tempToken != "!="
         && tempToken != ">="
-        && tempToken != "<=") {
-        tempTokens.push_back(tempToken);
-    }
+        && tempToken != "<="
+        && tempToken != "==");
+    tempTokens.pop_back();
+    i--;
     ExpressionNode* lhs = ep.parse(tempTokens);
     std::string op = tokens.at(i++);
     tempTokens.clear();
-    while (tempToken != ")") {
+    do {
+        tempToken = tokens.at(i);
         tempTokens.push_back(tempToken);
-    }
+        i++;
+    } while (tempToken != ")");
+    tempTokens.pop_back();
+    i--;
     ExpressionNode* rhs = ep.parse(tempTokens);
     ExpressionNode* conExp = new ConExpNode(op, lhs, rhs);
-    i++; // ")"
     i++; // ")"
     i++; // "then"
     i++; // "{"

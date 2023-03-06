@@ -11,7 +11,7 @@ void processProcedure(ProcedureNode procedureNode);
 void processStatement(int i, const std::string& procedureName, std::vector<StatementNode*> statements, uint32_t nextStmtNo);
 void processExp(ExpressionNode* expression, uint32_t stmtNo, std::string procedureName);
 
-std::set<uint32_t> cons;
+std::set<int64_t> cons;
 std::stack<StatementNode*> parent;
 
 void SourceProcessor::process(std::string input) {
@@ -155,11 +155,13 @@ void processExp(ExpressionNode* expression, uint32_t stmtNo, std::string procedu
         }
 
 
-        int64_t value = static_cast<ConstFactor*>(expression)->getValue();
-        auto itCons = cons.find(value);
-        if (itCons == cons.end()) { // not declared
-            cons.insert(value);
-            Database::insertConstant(static_cast<int64_t>(value));
+        std::vector<int64_t> constants = expression->getConstants();
+        for (int64_t con : constants) {
+            auto itCons = cons.find(con);
+            if (itCons == cons.end()) { // not declared
+                cons.insert(con);
+                Database::insertConstant(static_cast<int64_t>(con));
+            }
         }
     }
 }
