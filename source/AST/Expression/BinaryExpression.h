@@ -10,6 +10,7 @@ public:
     ~BinaryExpression() override;
     std::string toString() const override;
     std::vector<std::string> getVariables() const override;
+    std::vector<int64_t> getConstants() const override;
     std::string getOperator() const;
     Factor* getLeft() const;
     Factor* getRight() const;

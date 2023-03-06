@@ -19,6 +19,10 @@ std::vector<std::string> BinaryTerm::getVariables() const {
     return ExpressionNode::getVariables({ left, right });
 }
 
+std::vector<int64_t> BinaryTerm::getConstants() const {
+    return ExpressionNode::getConstants({ left, right });
+}
+
 std::string BinaryTerm::getOperator() const {
     return this->op;
 }

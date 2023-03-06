@@ -16,40 +16,41 @@ namespace ExpressionParserTests
         {
             // expression and expected outputs
             std::vector<std::vector<std::string>> expressionAndExpectedOutputs = {
-                {"x", "(x)", "x"},
-                {"(x)", "(x)", "x"},
+                {"x", "(x)", "x", ""},
+                {"(x)", "(x)", "x", ""},
 
-                {"5", "(5)", ""},
-                {"(5)", "(5)", ""},
+                {"5", "(5)", "", "5"},
+                {"(5)", "(5)", "", "5"},
 
-                {"x + z", "((x) + (z))", "x, z"},
-                {"((x) + (z))", "((x) + (z))", "x, z"},
+                {"x + z", "((x) + (z))", "x, z", ""},
+                {"((x) + (z))", "((x) + (z))", "x, z", ""},
 
-                {"x * z", "((x) * (z))", "x, z"},
-                {"((x) * (z))", "((x) * (z))", "x, z"},
+                {"x * z", "((x) * (z))", "x, z", ""},
+                {"((x) * (z))", "((x) * (z))", "x, z", ""},
 
-                {"x + y + z", "(((x) + (y)) + (z))", "x, y, z"},
-                {"(((x) + (y)) + (z))", "(((x) + (y)) + (z))", "x, y, z"},
+                {"x + y + z", "(((x) + (y)) + (z))", "x, y, z", ""},
+                {"(((x) + (y)) + (z))", "(((x) + (y)) + (z))", "x, y, z", ""},
 
-                {"x + z * 5", "((x) + ((z) * (5)))", "x, z"},
-                {"((x) + ((z) * (5)))", "((x) + ((z) * (5)))", "x, z"},
+                {"x + z * 5", "((x) + ((z) * (5)))", "x, z", "5"},
+                {"((x) + ((z) * (5)))", "((x) + ((z) * (5)))", "x, z", "5"},
 
-                {"z * 5 + x", "(((z) * (5)) + (x))", "z, x"},
-                {"(((z) * (5)) + (x))", "(((z) * (5)) + (x))", "z, x"},
+                {"z * 5 + x", "(((z) * (5)) + (x))", "z, x", "5"},
+                {"(((z) * (5)) + (x))", "(((z) * (5)) + (x))", "z, x", "5"},
 
-                {"(x + z) * 5", "(((x) + (z)) * (5))", "x, z"},
-                {"(((x) + (z)) * (5))", "(((x) + (z)) * (5))", "x, z"},
+                {"(x + z) * 5", "(((x) + (z)) * (5))", "x, z", "5"},
+                {"(((x) + (z)) * (5))", "(((x) + (z)) * (5))", "x, z", "5"},
 
-                {"v + x * y + z * t", "(((v) + ((x) * (y))) + ((z) * (t)))", "v, x, y, z, t"},
-                {"(((v) + ((x) * (y))) + ((z) * (t)))", "(((v) + ((x) * (y))) + ((z) * (t)))", "v, x, y, z, t"},
+                {"v + x * y + z * t", "(((v) + ((x) * (y))) + ((z) * (t)))", "v, x, y, z, t", ""},
+                {"(((v) + ((x) * (y))) + ((z) * (t)))", "(((v) + ((x) * (y))) + ((z) * (t)))", "v, x, y, z, t", ""},
 
-                {"x * y * z + a", "((((x) * (y)) * (z)) + (a))", "x, y, z, a"},
-                {"((((x) * (y)) * (z)) + (a))", "((((x) * (y)) * (z)) + (a))", "x, y, z, a"},
+                {"x * y * z + a", "((((x) * (y)) * (z)) + (a))", "x, y, z, a", ""},
+                {"((((x) * (y)) * (z)) + (a))", "((((x) * (y)) * (z)) + (a))", "x, y, z, a", ""},
 
-                {"x * (a + b) + c", "(((x) * ((a) + (b))) + (c))", "x, a, b, c"},
-                {"(((x) * ((a) + (b))) + (c))", "(((x) * ((a) + (b))) + (c))", "x, a, b, c"},
+                {"x * (a + b) + c", "(((x) * ((a) + (b))) + (c))", "x, a, b, c", ""},
+                {"(((x) * ((a) + (b))) + (c))", "(((x) * ((a) + (b))) + (c))", "x, a, b, c", ""},
 
-                {"a * (b*c)*d/4+(n-k)%m", "(((((a) * ((b) * (c))) * (d)) / (4)) + (((n) - (k)) % (m)))"}
+                {"a * (b * c) * d / 4 + (2 - k) % m", "(((((a) * ((b) * (c))) * (d)) / (4)) + (((2) - (k)) % (m)))", "a, b, c, d, k, m", "4, 2"},
+                {"(((((a) * ((b) * (c))) * (d)) / (4)) + (((2) - (k)) % (m)))", "(((((a) * ((b) * (c))) * (d)) / (4)) + (((2) - (k)) % (m)))", "a, b, c, d, k, m", "4, 2"},
 
             };
 
@@ -60,7 +61,7 @@ namespace ExpressionParserTests
         // Some private helper functions can be added below.
     private:
         // method to generate tokenized test output
-        static void getTestResult(const std::string& input, std::string& expression, std::vector<std::string>& variables)
+        static void getTestResult(const std::string& input, std::string& expression, std::vector<std::string>& variables, std::vector<int64_t>& constants)
         {
             // tokenize the expression
             Tokenizer tk;
@@ -74,6 +75,7 @@ namespace ExpressionParserTests
             try {
                 expression = expressionNode->toString();
                 variables = expressionNode->getVariables();
+                constants = expressionNode->getConstants();
             }
             catch (...) {
                 delete expressionNode;
@@ -87,7 +89,8 @@ namespace ExpressionParserTests
                 // create the test output string from the statements retrieved
                 std::string expression;
                 std::vector<std::string> variables;
-                getTestResult(item.at(0), expression, variables);
+                std::vector<int64_t> constants;
+                getTestResult(item.at(0), expression, variables, constants);
 
                 std::string variableOutput;
                 for (size_t i = 0; i < variables.size(); i++) {
@@ -97,9 +100,26 @@ namespace ExpressionParserTests
                     variableOutput += variables[i];
                 }
 
-                std::string testOutput = std::format("Expression: {}\nVariables: {}", expression, TestHelper::reorderOutput(variableOutput));
-                std::string expectedOutput = std::format("Expression: {}\nVariables: {}", item.at(1), TestHelper::reorderOutput(item.at(2)));
-                TestHelper::LogActualAndExpected(testOutput, expectedOutput, false, item.at(0).c_str());
+                std::string constantOutput;
+                for (size_t i = 0; i < constants.size(); i++) {
+                    if (i != 0) {
+                        constantOutput += ", ";
+                    }
+                    constantOutput += std::to_string(constants[i]);
+                }
+
+                std::string testOutput = std::format(
+                    "Expression: {}\nVariables: {}\nConstants: {}",
+                    expression,
+                    TestHelper::reorderOutput(variableOutput),
+                    TestHelper::reorderOutput(constantOutput));
+                std::string expectedOutput = std::format(
+                    "Expression: {}\nVariables: {}\nConstants: {}",
+                    item.at(1),
+                    TestHelper::reorderOutput(item.at(2)),
+                    TestHelper::reorderOutput(item.at(3)));
+
+                TestHelper::LogActualAndExpected(testOutput, expectedOutput, true, item.at(0).c_str());
                 Assert::IsTrue(testOutput == expectedOutput);
             }
         }

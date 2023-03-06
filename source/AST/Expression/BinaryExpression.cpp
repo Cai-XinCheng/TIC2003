@@ -20,6 +20,10 @@ std::vector<std::string> BinaryExpression::getVariables() const {
     return ExpressionNode::getVariables({ left, right });
 }
 
+std::vector<int64_t> BinaryExpression::getConstants() const {
+    return ExpressionNode::getConstants({ left, right });
+}
+
 std::string BinaryExpression::getOperator() const {
     return this->op;
 }
