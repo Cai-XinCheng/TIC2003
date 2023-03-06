@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "../source/SourceProcessor.h"
 #include "../source/QueryProcessor.h"
-#include <algorithm>
 
 using Assert = Microsoft::VisualStudio::CppUnitTestFramework::Assert;
 
@@ -24,10 +23,10 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = reorderOutput("main, readPoint, printResults, computeCentroid");
+            std::string expectedOutput = TestHelper::reorderOutput("main, readPoint, printResults, computeCentroid");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -53,10 +52,10 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
-            std::string expectedOutput = reorderOutput("flag, count, cenX, cenY, x, y, normSq");
+            std::string expectedOutput = TestHelper::reorderOutput("flag, count, cenX, cenY, x, y, normSq");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -79,11 +78,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("14, 15, 16, 17, 18, 19, 20, 21, 22, 23");
+            std::string expectedOutput = TestHelper::reorderOutput("14, 15, 16, 17, 18, 19, 20, 21, 22, 23");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -106,11 +105,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("count");
+            std::string expectedOutput = TestHelper::reorderOutput("count");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -133,11 +132,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("cenX, cenY");
+            std::string expectedOutput = TestHelper::reorderOutput("cenX, cenY");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -160,11 +159,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("15, 16, 17");
+            std::string expectedOutput = TestHelper::reorderOutput("15, 16, 17");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -187,11 +186,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("14");
+            std::string expectedOutput = TestHelper::reorderOutput("14");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -214,11 +213,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("main, computeCentroid, readPoint");
+            std::string expectedOutput = TestHelper::reorderOutput("main, computeCentroid, readPoint");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -241,11 +240,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("First, Second");
+            std::string expectedOutput = TestHelper::reorderOutput("First, Second");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -268,11 +267,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("First, Second");
+            std::string expectedOutput = TestHelper::reorderOutput("First, Second");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -295,11 +294,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("First Second, Second Third");
+            std::string expectedOutput = TestHelper::reorderOutput("First Second, Second Third");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -322,11 +321,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("11, 16, 21");
+            std::string expectedOutput = TestHelper::reorderOutput("11, 16, 21");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -349,11 +348,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("15");
+            std::string expectedOutput = TestHelper::reorderOutput("15");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -376,11 +375,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("23");
+            std::string expectedOutput = TestHelper::reorderOutput("23");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -403,11 +402,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("23");
+            std::string expectedOutput = TestHelper::reorderOutput("23");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -430,11 +429,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("14");
+            std::string expectedOutput = TestHelper::reorderOutput("14");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -457,11 +456,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("15, 16, 17, 21, 22");
+            std::string expectedOutput = TestHelper::reorderOutput("15, 16, 17, 21, 22");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -484,11 +483,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("");
+            std::string expectedOutput = TestHelper::reorderOutput("");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -511,11 +510,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("");
+            std::string expectedOutput = TestHelper::reorderOutput("");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -538,11 +537,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("15");
+            std::string expectedOutput = TestHelper::reorderOutput("15");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -565,11 +564,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("15");
+            std::string expectedOutput = TestHelper::reorderOutput("15");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -592,11 +591,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("6, 7, 8, 9, 10, 11, 12, 13, 14");
+            std::string expectedOutput = TestHelper::reorderOutput("6, 7, 8, 9, 10, 11, 12, 13, 14");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -619,11 +618,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("7");
+            std::string expectedOutput = TestHelper::reorderOutput("7");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -646,11 +645,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("7");
+            std::string expectedOutput = TestHelper::reorderOutput("7");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -673,11 +672,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("");
+            std::string expectedOutput = TestHelper::reorderOutput("");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -700,11 +699,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("");
+            std::string expectedOutput = TestHelper::reorderOutput("");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -727,11 +726,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("");
+            std::string expectedOutput = TestHelper::reorderOutput("");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -754,11 +753,11 @@ namespace SPATests
             // create the test output string from the query
             std::string testOutput;
             generateTestOutput(query, testOutput);
-            testOutput = reorderOutput(testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
 
             // create the expected output string
 
-            std::string expectedOutput = reorderOutput("");
+            std::string expectedOutput = TestHelper::reorderOutput("");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -843,38 +842,6 @@ namespace SPATests
                     print v; }
             )";
             initializeSource(source);
-        }
-
-        static std::string reorderOutput(const std::string& original) {
-            // split into vector
-            std::vector<std::string> vec;
-            size_t from = 0;
-            size_t index;
-            do {
-                index = original.find(", ", from);
-
-                if (index != std::string::npos) {
-                    vec.push_back(original.substr(from, index - from));
-                    from = index + 2;
-                    continue;
-                }
-
-                vec.push_back(original.substr(from));
-                break;
-            } while (true);
-
-            // reorder
-            std::ranges::sort(vec.begin(), vec.end());
-
-            std::string output = "";
-            for (size_t i = 0; i < vec.size(); i++) {
-                if (i != 0) {
-                    output.append(", ");
-                }
-                output.append(vec[i]);
-            }
-
-            return output;
         }
 
         // method to generate tokenized test output
