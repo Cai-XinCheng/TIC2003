@@ -8,7 +8,7 @@ Tokenizer::Tokenizer() {}
 // destructor
 Tokenizer::~Tokenizer() {}
 
-const std::set<char> Tokenizer::independentPunctuations({ ';', '{', '}', '(', ')', ','});
+const std::set<char> Tokenizer::independentPunctuations({ ';', '{', '}', '(', ')', ',' });
 
 // method to tokenize a program / query string
 // it currently tokenizes the string into a vector of 
@@ -19,11 +19,11 @@ const std::set<char> Tokenizer::independentPunctuations({ ';', '{', '}', '(', ')
 void Tokenizer::tokenize(std::string text, std::vector<std::string>& tokens) {
     tokens.clear();
     std::string token;
-    
+
     unsigned int i = 0;
     while (i < text.length()) {
         char ch = text.at(i);
-        
+
         if (isdigit(ch)) { // scan for a numeric sequence
             token.push_back(ch);
             i++;
@@ -50,7 +50,7 @@ void Tokenizer::tokenize(std::string text, std::vector<std::string>& tokens) {
                 ch = text.at(i);
                 if (isalpha(ch)
                     || isdigit(ch)
-                    || (ch == '*' && isspace(text.at(i + 1))) // scan for Next*, Parent*, Calls* etc...
+                    || (ch == '*' && i + 1 < text.length() && !isalnum(text.at(i + 1))) // scan for Next*, Parent*, Calls* etc...
                 ) {
                     token.push_back(ch);
                     i++;
@@ -113,10 +113,10 @@ void Tokenizer::tokenize(std::string text, std::vector<std::string>& tokens) {
             token.push_back(ch);
             i++;
 
-            if (independentPunctuations.find(ch) == independentPunctuations.end()) { // scan for multi-character operators
+            if (!independentPunctuations.contains(ch)) { // scan for multi-character operators
                 while (i < text.length()) {
                     ch = text.at(i);
-                    if (ispunct(ch) && independentPunctuations.find(ch) == independentPunctuations.end()) {
+                    if (ispunct(ch) && !independentPunctuations.contains(ch)) {
                         token.push_back(ch);
                         i++;
                     }

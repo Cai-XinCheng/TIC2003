@@ -794,6 +794,55 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
+        TEST_METHOD(CheckTokenizeQuery_Bug01_Expression)
+        {
+            // create the input string
+            std::string testInput = "Next*b";
+
+            // create the test output string from a string
+            std::string testOutput;
+            generateTestOutput(testInput, testOutput);
+
+            // create the expected output string
+            std::string expectedOutput = "Next$*$b$";
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+
+            // The test output should match with the expected output 
+            // and hence the assertion would be true.
+        }
+
+        TEST_METHOD(CheckTokenizeQuery_Bug01_Query)
+        {
+            // create the input string
+            std::string testInput = R"(
+                stmt s;
+                Select s such that Next*(6, s)
+            )";
+
+            // create the test output string from a string
+            std::string testOutput;
+            generateTestOutput(testInput, testOutput);
+
+            // create the expected output string
+            std::string expectedOutput = "stmt$s$;$Select$s$such$that$Next*$($6$,$s$)$";
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+
+            // The test output should match with the expected output 
+            // and hence the assertion would be true.
+        }
+
     // Some private helper functions can be added below.
     private:
         // method to generate tokenized test output
