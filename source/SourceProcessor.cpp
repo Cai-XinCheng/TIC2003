@@ -12,7 +12,6 @@ void processStatement(int i, const std::string& procedureName, std::vector<State
 void processExp(ExpressionNode* expression, uint32_t stmtNo, std::string procedureName);
 
 std::set<uint32_t> cons;
-std::set<std::string> vars;
 std::stack<StatementNode*> parent;
 
 void SourceProcessor::process(std::string input) {
@@ -84,7 +83,6 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
         Database::insertVariable(variableName, stmtNo, "modify", procedureName);
         // process expression
         processExp(expression, stmtNo, procedureName);
-        vars.clear();
         // insert assignemnt into DB
         std::string expStr = "(" + expression->toString() + ")";
         Database::insertAssignment(stmtNo, variableName, expStr);
@@ -100,7 +98,6 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
         ConExpNode* conExpNode = static_cast<ConExpNode*>(whileNode->getConExp());
         // process condition expression
         processExp(conExpNode, stmtNo, procedureName);
-        vars.clear();
         // get statement list from while node
         std::vector<StatementNode*> whileStatements = whileNode->getStatements();
         // process next relation
@@ -121,7 +118,6 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
         ConExpNode* conExpNode = static_cast<ConExpNode*>(ifNode->getConExp());
         // process condition expression
         processExp(conExpNode, stmtNo, procedureName);
-        vars.clear();
         // get statement list from if node
         std::vector<StatementNode*> ifStatements = ifNode->getIfStatements();
         // process next relation
@@ -153,11 +149,8 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
 
 void processExp(ExpressionNode* expression, uint32_t stmtNo, std::string procedureName) {
     if (expression != NULL) {
-
-        std::string var = static_cast<VariableFactor*>(expression)->getVariableName();
-        auto itVars = vars.find(var);
-        if (itVars == vars.end()) { // not declared
-            vars.insert(var);
+        std::vector<std::string> vars = expression->getVariables();
+        for (std::string var : vars) {
             Database::insertVariable(var, stmtNo, "use", procedureName);
         }
 

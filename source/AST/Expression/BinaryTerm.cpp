@@ -15,6 +15,10 @@ std::string BinaryTerm::toString() const {
     return std::format("({} {} {})", left->toString(), op, right->toString());
 }
 
+std::vector<std::string> BinaryTerm::getVariables() const {
+    return ExpressionNode::getVariables({ left, right });
+}
+
 std::string BinaryTerm::getOperator() const {
     return this->op;
 }

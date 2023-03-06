@@ -1,5 +1,6 @@
 #include "BinaryExpression.h"
 #include <format>
+#include <set>
 
 const std::string& BinaryExpression::nodeType = "BinaryExpression";
 
@@ -13,6 +14,10 @@ BinaryExpression::~BinaryExpression() {
 
 std::string BinaryExpression::toString() const {
     return std::format("({} {} {})", left->toString(), op, right->toString());
+}
+
+std::vector<std::string> BinaryExpression::getVariables() const {
+    return ExpressionNode::getVariables({ left, right });
 }
 
 std::string BinaryExpression::getOperator() const {

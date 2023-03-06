@@ -9,6 +9,7 @@ public:
     explicit BinaryTerm(const std::string& op, Factor* left, Factor* right);
     ~BinaryTerm() override;
     std::string toString() const override;
+    std::vector<std::string> getVariables() const override;
     std::string getOperator() const;
     Factor* getLeft() const;
     Factor* getRight() const;
