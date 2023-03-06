@@ -47,6 +47,8 @@ namespace ExpressionParserTests
 
                 {"x * (a + b) + c", "(((x) * ((a) + (b))) + (c))"},
                 {"(((x) * ((a) + (b))) + (c))", "(((x) * ((a) + (b))) + (c))"},
+
+                {"a * (b*c)*d/4+(n-k)%m", "(((((a) * ((b) * (c))) * (d)) / (4)) + (((n) - (k)) % (m)))"}
             };
 
             // test cases

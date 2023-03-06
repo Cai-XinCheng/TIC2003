@@ -1,12 +1,15 @@
 #include "SourceProcessor.h"
 #include "./AST/ASTNode.h"
 #include "./AST/SIMPLE/ProgramParser.h"
+#include "AST/Expression/VariableFactor.h"
+#include "AST/Expression/ConstFactor.h"
+#include "AST/Expression/BinaryExpression.h"
 #include <stack>
 #include <iostream>
 
 void processProcedure(ProcedureNode procedureNode);
 void processStatement(int i, const std::string& procedureName, std::vector<StatementNode*> statements, uint32_t nextStmtNo);
-void processExp(ExpNode* expression, uint32_t stmtNo, std::string procedureName);
+void processExp(ExpressionNode* expression, uint32_t stmtNo, std::string procedureName);
 
 std::set<uint32_t> cons;
 std::set<std::string> vars;
@@ -76,7 +79,7 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
     else if (stmtType == "assign") {
         AssignNode* assignNode = static_cast<AssignNode*>(stmtNode);
         std::string variableName = assignNode->getVariableName();
-        ExpNode* expression = assignNode->getExpression();
+        ExpressionNode* expression = assignNode->getExpression();
         // insert LHS variable into DB
         Database::insertVariable(variableName, stmtNo, "modify", procedureName);
         // process expression
@@ -148,27 +151,22 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
 }
 
 
-void processExp(ExpNode* expression, uint32_t stmtNo, std::string procedureName) {
+void processExp(ExpressionNode* expression, uint32_t stmtNo, std::string procedureName) {
     if (expression != NULL) {
-        if (typeid(*expression) == typeid(VarNode)) {
-            std::string var = static_cast<VarNode*>(expression)->getVariableName();
-            auto itVars = vars.find(var);
-            if (itVars == vars.end()) { // not declared
-                vars.insert(var);
-                Database::insertVariable(var, stmtNo, "use", procedureName);
-            }
+
+        std::string var = static_cast<VariableFactor*>(expression)->getVariableName();
+        auto itVars = vars.find(var);
+        if (itVars == vars.end()) { // not declared
+            vars.insert(var);
+            Database::insertVariable(var, stmtNo, "use", procedureName);
         }
-        else if (typeid(*expression) == typeid(ConstNode)) {
-            uint32_t value = static_cast<ConstNode*>(expression)->getValue();
-            auto itCons = cons.find(value);
-            if (itCons == cons.end()) { // not declared
-                cons.insert(value);
-                Database::insertConstant(static_cast<int64_t>(value));
-            }
-        }
-        else {
-            processExp(expression->ExpNode::getLhs(), stmtNo, procedureName);
-            processExp(expression->ExpNode::getRhs(), stmtNo, procedureName);
+
+
+        int64_t value = static_cast<ConstFactor*>(expression)->getValue();
+        auto itCons = cons.find(value);
+        if (itCons == cons.end()) { // not declared
+            cons.insert(value);
+            Database::insertConstant(static_cast<int64_t>(value));
         }
     }
 }

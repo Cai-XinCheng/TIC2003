@@ -17,9 +17,6 @@ public:
     WhileNode* parseWhile();
     IfNode* parseIf();
     CallNode* parseCall();
-    ExpNode* parseExp();
-    ExpNode* parseFactor();
-    ExpNode* parseTerm();
 private:
     uint32_t stmtNo = 1;
     unsigned int i = 0;

@@ -5,7 +5,6 @@
 class ASTNode {
 public:
     explicit ASTNode(const std::string& type);
-    explicit ASTNode() {};
     virtual std::string toString() const;
     std::string getType() const;
 protected:

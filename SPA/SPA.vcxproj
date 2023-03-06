@@ -26,7 +26,6 @@
     <ClCompile Include="..\source\AST\PQL\PatternClause.cpp" />
     <ClCompile Include="..\source\AST\PQL\SelectClause.cpp" />
     <ClCompile Include="..\source\AST\PQL\SuchThatClause.cpp" />
-    <ClCompile Include="..\source\AST\SIMPLE\ExpNode.cpp" />
     <ClCompile Include="..\source\AST\SIMPLE\Program.cpp" />
     <ClCompile Include="..\source\AST\SIMPLE\ProgramParser.cpp" />
     <ClCompile Include="..\source\AST\SIMPLE\StatementNode.cpp" />
@@ -55,7 +54,6 @@
     <ClInclude Include="..\source\AST\PQL\PatternClause.h" />
     <ClInclude Include="..\source\AST\PQL\SelectClause.h" />
     <ClInclude Include="..\source\AST\PQL\SuchThatClause.h" />
-    <ClInclude Include="..\source\AST\SIMPLE\ExpNode.h" />
     <ClInclude Include="..\source\AST\SIMPLE\Program.h" />
     <ClInclude Include="..\source\AST\SIMPLE\ProgramParser.h" />
     <ClInclude Include="..\source\AST\SIMPLE\StatementNode.h" />
