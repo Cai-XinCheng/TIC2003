@@ -3,12 +3,13 @@
 
 const std::string& BinaryTerm::nodeType = "BinaryTerm";
 
-BinaryTerm::BinaryTerm(const std::string& op, Factor* left, Factor* right) : Term(nodeType), op(op), left(left), right(right) {
+BinaryTerm::BinaryTerm(const std::string& op, const Factor* left, const Factor* right)
+    : Term(nodeType), op(op), left(left), right(right) {
 }
 
 BinaryTerm::~BinaryTerm() {
-    //delete left;
-    //delete right;
+    delete left;
+    delete right;
 }
 
 std::string BinaryTerm::toString() const {
@@ -27,10 +28,10 @@ std::string BinaryTerm::getOperator() const {
     return this->op;
 }
 
-Factor* BinaryTerm::getLeft() const {
+const Factor* BinaryTerm::getLeft() const {
     return this->left;
 }
 
-Factor* BinaryTerm::getRight() const {
+const Factor* BinaryTerm::getRight() const {
     return this->right;
 }

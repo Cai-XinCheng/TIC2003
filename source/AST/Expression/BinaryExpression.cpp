@@ -4,12 +4,13 @@
 
 const std::string& BinaryExpression::nodeType = "BinaryExpression";
 
-BinaryExpression::BinaryExpression(const std::string& op, Factor* left, Factor* right) : Expression(nodeType), op(op), left(left), right(right) {
+BinaryExpression::BinaryExpression(const std::string& op, const Factor* left, const Factor* right)
+    : Expression(nodeType), op(op), left(left), right(right) {
 }
 
 BinaryExpression::~BinaryExpression() {
-    //delete left;
-    //delete right;
+    delete left;
+    delete right;
 }
 
 std::string BinaryExpression::toString() const {
@@ -28,10 +29,10 @@ std::string BinaryExpression::getOperator() const {
     return this->op;
 }
 
-Factor* BinaryExpression::getLeft() const {
+const Factor* BinaryExpression::getLeft() const {
     return this->left;
 }
 
-Factor* BinaryExpression::getRight() const {
+const Factor* BinaryExpression::getRight() const {
     return this->right;
 }

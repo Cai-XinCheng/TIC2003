@@ -7,11 +7,11 @@
 class ExpressionFactor : public Factor {
 public:
     static const std::string& nodeType;
-    explicit ExpressionFactor(Expression* expression);
+    explicit ExpressionFactor(const Expression* expression);
     ~ExpressionFactor() override;
     std::string toString() const override;
-    Expression* getExpression() const;
+    const Expression* getExpression() const;
 
 private:
-    Expression* expression;
+    const Expression* expression;
 };

@@ -1,0 +1,23 @@
+#include "AssignNode.h"
+#include <format>
+
+const std::string& AssignNode::type = "assign";
+
+AssignNode::AssignNode(const uint32_t& stmtNo, const std::string& variableName, const ExpressionNode* expression)
+    : StatementNode(stmtNo, type), variableName(variableName), expression(expression) {}
+
+AssignNode::~AssignNode() {
+    delete expression;
+}
+
+std::string AssignNode::toString() const {
+    return std::format("{} = {};\n", variableName, expression->toString());
+}
+
+std::string AssignNode::getVariableName() const {
+    return this->variableName;
+}
+
+const ExpressionNode* AssignNode::getExpression() const {
+    return this->expression;
+}
