@@ -70,7 +70,7 @@ namespace ExpressionParserTests
 
             // parse the AST
             ExpressionParser parser;
-            ExpressionNode* expressionNode = parser.parse(tokens);
+            const ExpressionNode* expressionNode = parser.parse(tokens);
 
             try {
                 expression = expressionNode->toString();
