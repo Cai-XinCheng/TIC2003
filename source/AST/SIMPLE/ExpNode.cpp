@@ -2,7 +2,6 @@
 #include <format>
 #include <string>
 
-
 std::string ExpNode::toString() const {
     std::string res = std::format("{}", lhs->toString());
     if (rhs != NULL) {

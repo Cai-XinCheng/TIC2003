@@ -1,18 +1,7 @@
 #include "SourceProcessor.h"
-#include "./AST/ASTNode.h"
-#include "./AST/SIMPLE/ProgramParser.h"
-#include "AST/Expression/VariableFactor.h"
-#include "AST/Expression/ConstFactor.h"
-#include "AST/Expression/BinaryExpression.h"
+#include "ProgramParser.h"
 #include <stack>
 #include <iostream>
-
-void processProcedure(ProcedureNode procedureNode);
-void processStatement(int i, const std::string& procedureName, std::vector<StatementNode*> statements, uint32_t nextStmtNo);
-void processExp(ExpressionNode* expression, uint32_t stmtNo, std::string procedureName);
-
-std::set<int64_t> cons;
-std::stack<StatementNode*> parent;
 
 void SourceProcessor::process(std::string input) {
     // tokenize the program
@@ -28,25 +17,25 @@ void SourceProcessor::process(std::string input) {
 	Database::initialize();    
     
     // get procedure list from AST
-    std::vector<ProcedureNode> procedures = program.getProcedures();
-    for (auto& procedure : procedures) {
+    std::vector<const ProcedureNode*> procedures = program.getProcedures();
+    for (const ProcedureNode* procedure : procedures) {
         processProcedure(procedure);
     }
 }
 
-void processProcedure(ProcedureNode procedureNode) {
-    std::string procedureName = procedureNode.getProcedureName();
+void SourceProcessor::processProcedure(const ProcedureNode* procedureNode) {
+    std::string procedureName = procedureNode->getProcedureName();
     Database::insertProcedure(procedureName);
     // get statement linked list
-    std::vector<StatementNode*> statements = procedureNode.getStatements();
+    std::vector<const StatementNode*> statements = procedureNode->getStatements();
     for (unsigned int i = 0; i < statements.size(); i++) {
         processStatement(i, procedureName, statements, 0);
     }
 }
 
-void processStatement(int i,const std::string& procedureName, std::vector<StatementNode*> statements, uint32_t nextStmtNo) {
-    std::string stmtType = statements.at(i)->getStmtType();
-    StatementNode* stmtNode = statements.at(i)->getStmtNode();
+void SourceProcessor::processStatement(const int& i, const std::string& procedureName, const std::vector<const StatementNode*>& statements, const uint32_t& nextStmtNo) {
+    std::string stmtType = statements.at(i)->getType();
+    const StatementNode* stmtNode = statements.at(i);
     uint32_t stmtNo = statements.at(i)->getStmtNo();
     Database::insertStatement(stmtNo, stmtType);
 
@@ -66,17 +55,17 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
 
     // process statement in different cases
     if (stmtType == "read") {
-        std::string variableName = static_cast<ReadNode*>(stmtNode)->getVariableName();
+        std::string variableName = static_cast<const ReadNode*>(stmtNode)->getVariableName();
         Database::insertVariable(variableName, stmtNo, "modify", procedureName);
     }
     else if (stmtType == "print") {
-        std::string variableName = static_cast<PrintNode*>(stmtNode)->getVariableName();
+        std::string variableName = static_cast<const PrintNode*>(stmtNode)->getVariableName();
         Database::insertVariable(variableName, stmtNo, "use", procedureName);
     }
     else if (stmtType == "assign") {
-        AssignNode* assignNode = static_cast<AssignNode*>(stmtNode);
+        const auto* assignNode = static_cast<const AssignNode*>(stmtNode);
         std::string variableName = assignNode->getVariableName();
-        ExpressionNode* expression = assignNode->getExpression();
+        const ExpressionNode* expression = assignNode->getExpression();
         // insert LHS variable into DB
         Database::insertVariable(variableName, stmtNo, "modify", procedureName);
         // process expression
@@ -87,17 +76,17 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
 
     }
     else if (stmtType == "call") {
-        std::string calleeName = static_cast<CallNode*>(stmtNode)->getProcedureName();
+        std::string calleeName = static_cast<const CallNode*>(stmtNode)->getProcedureName();
         Database::insertCall(stmtNo, procedureName, calleeName);
     }
     else if (stmtType == "while") {
-        WhileNode* whileNode = static_cast<WhileNode*>(stmtNode);
+        const WhileNode* whileNode = static_cast<const WhileNode*>(stmtNode);
         parent.push(whileNode);
-        ConExpNode* conExpNode = static_cast<ConExpNode*>(whileNode->getConExp());
+        const ConExpNode* conExpNode = static_cast<const ConExpNode*>(whileNode->getConExp());
         // process condition expression
         processExp(conExpNode, stmtNo, procedureName);
         // get statement list from while node
-        std::vector<StatementNode*> whileStatements = whileNode->getStatements();
+        std::vector<const StatementNode*> whileStatements = whileNode->getStatements();
         // process next relation
         if (whileStatements.size() > 0) {
             Database::insertNext(stmtNo, stmtNo + 1);
@@ -108,7 +97,7 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
         parent.pop();
     }
     else if (stmtType == "if") {
-        IfNode* ifNode = static_cast<IfNode*>(stmtNode);
+        const IfNode* ifNode = static_cast<const IfNode*>(stmtNode);
         parent.push(ifNode);
         // store next stmtNo of if node
         uint32_t nextStmt = nextStmtNo;
@@ -116,11 +105,11 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
             nextStmt = statements.at(i + 1)->getStmtNo();
         }
 
-        ConExpNode* conExpNode = static_cast<ConExpNode*>(ifNode->getConExp());
+        const ConExpNode* conExpNode = static_cast<const ConExpNode*>(ifNode->getConExp());
         // process condition expression
         processExp(conExpNode, stmtNo, procedureName);
         // get statement list from if node
-        std::vector<StatementNode*> ifStatements = ifNode->getIfStatements();
+        std::vector<const StatementNode*> ifStatements = ifNode->getIfStatements();
         // process next relation
         if (ifStatements.size() > 0) {
             Database::insertNext(stmtNo, stmtNo + 1);
@@ -128,7 +117,7 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
         for (unsigned int i = 0; i < ifStatements.size(); i++) {
             processStatement(i, procedureName, ifStatements, nextStmt);
         }
-        std::vector<StatementNode*> elseStatements = ifNode->getElseStatements();
+        std::vector<const StatementNode*> elseStatements = ifNode->getElseStatements();
         // process next relation
         if (elseStatements.size() > 0) {
             Database::insertNext(stmtNo, elseStatements.at(0)->getStmtNo());
@@ -148,22 +137,21 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
 }
 
 
-void processExp(ExpressionNode* expression, uint32_t stmtNo, std::string procedureName) {
-    if (expression != NULL) {
+void SourceProcessor::processExp(const ExpressionNode* expression, const uint32_t& stmtNo, const std::string& procedureName) {
+    if (expression != nullptr) {
         std::vector<std::string> vars = expression->getVariables();
-        for (std::string var : vars) {
+        for (const std::string& var : vars) {
             Database::insertVariable(var, stmtNo, "use", procedureName);
         }
 
 
         std::vector<int64_t> constants = expression->getConstants();
-        for (int64_t con : constants) {
+        for (const int64_t& con : constants) {
             auto itCons = cons.find(con);
             if (itCons == cons.end()) { // not declared
                 cons.insert(con);
-                Database::insertConstant(static_cast<int64_t>(con));
+                Database::insertConstant(con);
             }
         }
     }
 }
-

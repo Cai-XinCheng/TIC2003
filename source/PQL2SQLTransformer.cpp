@@ -176,7 +176,7 @@ std::string PQL2SQLTransformer::transformPattern(const PatternClause* pattern, c
 
         // parse the AST
         ExpressionParser parser;
-        ExpressionNode* expressionNode = parser.parse(tokens);
+        const ExpressionNode* expressionNode = parser.parse(tokens);
 
         // normalized expression
         std::string normalizedStringContent;

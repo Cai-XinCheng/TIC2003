@@ -175,6 +175,7 @@
     <ClCompile Include="TestHelper.cpp" />
     <ClCompile Include="TestPQL2SQLTransformer.cpp" />
     <ClCompile Include="TestPQLParser.cpp" />
+    <ClCompile Include="TestProgramParser.cpp" />
     <ClCompile Include="TestSPA.cpp" />
     <ClCompile Include="TestTokenizer.cpp" />
   </ItemGroup>

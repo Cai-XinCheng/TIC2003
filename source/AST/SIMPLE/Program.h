@@ -1,32 +1,15 @@
 #pragma once
 
-#include "../ASTNode.h"
-#include "StatementNode.h"
-#include <vector>
-#include <string>
-
-class ProcedureNode;
+#include "ProcedureNode.h"
 
 class Program : public ASTNode {
 public:
-    explicit Program(std::vector<ProcedureNode>& procedures);
-    std::string toString() const override;
-    std::vector<ProcedureNode> getProcedures() { return procedures; }
     static const std::string& type;
-private:
-    std::vector<ProcedureNode> procedures;
-};
-
-
-class ProcedureNode : public ASTNode {
-public:
-    explicit ProcedureNode(const std::string& name, std::vector<StatementNode*>& statements);
-    ~ProcedureNode();
+    explicit Program(const std::vector<const ProcedureNode*>& procedures);
+    ~Program() override;
     std::string toString() const override;
-    std::string getProcedureName() { return procedureName; }
-    std::vector<StatementNode*> getStatements() { return statements; }
-    static const std::string& type;
+    std::vector<const ProcedureNode*> getProcedures() const;
+
 private:
-    std::string procedureName;
-    std::vector<StatementNode*> statements;
+    std::vector<const ProcedureNode*> procedures;
 };

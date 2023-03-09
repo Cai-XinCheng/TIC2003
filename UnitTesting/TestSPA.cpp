@@ -782,33 +782,33 @@ namespace SPATests
                   call printResults;
                 }
                 procedure readPoint {
-                    read x;
-                    read y;
+                  read x;
+                  read y;
                 }
                 procedure printResults {
-                    print flag;
-                    print cenX;
-                    print cenY;
-                    print normSq;
+                  print flag;
+                  print cenX;
+                  print cenY;
+                  print normSq;
                 }
                 procedure computeCentroid {
-                    count = 0;
-                    cenX = 0;
-                    cenY = 0;
+                  count = 0;
+                  cenX = 0;
+                  cenY = 0;
+                  call readPoint;
+                  while ((x * x + y * y) != 0) {
+                    count = count + 1;
+                    cenX = cenX + x;
+                    cenY = cenY + y;
                     call readPoint;
-                    while ((x * x + y * y) != 0) {
-                        count = count + 1;
-                        cenX = cenX + x;
-                        cenY = cenY + y;
-                        call readPoint;
-                    }
-                    if (count == 0) then {
-                        flag = 1;
-                    } else {
-                        cenX = cenX / count;
-                        cenY = cenY / count;
-                    }
-                    normSq = cenX * cenX + cenY * cenY;
+                  }
+                  if (count == 0) then {
+                    flag = 1;
+                  } else {
+                    cenX = cenX / count;
+                    cenY = cenY / count;
+                  }
+                  normSq = cenX * cenX + cenY * cenY;
                 }
             )";
             initializeSource(source);
@@ -822,24 +822,24 @@ namespace SPATests
                 call Second; }
 
                 procedure Second {
-                    x = 0;
-                    i = 5;
-                    while (i != 0) {
-                        x = x + 2 * y;
-                        call Third;
-                        i = i - 1; }
-                    if (x == 1) then {
-                        x = x+1; }
-                    else {
-                        z = 1; }
-                    z = z + x + i;
-                    y = z + 2;
-                    x = x * y + z; }
+                  x = 0;
+                  i = 5;
+                  while (i != 0) {
+                    x = x + 2 * y;
+                    call Third;
+                    i = i - 1; }
+                  if (x == 1) then {
+                    x = x+1; }
+                  else {
+                    z = 1; }
+                  z = z + x + i;
+                  y = z + 2;
+                  x = x * y + z; }
 
                 procedure Third {
-                    z = 5;
-                    v = z;
-                    print v; }
+                  z = 5;
+                  v = z;
+                  print v; }
             )";
             initializeSource(source);
         }

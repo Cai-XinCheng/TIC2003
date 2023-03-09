@@ -1,14 +1,11 @@
 #include "ProgramParser.h"
-#include "../../ExpressionParser.h"
-#include "../Expression/BinaryExpression.h"
 #include <iostream>
 
-
-ExpressionParser ep;
-
+ProgramParser::ProgramParser(const std::vector<std::string>& tokens) : tokens(tokens) {
+}
 
 Program ProgramParser::parse() {
-    std::vector<ProcedureNode> procedures;
+    std::vector<const ProcedureNode*> procedures;
     while (i < tokens.size()) {
         std::string token = tokens.at(i);
         if (token == "procedure") {
@@ -19,66 +16,60 @@ Program ProgramParser::parse() {
 }
 
 // function is called when "procedure" is read
-ProcedureNode ProgramParser::parseProcedure() {
+const ProcedureNode* ProgramParser::parseProcedure() {
     i++; // "procedure"
     std::string procedureName = tokens.at(i++);
     i++; // "{"
-    std::vector<StatementNode*> statements;
+    std::vector<const StatementNode*> statements;
     // read each statement untill end of procedure
     while (tokens.at(i) != "}") {
-        StatementNode* statement = parseStatement();
+        const StatementNode* statement = parseStatement("  ");
         statements.push_back(statement);
     }
     i++; // "}"
-    return ProcedureNode(procedureName, statements);
+    return new ProcedureNode(procedureName, statements);
 }
 
-StatementNode* ProgramParser::parseStatement() {
+const StatementNode* ProgramParser::parseStatement(const std::string& indentation) {
     std::string stmtType = tokens.at(i);
-    StatementNode* statementNode = new StatementNode(stmtNo);
-    StatementNode* stmtNode;
     if (stmtType == "read") {
-        stmtNode = parseRead();
+        return parseRead(indentation);
     }
     else if (stmtType == "print") {
-        stmtNode = parsePrint();
+        return parsePrint(indentation);
     }
     else if (stmtType == "while") {
-        stmtNode = parseWhile();
+        return parseWhile(indentation);
     }
     else if (stmtType == "if") {
-        stmtNode = parseIf();
+        return parseIf(indentation);
     }
     else if (stmtType == "call") {
-        stmtNode = parseCall();
+        return parseCall(indentation);
     }
     else if (isalpha(stmtType[0])) { // assign
-        stmtType = "assign";
-        stmtNode = parseAssign();
+        return parseAssign(indentation);
     }
     else {
         throw std::invalid_argument("ProgramParser: invalid statement type");
     }
-    statementNode->setStmtType(stmtType);
-    statementNode->setStatementNode(stmtNode);
-    return statementNode;
 }
 
-ReadNode* ProgramParser::parseRead() {
+const ReadNode* ProgramParser::parseRead(const std::string& indentation) {
     i++; // "read"
     std::string variableName = tokens.at(i++);
     i++; // ";"
-    return new ReadNode(stmtNo++, variableName);
+    return new ReadNode(stmtNo++, variableName, indentation);
 }
 
-PrintNode* ProgramParser::parsePrint() {
+const PrintNode* ProgramParser::parsePrint(const std::string& indentation) {
     i++; // "print"
     std::string variableName = tokens.at(i++);
     i++; // ";"
-    return new PrintNode(stmtNo++, variableName);
+    return new PrintNode(stmtNo++, variableName, indentation);
 }
 
-AssignNode* ProgramParser::parseAssign() {
+const AssignNode* ProgramParser::parseAssign(const std::string& indentation) {
     // variable
     std::string variableName = tokens.at(i++);
     i++; // "="
@@ -92,13 +83,13 @@ AssignNode* ProgramParser::parseAssign() {
         i++;
     } while (tempToken != ";");
     tempTokens.pop_back();
-    ExpressionNode* exp = ep.parse(tempTokens);
+    const ExpressionNode* exp = ep.parse(tempTokens);
     i--;
     i++; // ";"
-    return new AssignNode(stmtNo++, variableName, exp);
+    return new AssignNode(stmtNo++, variableName, exp, indentation);
 }
 
-WhileNode* ProgramParser::parseWhile() {
+const WhileNode* ProgramParser::parseWhile(const std::string& indentation) {
     i++; // "while"
     i++; // "("
 
@@ -119,7 +110,7 @@ WhileNode* ProgramParser::parseWhile() {
         && tempToken != "==");
     tempTokens.pop_back();
     i--;
-    ExpressionNode* lhs = ep.parse(tempTokens);
+    const ExpressionNode* lhs = ep.parse(tempTokens);
     std::string op = tokens.at(i++);
     tempTokens.clear();
     do {
@@ -129,25 +120,24 @@ WhileNode* ProgramParser::parseWhile() {
     } while (tempToken != ")");
     tempTokens.pop_back();
     i--;
-    ExpressionNode* rhs = ep.parse(tempTokens);
-    ExpressionNode* conExp = new ConExpNode(op, lhs, rhs);
+    const ExpressionNode* rhs = ep.parse(tempTokens);
+    const ExpressionNode* conExp = new ConExpNode(op, lhs, rhs);
     i++; // ")"
 
     i++; // "{"
-    WhileNode* whileNode = new WhileNode(stmtNo++, conExp);
+    uint32_t whileNodeStmtNo = stmtNo++;
     // parse while body
-    std::vector<StatementNode*> statements;
+    std::vector<const StatementNode*> statements;
     while (tokens.at(i) != "}") {
-        StatementNode* statement = parseStatement();
+        const StatementNode* statement = parseStatement(indentation + "  ");
         statements.push_back(statement);
     }
 
     i++; // "}"
-    whileNode->setStatements(statements);
-    return whileNode;
+    return new WhileNode(whileNodeStmtNo, conExp, statements, indentation);
 }
 
-IfNode* ProgramParser::parseIf() {
+const IfNode* ProgramParser::parseIf(const std::string& indentation) {
     i++; // "if"
     i++; // "("
     // parse condition expression
@@ -167,7 +157,7 @@ IfNode* ProgramParser::parseIf() {
         && tempToken != "==");
     tempTokens.pop_back();
     i--;
-    ExpressionNode* lhs = ep.parse(tempTokens);
+    const ExpressionNode* lhs = ep.parse(tempTokens);
     std::string op = tokens.at(i++);
     tempTokens.clear();
     do {
@@ -177,17 +167,17 @@ IfNode* ProgramParser::parseIf() {
     } while (tempToken != ")");
     tempTokens.pop_back();
     i--;
-    ExpressionNode* rhs = ep.parse(tempTokens);
-    ExpressionNode* conExp = new ConExpNode(op, lhs, rhs);
+    const ExpressionNode* rhs = ep.parse(tempTokens);
+    const ExpressionNode* conExp = new ConExpNode(op, lhs, rhs);
     i++; // ")"
     i++; // "then"
     i++; // "{"
-    IfNode* ifNode = new IfNode(stmtNo++, conExp);
+    uint32_t ifNodeStmtNo = stmtNo++;
     // parse if body
-    std::vector<StatementNode*> ifStatements;
-    std::vector<StatementNode*> elseStatements;
+    std::vector<const StatementNode*> ifStatements;
+    std::vector<const StatementNode*> elseStatements;
     while (tokens.at(i) != "}") {
-        StatementNode* statement = parseStatement();
+        const StatementNode* statement = parseStatement(indentation + "  ");
         ifStatements.push_back(statement);
     }
     i++; // "}"
@@ -195,19 +185,16 @@ IfNode* ProgramParser::parseIf() {
     i++; // "{"
     // parse else body
     while (tokens.at(i) != "}") {
-        StatementNode* statement = parseStatement();
+        const StatementNode* statement = parseStatement(indentation + "  ");
         elseStatements.push_back(statement);
     }
     i++; // "}"
-    ifNode->setIfStatements(ifStatements);
-    ifNode->setElseStatements(elseStatements);
-    return ifNode;
+    return new IfNode(ifNodeStmtNo, conExp, ifStatements, elseStatements, indentation);
 }
 
-CallNode* ProgramParser::parseCall() {
+const CallNode* ProgramParser::parseCall(const std::string& indentation) {
     i++; // "call"
     std::string procedureName = tokens.at(i++);
     i++; // ";"
-    return new CallNode(stmtNo++, procedureName);
+    return new CallNode(stmtNo++, procedureName, indentation);
 }
-

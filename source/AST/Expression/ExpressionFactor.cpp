@@ -3,7 +3,7 @@
 
 const std::string& ExpressionFactor::nodeType = "ExpressionFactor";
 
-ExpressionFactor::ExpressionFactor(Expression* expression) : Factor(nodeType), expression(expression) {
+ExpressionFactor::ExpressionFactor(const Expression* expression) : Factor(nodeType), expression(expression) {
 }
 
 ExpressionFactor::~ExpressionFactor() {
@@ -14,6 +14,6 @@ std::string ExpressionFactor::toString() const {
     return std::format("({})", expression->toString());
 }
 
-Expression* ExpressionFactor::getExpression() const {
+const Expression* ExpressionFactor::getExpression() const {
     return this->expression;
 }
