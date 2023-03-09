@@ -10,7 +10,7 @@ namespace TokenizerTests
     {
     public:
         // Each test method is a separate test case. The name should be unique and meaningful.
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ1) 
+        TEST_METHOD(CheckTokenizeQuery_ExampleQ01) 
         {
             // create the input string
             std::string testInput = R"(
@@ -36,7 +36,7 @@ namespace TokenizerTests
             // and hence the assertion would be true.
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ2)
+        TEST_METHOD(CheckTokenizeQuery_ExampleQ02)
         {
             // create the input string
             std::string testInput = R"(
@@ -59,7 +59,7 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ3)
+        TEST_METHOD(CheckTokenizeQuery_ExampleQ03)
         {
             // create the input string
             std::string testInput = R"(
@@ -82,7 +82,7 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ4)
+        TEST_METHOD(CheckTokenizeQuery_ExampleQ04)
         {
             // create the input string
             std::string testInput = R"(
@@ -105,7 +105,7 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ5)
+        TEST_METHOD(CheckTokenizeQuery_ExampleQ05)
         {
             // create the input string
             std::string testInput = R"(
@@ -128,7 +128,7 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ6)
+        TEST_METHOD(CheckTokenizeQuery_ExampleQ06)
         {
             // create the input string
             std::string testInput = R"(
@@ -151,7 +151,7 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ7)
+        TEST_METHOD(CheckTokenizeQuery_ExampleQ07)
         {
             // create the input string
             std::string testInput = R"(
@@ -174,7 +174,7 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ8)
+        TEST_METHOD(CheckTokenizeQuery_ExampleQ08)
         {
             // create the input string
             std::string testInput = R"(
@@ -197,7 +197,7 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ9)
+        TEST_METHOD(CheckTokenizeQuery_ExampleQ09)
         {
             // create the input string
             std::string testInput = R"(
@@ -220,7 +220,7 @@ namespace TokenizerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTokenizeQuery_ExampleQ10)
+        TEST_METHOD(CheckTokenizeQuery_ExampleQ010)
         {
             // create the input string
             std::string testInput = R"(

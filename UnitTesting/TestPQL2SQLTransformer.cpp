@@ -12,7 +12,7 @@ namespace PQL2SQLTransformerTests
     {
     public:
         // Each test method is a separate test case. The name should be unique and meaningful.
-        TEST_METHOD(CheckTransformQuery_ExampleQ1)
+        TEST_METHOD(CheckTransformQuery_ExampleQ01)
         {
             // create the input string
             std::string testInput = R"(
@@ -40,7 +40,7 @@ namespace PQL2SQLTransformerTests
             // and hence the assertion would be true.
         }
 
-        TEST_METHOD(CheckTransformQuery_ExampleQ2)
+        TEST_METHOD(CheckTransformQuery_ExampleQ02)
         {
             // create the input string
             std::string testInput = R"(
@@ -65,7 +65,7 @@ namespace PQL2SQLTransformerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTransformQuery_ExampleQ3)
+        TEST_METHOD(CheckTransformQuery_ExampleQ03)
         {
             // create the input string
             std::string testInput = R"(
@@ -90,7 +90,7 @@ namespace PQL2SQLTransformerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTransformQuery_ExampleQ4)
+        TEST_METHOD(CheckTransformQuery_ExampleQ04)
         {
             // create the input string
             std::string testInput = R"(
@@ -115,7 +115,7 @@ namespace PQL2SQLTransformerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTransformQuery_ExampleQ5)
+        TEST_METHOD(CheckTransformQuery_ExampleQ05)
         {
             // create the input string
             std::string testInput = R"(
@@ -140,7 +140,7 @@ namespace PQL2SQLTransformerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTransformQuery_ExampleQ6)
+        TEST_METHOD(CheckTransformQuery_ExampleQ06)
         {
             // create the input string
             std::string testInput = R"(
@@ -165,7 +165,7 @@ namespace PQL2SQLTransformerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTransformQuery_ExampleQ7)
+        TEST_METHOD(CheckTransformQuery_ExampleQ07)
         {
             // create the input string
             std::string testInput = R"(
@@ -190,7 +190,7 @@ namespace PQL2SQLTransformerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTransformQuery_ExampleQ8)
+        TEST_METHOD(CheckTransformQuery_ExampleQ08)
         {
             // create the input string
             std::string testInput = R"(
@@ -215,7 +215,7 @@ namespace PQL2SQLTransformerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTransformQuery_ExampleQ9)
+        TEST_METHOD(CheckTransformQuery_ExampleQ09)
         {
             // create the input string
             std::string testInput = R"(
@@ -240,7 +240,7 @@ namespace PQL2SQLTransformerTests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckTransformQuery_ExampleQ10)
+        TEST_METHOD(CheckTransformQuery_ExampleQ010)
         {
             // create the input string
             std::string testInput = R"(

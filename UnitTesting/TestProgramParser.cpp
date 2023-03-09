@@ -185,6 +185,265 @@ procedure Third {
             // and hence the assertion would be true.
         }
 
+        TEST_METHOD(CheckParseSource_Simple1)
+        {
+            // create the input string
+            std::string testInput = R"(
+                procedure p1 {
+                  read var1;
+                  read var2;
+                  call read;
+                  while ((a + b) * c + d / (e - f) % g > 0) {
+                    var1 = var1 + var2;
+                    print var1;
+                    if (var1 < var2) then {
+                      var1 = var1 + var1;
+                    } else {
+                      if (a <= b) then {
+                        a = a + c;
+                        call print;
+                        while (10 > b) {
+                          if (c < var1) then {} else {}
+                        }
+                      } else {}
+                    }
+                  }
+                  call print;
+                }
+                procedure read {
+                  read a;
+                  read b;
+                  read c;
+                  read d;
+                  read e;
+                  read f;
+                  read g;
+                }
+                procedure print {
+                  print a;
+                  print b;
+                  print var1;
+                  print var2;
+                }
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(testInput, testOutput);
+
+            // create the expected output string
+            std::string expectedOutput =
+R"(procedure p1 {
+  read var1;
+  read var2;
+  call read;
+  while (((((a) + (b)) * (c)) + (((d) / ((e) - (f))) % (g))) > (0)) {
+    var1 = ((var1) + (var2));
+    print var1;
+    if ((var1) < (var2)) then {
+      var1 = ((var1) + (var1));
+    } else {
+      if ((a) <= (b)) then {
+        a = ((a) + (c));
+        call print;
+        while ((10) > (b)) {
+          if ((c) < (var1)) then {
+          } else {
+          }
+        }
+      } else {
+      }
+    }
+  }
+  call print;
+}
+
+procedure read {
+  read a;
+  read b;
+  read c;
+  read d;
+  read e;
+  read f;
+  read g;
+}
+
+procedure print {
+  print a;
+  print b;
+  print var1;
+  print var2;
+}
+)";
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput, true);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+
+            // The test output should match with the expected output 
+            // and hence the assertion would be true.
+        }
+
+        TEST_METHOD(CheckParseSource_Simple2)
+        {
+            // create the input string
+            std::string testInput = R"(
+                procedure modify {
+                  call read;
+                  a = a + b / c;
+                  c = (b + c) / d;
+                  read var1;
+                  if (var1 < a + c) then {
+                    call print;
+                    var1 = var1;
+                  } else {}
+                  while ((b + c) <= (a - var1)) {
+                    call print;
+                  }
+                }
+                procedure read {
+                  read a;
+                  read b;
+                  read c;
+                  read d;
+                }
+                procedure print {
+                  call read;
+                  print a;
+                  print b;
+                }
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(testInput, testOutput);
+
+            // create the expected output string
+            std::string expectedOutput =
+R"(procedure modify {
+  call read;
+  a = ((a) + ((b) / (c)));
+  c = (((b) + (c)) / (d));
+  read var1;
+  if ((var1) < ((a) + (c))) then {
+    call print;
+    var1 = (var1);
+  } else {
+  }
+  while (((b) + (c)) <= ((a) - (var1))) {
+    call print;
+  }
+}
+
+procedure read {
+  read a;
+  read b;
+  read c;
+  read d;
+}
+
+procedure print {
+  call read;
+  print a;
+  print b;
+}
+)";
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput, true);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+
+            // The test output should match with the expected output 
+            // and hence the assertion would be true.
+        }
+
+        TEST_METHOD(CheckParseSource_Simple3)
+        {
+            // create the input string
+            std::string testInput = R"(
+                procedure exp {
+                  call read;
+                  read var3;
+                  var3 = var1 + var2 / (a + b * c);
+                  var2 = (a - (b + c) % (a / (var1 + var2) - d) + b) / c;
+                  if (var2 != ((a - b) / (c + a * var1 * (var3 - d)))) then {
+                    print var2;
+                    print var1;
+                    var3 = a + 1;
+                    b = b + 1 + 2 + 3 + c / a;
+                    while ((va1 + var2) / d >= 1234) {}
+                  } else {
+                    var4 = 4321;
+                    while (var4 <= c / (a + b) % var1) {
+                      print var4;
+                    }
+                  }
+                  sum = a + b + (c - var1 * var2) % var3;
+                }
+                procedure read {
+                  read a;
+                  read b;
+                  read c;
+                  read d;
+                  read var1;
+                  read var2;
+                }
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(testInput, testOutput);
+
+            // create the expected output string
+            std::string expectedOutput =
+R"(procedure exp {
+  call read;
+  read var3;
+  var3 = ((var1) + ((var2) / ((a) + ((b) * (c)))));
+  var2 = ((((a) - (((b) + (c)) % (((a) / ((var1) + (var2))) - (d)))) + (b)) / (c));
+  if ((var2) != (((a) - (b)) / ((c) + (((a) * (var1)) * ((var3) - (d)))))) then {
+    print var2;
+    print var1;
+    var3 = ((a) + (1));
+    b = (((((b) + (1)) + (2)) + (3)) + ((c) / (a)));
+    while ((((va1) + (var2)) / (d)) >= (1234)) {
+    }
+  } else {
+    var4 = (4321);
+    while ((var4) <= (((c) / ((a) + (b))) % (var1))) {
+      print var4;
+    }
+  }
+  sum = (((a) + (b)) + (((c) - ((var1) * (var2))) % (var3)));
+}
+
+procedure read {
+  read a;
+  read b;
+  read c;
+  read d;
+  read var1;
+  read var2;
+}
+)";
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput, true);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+
+            // The test output should match with the expected output 
+            // and hence the assertion would be true.
+        }
+
         // Some private helper functions can be added below.
     private:
         // method to generate tokenized test output
