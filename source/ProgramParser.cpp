@@ -117,8 +117,10 @@ const WhileNode* ProgramParser::parseWhile(const std::string& indentation) {
         tempToken = tokens.at(i);
         tempTokens.push_back(tempToken);
         i++;
-    } while (tempToken != ")");
+    } while (tempToken != "{");
     tempTokens.pop_back();
+    tempToken.pop_back();
+    i--;
     i--;
     const ExpressionNode* rhs = ep.parse(tempTokens);
     const ExpressionNode* conExp = new ConExpNode(op, lhs, rhs);
@@ -164,8 +166,10 @@ const IfNode* ProgramParser::parseIf(const std::string& indentation) {
         tempToken = tokens.at(i);
         tempTokens.push_back(tempToken);
         i++;
-    } while (tempToken != ")");
+    } while (tempToken != "then");
     tempTokens.pop_back();
+    tempToken.pop_back();
+    i--;
     i--;
     const ExpressionNode* rhs = ep.parse(tempTokens);
     const ExpressionNode* conExp = new ConExpNode(op, lhs, rhs);
@@ -198,3 +202,4 @@ const CallNode* ProgramParser::parseCall(const std::string& indentation) {
     i++; // ";"
     return new CallNode(stmtNo++, procedureName, indentation);
 }
+
