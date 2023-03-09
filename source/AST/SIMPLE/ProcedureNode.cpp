@@ -12,7 +12,7 @@ ProcedureNode::~ProcedureNode() {
 }
 
 std::string ProcedureNode::toString() const {
-    std::string str = "procedure " + procedureName + "{\n";
+    std::string str = "procedure " + procedureName + " {\n";
     for (auto& stmt : statements) {
         str += stmt->toString();
     }

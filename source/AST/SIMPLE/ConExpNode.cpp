@@ -11,3 +11,7 @@ ConExpNode::~ConExpNode() {
     delete lhs;
     delete rhs;
 }
+
+std::string ConExpNode::toString() const {
+    return std::format("{} {} {}", lhs->toString(), operate, rhs->toString());
+}

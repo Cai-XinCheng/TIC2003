@@ -140,13 +140,13 @@ void SourceProcessor::processStatement(const int& i, const std::string& procedur
 void SourceProcessor::processExp(const ExpressionNode* expression, const uint32_t& stmtNo, const std::string& procedureName) {
     if (expression != nullptr) {
         std::vector<std::string> vars = expression->getVariables();
-        for (std::string var : vars) {
+        for (const std::string& var : vars) {
             Database::insertVariable(var, stmtNo, "use", procedureName);
         }
 
 
         std::vector<int64_t> constants = expression->getConstants();
-        for (int64_t con : constants) {
+        for (const int64_t& con : constants) {
             auto itCons = cons.find(con);
             if (itCons == cons.end()) { // not declared
                 cons.insert(con);

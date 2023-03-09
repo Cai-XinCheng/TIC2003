@@ -7,8 +7,9 @@ IfNode::IfNode(
     const uint32_t& stmtNo,
     const ExpressionNode* conExp,
     const std::vector<const StatementNode*>& ifStatements,
-    const std::vector<const StatementNode*>& elseStatements)
-    : StatementNode(stmtNo, type), conExp(conExp), ifStatements(ifStatements), elseStatements(elseStatements) {
+    const std::vector<const StatementNode*>& elseStatements,
+    const std::string& indentation)
+    : StatementNode(stmtNo, type, indentation), conExp(conExp), ifStatements(ifStatements), elseStatements(elseStatements) {
 }
 
 IfNode::~IfNode() {
@@ -22,15 +23,15 @@ IfNode::~IfNode() {
 }
 
 std::string IfNode::toString() const {
-    std::string str = "if (" + conExp->toString() + ") {\n";
+    std::string str = std::format("{}if ({}) then {{\n", this->getIndentation(), conExp->toString());
     for (auto& stmt : ifStatements) {
         str += stmt->toString();
     }
-    str += "} else {\n";
+    str += std::format("{}}} else {{\n", this->getIndentation());
     for (auto& stmt : elseStatements) {
         str += stmt->toString();
     }
-    str += "}\n";
+    str += std::format("{}}}\n", this->getIndentation());
     return str;
 }
 

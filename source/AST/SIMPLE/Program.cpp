@@ -12,11 +12,13 @@ Program::~Program() {
 }
 
 std:: string Program::toString() const {
-    std::string str = "=========================\n";
-    for (const ProcedureNode* procedure : this->procedures) {
-        str += procedure->toString();
+    std::string str = "";
+    for (size_t i = 0; i < procedures.size(); i++) {
+        if (i != 0) {
+            str += "\n";
+        }
+        str += procedures[i]->toString();
     }
-    str += "=========================\n";
     return str;
 }
 

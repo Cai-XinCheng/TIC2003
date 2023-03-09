@@ -8,7 +8,7 @@
 #include "AST/SIMPLE/IfNode.h"
 #include "AST/SIMPLE/CallNode.h"
 #include "AST/SIMPLE/ConExpNode.h"
-#include "ExpressionParser.h";
+#include "ExpressionParser.h"
 #include <vector>
 #include <string>
 
@@ -23,11 +23,11 @@ private:
     std::vector<std::string> tokens;
     ExpressionParser ep;
     const ProcedureNode* parseProcedure();
-    const StatementNode* parseStatement();
-    const ReadNode* parseRead();
-    const PrintNode* parsePrint();
-    const AssignNode* parseAssign();
-    const WhileNode* parseWhile();
-    const IfNode* parseIf();
-    const CallNode* parseCall();
+    const StatementNode* parseStatement(const std::string& indentation);
+    const ReadNode* parseRead(const std::string& indentation);
+    const PrintNode* parsePrint(const std::string& indentation);
+    const AssignNode* parseAssign(const std::string& indentation);
+    const WhileNode* parseWhile(const std::string& indentation);
+    const IfNode* parseIf(const std::string& indentation);
+    const CallNode* parseCall(const std::string& indentation);
 };

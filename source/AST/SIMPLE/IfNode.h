@@ -1,7 +1,7 @@
 #pragma once
 
-#include "StatementNode.h"
 #include "../Expression/ExpressionNode.h" 
+#include "StatementNode.h"
 #include <vector>
 #include <string>
 
@@ -12,7 +12,8 @@ public:
         const uint32_t& stmtNo,
         const ExpressionNode* conExp,
         const std::vector<const StatementNode*>& ifStatements,
-        const std::vector<const StatementNode*>& elseStatements);
+        const std::vector<const StatementNode*>& elseStatements,
+        const std::string& indentation = "");
     ~IfNode() override;
     std::string toString() const override;
     const ExpressionNode* getConExp() const;
