@@ -1,5 +1,65 @@
-1 - Q1
-assign a;
-Select a pattern a ( _ , _"v + x * y + z * t"_)
-1
+1 - Parent
+stmt s;
+Select s such that Parent (s, 10)
+9
+5000
+2 - Parent
+stmt s;
+Select s such that Parent (s, 18)
+
+5000
+3 - Parent*
+stmt s;
+Select s such that Parent* (s, 13)
+12, 9, 7, 4
+5000
+4 - Parent*
+stmt s;
+Select s such that Parent* (s, 11)
+9, 7, 4
+5000
+5 - Parent*
+stmt s; assign a;
+Select s such that Parent* (s, a) pattern a ("a",_)
+9, 7, 4
+5000
+6 - Modifies
+procedure p; assign a; variable v;
+Select p such that Modifies (p, v) pattern a (v,_"a"_)
+p1, read
+5000
+7 - Modifies
+variable v;
+Select v such that Modifies (8, v)
+var1
+5000
+8 - Modifies
+while w;
+Select w such that Modifies (w, "var1")
+4
+5000
+9 - Modifies
+procedure p;
+Select p such that Modifies (p, "g")
+p1, read
+5000
+10 - Uses
+if i;
+Select i such that Uses (i, "b")
+9, 7
+5000
+11 - Uses
+if i; assign a;
+Select i such that Uses (i, "c") 
+7, 9, 13
+5000
+12 - Uses
+assign a; procedure p; variable v;
+Select p pattern a (v, _"c"_) such that Uses (p, v)
+p1, print
+5000
+13 - pattern
+assign a; procedure p; variable v;
+Select p such that Uses (p, v) pattern a (v, _)
+p1, print
 5000

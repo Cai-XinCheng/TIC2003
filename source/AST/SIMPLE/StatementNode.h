@@ -99,6 +99,8 @@ class ConExpNode : public ExpressionNode {
 public:
     explicit ConExpNode(const std::string& operate, ExpressionNode* lhs, ExpressionNode* rhs);
     static const std::string& type;
+    std::vector<std::string> getVariables() const override;
+    std::vector<int64_t> getConstants() const override;
 private:
     std::string operate;
     ExpressionNode* lhs;

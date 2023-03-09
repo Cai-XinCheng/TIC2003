@@ -51,10 +51,8 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
     Database::insertStatement(stmtNo, stmtType);
 
     // process direct parent relation
-    if (stmtType == "read" || stmtType == "print" || stmtType == "assign" || stmtType == "call") {
-        if (!parent.empty()) {
-            Database::insertParent(stmtNo, parent.top()->StatementNode::getStmtNo());
-        }
+    if (!parent.empty()) {
+        Database::insertParent(stmtNo, parent.top()->StatementNode::getStmtNo());
     }
     // process direct next relation
     if (stmtType != "if") { // specially process next in if case
@@ -113,7 +111,10 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
         IfNode* ifNode = static_cast<IfNode*>(stmtNode);
         parent.push(ifNode);
         // store next stmtNo of if node
-        uint32_t nextStmtNo = statements.at(i + 1)->getStmtNo();
+        uint32_t nextStmt = nextStmtNo;
+        if (i != statements.size() - 1) {
+            nextStmt = statements.at(i + 1)->getStmtNo();
+        }
 
         ConExpNode* conExpNode = static_cast<ConExpNode*>(ifNode->getConExp());
         // process condition expression
@@ -125,7 +126,7 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
             Database::insertNext(stmtNo, stmtNo + 1);
         }
         for (unsigned int i = 0; i < ifStatements.size(); i++) {
-            processStatement(i, procedureName, ifStatements, nextStmtNo);
+            processStatement(i, procedureName, ifStatements, nextStmt);
         }
         std::vector<StatementNode*> elseStatements = ifNode->getElseStatements();
         // process next relation
@@ -133,11 +134,11 @@ void processStatement(int i,const std::string& procedureName, std::vector<Statem
             Database::insertNext(stmtNo, elseStatements.at(0)->getStmtNo());
         }
         for (unsigned int i = 0; i < elseStatements.size(); i++) {
-            processStatement(i, procedureName, elseStatements, nextStmtNo);
+            processStatement(i, procedureName, elseStatements, nextStmt);
         }
         // process next relation of ifNode
         if (ifStatements.size() == 0 || elseStatements.size() == 0) { // if one of the body is empty
-            Database::insertNext(stmtNo, nextStmtNo);
+            Database::insertNext(stmtNo, nextStmt);
         }
         parent.pop();
     }

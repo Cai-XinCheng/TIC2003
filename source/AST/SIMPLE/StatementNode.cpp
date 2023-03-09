@@ -71,3 +71,12 @@ std::string IfNode::toString() const {
 std::string CallNode::toString() const {
     return std::format("call {};\n", procedureName);
 }
+
+
+std::vector<std::string> ConExpNode::getVariables() const {
+    return ExpressionNode::getVariables({ lhs, rhs });
+}
+
+std::vector<int64_t> ConExpNode::getConstants() const {
+    return ExpressionNode::getConstants({ lhs, rhs });
+}
