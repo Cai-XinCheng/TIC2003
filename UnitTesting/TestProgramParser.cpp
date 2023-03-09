@@ -144,9 +144,9 @@ procedure computeCentroid {
             // create the expected output string
             std::string expectedOutput =
 R"(procedure First {
- read x;
- read z;
- call Second;
+  read x;
+  read z;
+  call Second;
 }
 
 procedure Second {
