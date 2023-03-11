@@ -444,6 +444,70 @@ procedure read {
             // and hence the assertion would be true.
         }
 
+        TEST_METHOD(CheckParseSource_Simpe4)
+        {
+            // create the input string
+            std::string testInput = R"(
+                procedure A {
+                  print HelloWorld;
+                  read ByeWorld;
+                  read x;
+                  x = y + 1;
+                  y = x * (x + 1);
+                  while (x < 0) {
+                    if (HelloWorld > 15) then {
+                      y = y + 123;
+                      read z;
+                    }
+                    else {
+                      y = (x / y * z);
+                      print z;
+                    }
+                  }
+                  x = x + y + z;
+                  z = x % 123;
+                  read y;
+                }
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(testInput, testOutput);
+
+            // create the expected output string
+            std::string expectedOutput =
+R"(procedure A {
+  print HelloWorld;
+  read ByeWorld;
+  read x;
+  x = ((y) + (1));
+  y = ((x) * ((x) + (1)));
+  while ((x) < (0)) {
+    if ((HelloWorld) > (15)) then {
+      y = ((y) + (123));
+      read z;
+    } else {
+      y = (((x) / (y)) * (z));
+      print z;
+    }
+  }
+  x = (((x) + (y)) + (z));
+  z = ((x) % (123));
+  read y;
+}
+)";
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput, true);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+
+            // The test output should match with the expected output 
+            // and hence the assertion would be true.
+        }
+
         // Some private helper functions can be added below.
     private:
         // method to generate tokenized test output

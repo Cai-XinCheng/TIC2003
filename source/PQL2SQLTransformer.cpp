@@ -32,20 +32,30 @@ const std::map<std::string, std::string, std::less<>> PQL2SQLTransformer::relati
     });
 
 std::string PQL2SQLTransformer::transform(const SelectClause& selectClause) const {
-    std::string sqlSelect = transformResult(selectClause.getResult(), selectClause.getDeclarations());
-    std::string sqlFrom = transformDeclarations(selectClause.getDeclarations());
-    std::string sqlWhere = transformFilters(selectClause.getFilters(), selectClause.getDeclarations());
+    std::vector<Declaration> declarations = selectClause.getDeclarations();
+    std::vector<StatefulDeclaration> statefulDeclarations;
+    for (auto const& declaration : declarations) {
+        statefulDeclarations.emplace_back(declaration);
+    }
+
+    std::string sqlSelect = transformResult(selectClause.getResult(), statefulDeclarations);
+    std::string sqlWhere = transformFilters(selectClause.getFilters(), statefulDeclarations);
+    std::string sqlFrom = transformDeclarations(statefulDeclarations);
 
     return sqlWhere.empty()
         ? std::format("{} {}", sqlSelect, sqlFrom)
         : std::format("{} {} {}", sqlSelect, sqlFrom, sqlWhere);
 }
 
-std::string PQL2SQLTransformer::transformDeclarations(const std::vector<Declaration>& declarations) const {
+std::string PQL2SQLTransformer::transformDeclarations(const std::vector<StatefulDeclaration>& statefulDeclarations) const {
     std::string commaSeparatedTables = "";
-    for (Declaration const& declaration : declarations) {
+    for (StatefulDeclaration const& statefulDeclaration : statefulDeclarations) {
+        Declaration declaration = statefulDeclaration.getDeclaration();
         TableInfo tableInfo = declarationTableInfoMapping.at(declaration.getDesignEntity());
         for (std::string const& synonym : declaration.getSynonyms()) {
+            if (!statefulDeclaration.isUsed(synonym)) {
+                continue;
+            }
             if (!commaSeparatedTables.empty()) {
                 commaSeparatedTables += ", ";
             }
@@ -55,19 +65,19 @@ std::string PQL2SQLTransformer::transformDeclarations(const std::vector<Declarat
     return std::format("FROM {}", commaSeparatedTables);
 }
 
-std::string PQL2SQLTransformer::transformResult(const std::vector<std::string>& result, const std::vector<Declaration>& declarations) const {
+std::string PQL2SQLTransformer::transformResult(const std::vector<std::string>& result, std::vector<StatefulDeclaration>& statefulDeclarations) const {
     std::string commaSeparatedColumns = "";
     for (std::string const& element : result) {
         if (!commaSeparatedColumns.empty()) {
             commaSeparatedColumns += ", ";
         }
 
-        commaSeparatedColumns += generateColumnRefBySynonym(element, declarations);
+        commaSeparatedColumns += generateColumnRefBySynonym(element, statefulDeclarations);
     }
     return std::format("SELECT DISTINCT {}", commaSeparatedColumns);
 }
 
-std::string PQL2SQLTransformer::transformFilters(const std::vector<const FilterClause*>& filters, const std::vector<Declaration>& declarations) const {
+std::string PQL2SQLTransformer::transformFilters(const std::vector<const FilterClause*>& filters, std::vector<StatefulDeclaration>& statefulDeclarations) const {
     std::string andSeparatedFilters = "";
     for (const FilterClause* filter : filters) {
         if (!andSeparatedFilters.empty()) {
@@ -77,11 +87,11 @@ std::string PQL2SQLTransformer::transformFilters(const std::vector<const FilterC
         std::string filterType = filter->getType();
         if (filterType == SuchThatClause::nodeType) {
             const auto* suchThat = dynamic_cast<const SuchThatClause*>(filter);
-            andSeparatedFilters += transformSuchThat(suchThat, declarations);
+            andSeparatedFilters += transformSuchThat(suchThat, statefulDeclarations);
         }
         else if (filterType == PatternClause::nodeType) {
             const auto* pattern = dynamic_cast<const PatternClause*>(filter);
-            andSeparatedFilters += transformPattern(pattern, declarations);
+            andSeparatedFilters += transformPattern(pattern, statefulDeclarations);
         }
         else {
             throw std::invalid_argument("PQL2SQLTransformer: unknown filter type");
@@ -92,7 +102,7 @@ std::string PQL2SQLTransformer::transformFilters(const std::vector<const FilterC
         : "";
 }
 
-std::string PQL2SQLTransformer::transformSuchThat(const SuchThatClause* suchThat, const std::vector<Declaration>& declarations) const {
+std::string PQL2SQLTransformer::transformSuchThat(const SuchThatClause* suchThat, std::vector<StatefulDeclaration>& statefulDeclarations) const {
     std::string relationshipName = suchThat->getRelationshipName();
     std::string functionName = relationshipFunctionMapping.at(relationshipName);
     std::string arg1 = suchThat->getRelationshipArg1();
@@ -115,7 +125,7 @@ std::string PQL2SQLTransformer::transformSuchThat(const SuchThatClause* suchThat
         }
         else {
             // synonym
-            return generateColumnRefBySynonym(arg, declarations);
+            return generateColumnRefBySynonym(arg, statefulDeclarations);
         }
     };
 
@@ -125,8 +135,9 @@ std::string PQL2SQLTransformer::transformSuchThat(const SuchThatClause* suchThat
     return std::format("{}({}, {})", functionName, transformedArg1, transformedArg2);
 }
 
-std::string PQL2SQLTransformer::transformPattern(const PatternClause* pattern, const std::vector<Declaration>& declarations) const {
+std::string PQL2SQLTransformer::transformPattern(const PatternClause* pattern, std::vector<StatefulDeclaration>& statefulDeclarations) const {
     std::string synonymAssignment = pattern->getSynonymAssignment();
+    generateColumnRefBySynonym(synonymAssignment, statefulDeclarations);
 
     // left
     std::string left = pattern->getLeft();
@@ -142,7 +153,7 @@ std::string PQL2SQLTransformer::transformPattern(const PatternClause* pattern, c
     }
     else {
         // synonym
-        std::string columnRef = generateColumnRefBySynonym(left, declarations);
+        std::string columnRef = generateColumnRefBySynonym(left, statefulDeclarations);
         transformedLeft = std::format("{}.variable = {}", synonymAssignment, columnRef);
     }
 
@@ -197,12 +208,14 @@ std::string PQL2SQLTransformer::transformPattern(const PatternClause* pattern, c
         : transformedLeft + transformedRight;
 }
 
-std::string PQL2SQLTransformer::generateColumnRefBySynonym(const std::string& synonym, const std::vector<Declaration>& declarations) const {
+std::string PQL2SQLTransformer::generateColumnRefBySynonym(const std::string& synonym, std::vector<StatefulDeclaration>& statefulDeclarations) const {
     std::string declarationDesignEntity;
-    for (Declaration const& declaration : declarations) {
+    for (StatefulDeclaration& statefulDeclaration : statefulDeclarations) {
+        Declaration declaration = statefulDeclaration.getDeclaration();
         std::vector<std::string> vec = declaration.getSynonyms();
         if (std::ranges::find(vec.begin(), vec.end(), synonym) != vec.end()) {
             declarationDesignEntity = declaration.getDesignEntity();
+            statefulDeclaration.markAsUsed(synonym);
             break;
         }
     }
@@ -220,4 +233,20 @@ std::string PQL2SQLTransformer::TableInfo::getTableExpression() const {
 
 std::string PQL2SQLTransformer::TableInfo::getTableResultColumn() const {
     return this->tableResultColumn;
+}
+
+PQL2SQLTransformer::StatefulDeclaration::StatefulDeclaration(const Declaration& declaration)
+    : declaration(declaration) {
+}
+
+Declaration PQL2SQLTransformer::StatefulDeclaration::getDeclaration() const {
+    return declaration;
+}
+
+bool PQL2SQLTransformer::StatefulDeclaration::isUsed(const std::string& synonym) const {
+    return usedSynonyms.contains(synonym);
+}
+
+void PQL2SQLTransformer::StatefulDeclaration::markAsUsed(const std::string& synonym) {
+    usedSynonyms.insert(synonym);
 }

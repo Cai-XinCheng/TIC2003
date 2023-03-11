@@ -204,7 +204,7 @@ namespace PQL2SQLTransformerTests
 
             // create the expected output string
             std::string expectedOutput = "SELECT DISTINCT p.procedureName";
-            expectedOutput += " FROM variables AS v, procedures AS p";
+            expectedOutput += " FROM procedures AS p";
             expectedOutput += " WHERE check_modify(p.procedureName, 'x')";
 
             // Logger messages can be viewed in the Test Explorer 
@@ -229,7 +229,7 @@ namespace PQL2SQLTransformerTests
 
             // create the expected output string
             std::string expectedOutput = "SELECT DISTINCT p.procedureName";
-            expectedOutput += " FROM procedures AS p, procedures AS q";
+            expectedOutput += " FROM procedures AS p";
             expectedOutput += " WHERE check_call(p.procedureName, NULL)";
 
             // Logger messages can be viewed in the Test Explorer 
@@ -454,7 +454,7 @@ namespace PQL2SQLTransformerTests
 
             // create the expected output string
             std::string expectedOutput = "SELECT DISTINCT a.stmtNo";
-            expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
+            expectedOutput += " FROM assignments AS a";
             expectedOutput += " WHERE a.variable = 'x' AND check_use(a.stmtNo, 'x')";
 
             // Logger messages can be viewed in the Test Explorer 
@@ -479,7 +479,7 @@ namespace PQL2SQLTransformerTests
 
             // create the expected output string
             std::string expectedOutput = "SELECT DISTINCT a.stmtNo";
-            expectedOutput += " FROM assignments AS a, (SELECT * FROM statements WHERE type = 'while') AS w";
+            expectedOutput += " FROM assignments AS a";
             expectedOutput += " WHERE check_use(a.stmtNo, 'x') AND a.variable = 'x'";
 
             // Logger messages can be viewed in the Test Explorer 
@@ -656,6 +656,32 @@ namespace PQL2SQLTransformerTests
             std::string expectedOutput = "SELECT DISTINCT a1.stmtNo";
             expectedOutput += " FROM assignments AS a1, assignments AS a2, (SELECT * FROM statements WHERE type = 'while') AS w1, (SELECT * FROM statements WHERE type = 'while') AS w2";
             expectedOutput += " WHERE a1.variable = 'x' AND a2.variable = 'x' AND a2.expression LIKE '%(x)%' AND check_next_t(a1.stmtNo, a2.stmtNo) AND check_parent_t(w2.stmtNo, a2.stmtNo) AND check_parent_t(w1.stmtNo, w2.stmtNo)";
+
+            // Logger messages can be viewed in the Test Explorer
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput, true);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckTransformQuery_Performance1)
+        {
+            // create the input string
+            std::string testInput = R"(
+                stmt s; assign a; while w; if ifs; variable v;procedure p; constant c; read re; print pn;
+                Select v pattern a(v,"y + 1")
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            getTestOutput(testInput, testOutput);
+
+
+            // create the expected output string
+            std::string expectedOutput = "SELECT DISTINCT v.name";
+            expectedOutput += " FROM assignments AS a, variables AS v";
+            expectedOutput += " WHERE a.variable = v.name AND a.expression LIKE '((y) + (1))'";
 
             // Logger messages can be viewed in the Test Explorer
             // under "open additional output for this result" for each test case

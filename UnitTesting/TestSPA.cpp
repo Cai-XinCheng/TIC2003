@@ -3683,6 +3683,303 @@ namespace SPATests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
+        TEST_METHOD(CheckSPA_Simple4_Query01)
+        {
+            initializeSimple4();
+
+            // create the input string
+            std::string query = R"(
+                stmt s, s1; assign a, a1; while w; if ifs; variable v, v1; procedure p; constant c; read re; print pn;
+                Select a
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("4, 5, 8, 10, 12, 13");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Simple4_Query02)
+        {
+            initializeSimple4();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; assign a; while w; if ifs; variable v;procedure p; constant c; read re; print pn;
+                Select c
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 0, 15, 123");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Simple4_Query03)
+        {
+            initializeSimple4();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; assign a; while w; if ifs; variable v;procedure p; constant c; read re; print pn;
+                Select v such that Modifies(2, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("ByeWorld");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Simple4_Query04)
+        {
+            initializeSimple4();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; assign a; while w; if ifs; variable v;procedure p; constant c; read re; print pn;
+                Select pn such that Modifies(8, "y")
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Simple4_Query05)
+        {
+            initializeSimple4();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; assign a; while w; if ifs; variable v;procedure p; constant c; read re; print pn;
+                Select v such that Uses(4, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("y");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Simple4_Query06)
+        {
+            initializeSimple4();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; assign a; while w; if ifs; variable v;procedure p; constant c; read re; print pn;
+                Select a such that Uses(a, "x")
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("5, 10, 12, 13");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Simple4_Query07)
+        {
+            initializeSimple4();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; assign a; while w; if ifs; variable v;procedure p; constant c; read re; print pn;
+                Select s such that Parent(s, 7)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("6");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Simple4_Query08)
+        {
+            initializeSimple4();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; assign a; while w; if ifs; variable v;procedure p; constant c; read re; print pn;
+                Select s such that Parent*(s, 10)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("7, 6");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Simple4_Query09)
+        {
+            initializeSimple4();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; assign a; while w; if ifs; variable v;procedure p; constant c; read re; print pn;
+                Select v pattern a(v,"y + 1")
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("x");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Simple4_Query10)
+        {
+            initializeSimple4();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; assign a; while w; if ifs; variable v;procedure p; constant c; read re; print pn;
+                Select a such that Uses(a, v) pattern a("x", _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("4, 12");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Simple4_Query11)
+        {
+            initializeSimple4();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; assign a; while w; if ifs; variable v;procedure p; constant c; read re; print pn;
+                Select v such that Modifies(10, v) pattern a("z", _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
     // Some private helper functions can be added below.
     private:
         static void initializeSource(const std::string& source) {
@@ -3860,6 +4157,32 @@ namespace SPATests
                   read d;
                   read var1;
                   read var2;
+                }
+            )";
+            initializeSource(source);
+        }
+
+        static void initializeSimple4() {
+            std::string source = R"(
+                procedure A {
+                  print HelloWorld;
+                  read ByeWorld;
+                  read x;
+                  x = y + 1;
+                  y = x * (x + 1);
+                  while (x < 0) {
+                    if (HelloWorld > 15) then {
+                      y = y + 123;
+                      read z;
+                    }
+                    else {
+                      y = (x / y * z);
+                      print z;
+                    }
+                  }
+                  x = x + y + z;
+                  z = x % 123;
+                  read y;
                 }
             )";
             initializeSource(source);
