@@ -44,13 +44,14 @@ void Tokenizer::tokenize(std::string text, std::vector<std::string>& tokens) {
         }
         else if (isalpha(ch)) { // scan for an alphanumeric sequence starting with a letter 
             token.push_back(ch);
+            bool isUpper = isupper(ch);
             i++;
-
+           
             while (i < text.length()) {
                 ch = text.at(i);
                 if (isalpha(ch)
                     || isdigit(ch)
-                    || (ch == '*' && i + 1 < text.length() && !isalnum(text.at(i + 1))) // scan for Next*, Parent*, Calls* etc...
+                    || (ch == '*' && isUpper) // scan for Next*, Parent*, Calls* etc...
                 ) {
                     token.push_back(ch);
                     i++;
