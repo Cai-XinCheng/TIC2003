@@ -291,6 +291,9 @@ namespace DatabaseTests
                 {"SELECT 1 WHERE check_parent(2 + 9, 3 + 9);", ""},
                 {"SELECT 1 WHERE check_parent(4 + 9, 7 + 9);", ""},
                 {"SELECT 1 WHERE check_parent(9 + 9, 5 + 9);", ""},
+                {"SELECT 1 WHERE check_parent(5 + 9, NULL);", "1$"},
+                {"SELECT 1 WHERE check_parent(9 + 9, NULL);", ""},
+                {"SELECT 1 WHERE check_parent(NULL, NULL);", "1$"},
             };
 
             // test cases
@@ -308,6 +311,9 @@ namespace DatabaseTests
                 {"SELECT 1 WHERE check_parent_t(5 + 9, 7 + 9);", "1$"},
                 {"SELECT 1 WHERE check_parent_t(10 + 9, 13 + 9);", "1$"},
                 {"SELECT 1 WHERE check_parent_t(10 + 9, 14 + 9);", ""},
+                {"SELECT 1 WHERE check_parent_t(10 + 9, NULL);", "1$"},
+                {"SELECT 1 WHERE check_parent_t(13 + 9, NULL);", ""},
+                {"SELECT 1 WHERE check_parent_t(NULL, NULL);", "1$"},
             };
 
             // test cases
@@ -331,6 +337,9 @@ namespace DatabaseTests
                 {"SELECT 1 WHERE check_next(6 + 3, 4 + 3);", ""},
                 {"SELECT 1 WHERE check_next(7 + 3, 10 + 3);", ""},
                 {"SELECT 1 WHERE check_next(8 + 3, 9 + 3);", ""},
+                {"SELECT 1 WHERE check_next(7 + 3, NULL);", "1$"},
+                {"SELECT 1 WHERE check_next(12 + 3, NULL);", ""},
+                {"SELECT 1 WHERE check_next(NULL, NULL);", "1$"},
             };
 
             // test cases
@@ -354,6 +363,9 @@ namespace DatabaseTests
                 {"SELECT 1 WHERE check_next_t(5 + 3, 12 + 3);", "1$"},
                 {"SELECT 1 WHERE check_next_t(8 + 3, 9 + 3);", ""},
                 {"SELECT 1 WHERE check_next_t(5 + 3, 2 + 3);", ""},
+                {"SELECT 1 WHERE check_next_t(7 + 3, NULL);", "1$"},
+                {"SELECT 1 WHERE check_next_t(12 + 3, NULL);", ""},
+                {"SELECT 1 WHERE check_next_t(NULL, NULL);", "1$"},
             };
 
             // test cases

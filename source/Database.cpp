@@ -52,16 +52,29 @@ void Database::sqlite3_check_parent(sqlite3_context* context, int argc, sqlite3_
         sqlite3_result_error(context, "invalid number of arguments of check_parent", -1);
         return;
     }
-    if (sqlite3_value_type(argv[0]) != SQLITE_INTEGER || sqlite3_value_type(argv[1]) != SQLITE_INTEGER) {
+
+    int arg0Type = sqlite3_value_type(argv[0]);
+    int arg1Type = sqlite3_value_type(argv[1]);
+    if ((arg0Type != SQLITE_INTEGER && arg0Type != SQLITE_NULL) || (arg1Type != SQLITE_INTEGER && arg1Type != SQLITE_NULL)) {
         sqlite3_result_error(context, "invalid argument type of check_parent", -1);
         return;
     }
 
-    uint32_t parentStmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[0]));
-    uint32_t stmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[1]));
+    if (arg0Type == SQLITE_NULL && arg1Type == SQLITE_NULL) {
+        std::string sql = "SELECT 1 FROM parents LIMIT 1;";
+        std::vector<int> results = db.selectFirstColumn<int>(sql);
+        int result = results.size() >= 1 ? 1 : 0;
+        sqlite3_result_int(context, result);
+        return;
+    }
 
-    std::string sql = "SELECT 1 FROM parents WHERE stmtNo = ? AND parentStmtNo = ? LIMIT 1;";
-    std::vector<int> results = db.selectFirstColumn<int>(sql, stmtNo, parentStmtNo);
+    uint32_t parentStmtNo = arg0Type == SQLITE_INTEGER ? static_cast<unsigned>(sqlite3_value_int64(argv[0])) : 0;
+    uint32_t stmtNo = arg1Type == SQLITE_INTEGER ? static_cast<unsigned>(sqlite3_value_int64(argv[1])) : 0;
+
+    std::string sql = std::format(
+        "SELECT 1 FROM parents WHERE parentStmtNo = ? AND (? = {} OR stmtNo = ?) LIMIT 1;",
+        std::to_string(SQLITE_NULL));
+    std::vector<int> results = db.selectFirstColumn<int>(sql, parentStmtNo, arg1Type, stmtNo);
 
     int result = results.size() >= 1 ? 1 : 0;
     sqlite3_result_int(context, result);
@@ -73,13 +86,32 @@ void Database::sqlite3_check_parent_t(sqlite3_context* context, int argc, sqlite
         sqlite3_result_error(context, "invalid number of arguments of check_parent_t", -1);
         return;
     }
-    if (sqlite3_value_type(argv[0]) != SQLITE_INTEGER || sqlite3_value_type(argv[1]) != SQLITE_INTEGER) {
-        sqlite3_result_error(context, "invalid argument type of check_parent_t", -1);
+
+    int arg0Type = sqlite3_value_type(argv[0]);
+    int arg1Type = sqlite3_value_type(argv[1]);
+    if ((arg0Type != SQLITE_INTEGER && arg0Type != SQLITE_NULL) || (arg1Type != SQLITE_INTEGER && arg1Type != SQLITE_NULL)) {
+        sqlite3_result_error(context, "invalid argument type of check_parent", -1);
         return;
     }
 
-    uint32_t parentStmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[0]));
-    uint32_t stmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[1]));
+    if (arg0Type == SQLITE_NULL && arg1Type == SQLITE_NULL) {
+        std::string sql = "SELECT 1 FROM parents LIMIT 1;";
+        std::vector<int> results = db.selectFirstColumn<int>(sql);
+        int result = results.size() >= 1 ? 1 : 0;
+        sqlite3_result_int(context, result);
+        return;
+    }
+
+    uint32_t parentStmtNo = arg0Type == SQLITE_INTEGER ? static_cast<unsigned>(sqlite3_value_int64(argv[0])) : 0;
+    uint32_t stmtNo = arg1Type == SQLITE_INTEGER ? static_cast<unsigned>(sqlite3_value_int64(argv[1])) : 0;
+
+    if (arg1Type == SQLITE_NULL) {
+        std::string sql = "SELECT 1 FROM parents WHERE parentStmtNo = ? LIMIT 1;";
+        std::vector<int> results = db.selectFirstColumn<int>(sql, parentStmtNo);
+        int result = results.size() >= 1 ? 1 : 0;
+        sqlite3_result_int(context, result);
+        return;
+    }
 
     // the parent stmtNo of if and while are always less then itself, should not have infinity loops
     std::string sql = R"(
@@ -104,16 +136,29 @@ void Database::sqlite3_check_next(sqlite3_context* context, int argc, sqlite3_va
         sqlite3_result_error(context, "invalid number of arguments of check_next", -1);
         return;
     }
-    if (sqlite3_value_type(argv[0]) != SQLITE_INTEGER || sqlite3_value_type(argv[1]) != SQLITE_INTEGER) {
-        sqlite3_result_error(context, "invalid argument type of check_next", -1);
+
+    int arg0Type = sqlite3_value_type(argv[0]);
+    int arg1Type = sqlite3_value_type(argv[1]);
+    if ((arg0Type != SQLITE_INTEGER && arg0Type != SQLITE_NULL) || (arg1Type != SQLITE_INTEGER && arg1Type != SQLITE_NULL)) {
+        sqlite3_result_error(context, "invalid argument type of check_parent", -1);
+        return;
+    }
+
+    if (arg0Type == SQLITE_NULL && arg1Type == SQLITE_NULL) {
+        std::string sql = "SELECT 1 FROM nexts LIMIT 1;";
+        std::vector<int> results = db.selectFirstColumn<int>(sql);
+        int result = results.size() >= 1 ? 1 : 0;
+        sqlite3_result_int(context, result);
         return;
     }
 
     uint32_t stmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[0]));
-    uint32_t parentStmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[1]));
+    uint32_t nextStmtNo = arg1Type == SQLITE_INTEGER ? static_cast<unsigned>(sqlite3_value_int64(argv[1])) : 0;
 
-    std::string sql = "SELECT 1 FROM nexts WHERE stmtNo = ? AND nextStmtNo = ? LIMIT 1;";
-    std::vector<int> results = db.selectFirstColumn<int>(sql, stmtNo, parentStmtNo);
+    std::string sql = std::format(
+        "SELECT 1 FROM nexts WHERE stmtNo = ? AND (? = {} OR nextStmtNo = ?) LIMIT 1;",
+        std::to_string(SQLITE_NULL));
+    std::vector<int> results = db.selectFirstColumn<int>(sql, stmtNo, arg1Type, nextStmtNo);
 
     int result = results.size() >= 1 ? 1 : 0;
     sqlite3_result_int(context, result);
@@ -125,13 +170,32 @@ void Database::sqlite3_check_next_t(sqlite3_context* context, int argc, sqlite3_
         sqlite3_result_error(context, "invalid number of arguments of check_next_t", -1);
         return;
     }
-    if (sqlite3_value_type(argv[0]) != SQLITE_INTEGER || sqlite3_value_type(argv[1]) != SQLITE_INTEGER) {
-        sqlite3_result_error(context, "invalid argument type of check_next_t", -1);
+
+    int arg0Type = sqlite3_value_type(argv[0]);
+    int arg1Type = sqlite3_value_type(argv[1]);
+    if ((arg0Type != SQLITE_INTEGER && arg0Type != SQLITE_NULL) || (arg1Type != SQLITE_INTEGER && arg1Type != SQLITE_NULL)) {
+        sqlite3_result_error(context, "invalid argument type of check_parent", -1);
+        return;
+    }
+
+    if (arg0Type == SQLITE_NULL && arg1Type == SQLITE_NULL) {
+        std::string sql = "SELECT 1 FROM nexts LIMIT 1;";
+        std::vector<int> results = db.selectFirstColumn<int>(sql);
+        int result = results.size() >= 1 ? 1 : 0;
+        sqlite3_result_int(context, result);
         return;
     }
 
     uint32_t stmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[0]));
-    uint32_t parentStmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[1]));
+    uint32_t nextStmtNo = arg1Type == SQLITE_INTEGER ? static_cast<unsigned>(sqlite3_value_int64(argv[1])) : 0;
+
+    if (arg1Type == SQLITE_NULL) {
+        std::string sql = "SELECT 1 FROM nexts WHERE stmtNo = ? LIMIT 1;";
+        std::vector<int> results = db.selectFirstColumn<int>(sql, stmtNo);
+        int result = results.size() >= 1 ? 1 : 0;
+        sqlite3_result_int(context, result);
+        return;
+    }
 
     // https://www.sqlite.org/lang_with.html
     std::string sql = R"(
@@ -144,7 +208,7 @@ void Database::sqlite3_check_next_t(sqlite3_context* context, int argc, sqlite3_
         )
         SELECT 1 FROM nexts_t WHERE nextStmtNo = ? LIMIT 1;
     )";
-    std::vector<int> results = db.selectFirstColumn<int>(sql, stmtNo, parentStmtNo, parentStmtNo);
+    std::vector<int> results = db.selectFirstColumn<int>(sql, stmtNo, nextStmtNo, nextStmtNo);
 
     int result = results.size() >= 1 ? 1 : 0;
     sqlite3_result_int(context, result);
@@ -285,36 +349,38 @@ void Database::check_modify_or_use(const char* functionName, const char* relatio
     // 1. the parent stmtNo of if and while are always less then itself, should not have infinity loops
     // 2. Recursive and cyclic calls are not allowed.
     std::string sql = std::format(R"(
-        WITH RECURSIVE parents_t AS (
-            SELECT stmtNo, parentStmtNo FROM parents WHERE parentStmtNo = ?
-            UNION ALL
-            SELECT p.stmtNo, p.parentStmtNo FROM parents AS p
-            INNER JOIN parents_t AS pt ON p.parentStmtNo = pt.stmtNo
-        ),
-        stmt_nos AS (
-            SELECT stmtNo FROM parents_t
-            UNION ALL
-            SELECT ?
-        ),
-        initial_calls AS (
-            SELECT callerName, calleeName FROM calls AS c WHERE EXISTS (SELECT 1 FROM stmt_nos AS sn WHERE sn.stmtNo = c.stmtNo)
-            UNION ALL
-            SELECT '', ? WHERE ? = {}
-        ),
-        called_procedures AS (
-            SELECT callerName, calleeName FROM initial_calls
-            UNION ALL
-            SELECT c.callerName, c.calleeName FROM calls AS c
-            INNER JOIN called_procedures AS cp ON cp.calleeName = c.callerName
-        )
-        SELECT 1
-        FROM variables AS v
-        WHERE relation = ?
-            AND (EXISTS (SELECT 1 FROM stmt_nos AS sn WHERE sn.stmtNo = v.stmtNo)
-                OR EXISTS (SELECT 1 FROM called_procedures AS cp WHERE cp.calleeName = v.procedureName))
-            AND (? = {} OR v.name = ?)
-        LIMIT 1;
-    )", std::to_string(SQLITE_TEXT), std::to_string(SQLITE_NULL));
+            WITH RECURSIVE parents_t AS (
+                SELECT stmtNo, parentStmtNo FROM parents WHERE parentStmtNo = ?
+                UNION ALL
+                SELECT p.stmtNo, p.parentStmtNo FROM parents AS p
+                INNER JOIN parents_t AS pt ON p.parentStmtNo = pt.stmtNo
+            ),
+            stmt_nos AS (
+                SELECT stmtNo FROM parents_t
+                UNION ALL
+                SELECT ?
+            ),
+            initial_calls AS (
+                SELECT callerName, calleeName FROM calls AS c WHERE EXISTS (SELECT 1 FROM stmt_nos AS sn WHERE sn.stmtNo = c.stmtNo)
+                UNION ALL
+                SELECT '', ? WHERE ? = {}
+            ),
+            called_procedures AS (
+                SELECT callerName, calleeName FROM initial_calls
+                UNION ALL
+                SELECT c.callerName, c.calleeName FROM calls AS c
+                INNER JOIN called_procedures AS cp ON cp.calleeName = c.callerName
+            )
+            SELECT 1
+            FROM variables AS v
+            WHERE relation = ?
+                AND (EXISTS (SELECT 1 FROM stmt_nos AS sn WHERE sn.stmtNo = v.stmtNo)
+                    OR EXISTS (SELECT 1 FROM called_procedures AS cp WHERE cp.calleeName = v.procedureName))
+                AND (? = {} OR v.name = ?)
+            LIMIT 1;
+        )",
+        std::to_string(SQLITE_TEXT),
+        std::to_string(SQLITE_NULL));
     std::vector<int> results = db.selectFirstColumn<int>(sql, stmtNo, stmtNo, procedureName, arg0Type, relation, arg1Type, variableName);
 
     int result = results.size() >= 1 ? 1 : 0;
