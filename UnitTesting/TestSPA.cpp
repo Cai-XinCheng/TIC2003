@@ -3683,9 +3683,9 @@ namespace SPATests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckSPA_Simple4_Query01)
+        TEST_METHOD(CheckSPA_Midterm_Query01)
         {
-            initializeSimple4();
+            initializeMidterm();
 
             // create the input string
             std::string query = R"(
@@ -3710,9 +3710,9 @@ namespace SPATests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckSPA_Simple4_Query02)
+        TEST_METHOD(CheckSPA_Midterm_Query02)
         {
-            initializeSimple4();
+            initializeMidterm();
 
             // create the input string
             std::string query = R"(
@@ -3737,9 +3737,9 @@ namespace SPATests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckSPA_Simple4_Query03)
+        TEST_METHOD(CheckSPA_Midterm_Query03)
         {
-            initializeSimple4();
+            initializeMidterm();
 
             // create the input string
             std::string query = R"(
@@ -3764,9 +3764,9 @@ namespace SPATests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckSPA_Simple4_Query04)
+        TEST_METHOD(CheckSPA_Midterm_Query04)
         {
-            initializeSimple4();
+            initializeMidterm();
 
             // create the input string
             std::string query = R"(
@@ -3791,9 +3791,9 @@ namespace SPATests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckSPA_Simple4_Query05)
+        TEST_METHOD(CheckSPA_Midterm_Query05)
         {
-            initializeSimple4();
+            initializeMidterm();
 
             // create the input string
             std::string query = R"(
@@ -3818,9 +3818,9 @@ namespace SPATests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckSPA_Simple4_Query06)
+        TEST_METHOD(CheckSPA_Midterm_Query06)
         {
-            initializeSimple4();
+            initializeMidterm();
 
             // create the input string
             std::string query = R"(
@@ -3845,9 +3845,9 @@ namespace SPATests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckSPA_Simple4_Query07)
+        TEST_METHOD(CheckSPA_Midterm_Query07)
         {
-            initializeSimple4();
+            initializeMidterm();
 
             // create the input string
             std::string query = R"(
@@ -3872,9 +3872,9 @@ namespace SPATests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckSPA_Simple4_Query08)
+        TEST_METHOD(CheckSPA_Midterm_Query08)
         {
-            initializeSimple4();
+            initializeMidterm();
 
             // create the input string
             std::string query = R"(
@@ -3899,9 +3899,9 @@ namespace SPATests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckSPA_Simple4_Query09)
+        TEST_METHOD(CheckSPA_Midterm_Query09)
         {
-            initializeSimple4();
+            initializeMidterm();
 
             // create the input string
             std::string query = R"(
@@ -3926,9 +3926,9 @@ namespace SPATests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckSPA_Simple4_Query10)
+        TEST_METHOD(CheckSPA_Midterm_Query10)
         {
-            initializeSimple4();
+            initializeMidterm();
 
             // create the input string
             std::string query = R"(
@@ -3953,9 +3953,9 @@ namespace SPATests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
-        TEST_METHOD(CheckSPA_Simple4_Query11)
+        TEST_METHOD(CheckSPA_Midterm_Query11)
         {
-            initializeSimple4();
+            initializeMidterm();
 
             // create the input string
             std::string query = R"(
@@ -3971,6 +3971,3786 @@ namespace SPATests
             // create the expected output string
 
             std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query01)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                stmt s;
+                Select s
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query02)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                assign a;
+                Select a
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 2, 3, 6, 7, 8, 9, 10, 13, 14, 15, 17, 19, 20, 21, 23, 24, 25, 27, 28, 30, 31, 32, 33, 12, 16, 22, 29, 4, 5");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query03)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                constant c;
+                Select c
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("5, 2, 3, 7, 1, 0");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query04)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                while w;
+                Select w
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query05)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                if ifs;
+                Select ifs
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query06)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                read re; 
+                Select re
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("11, 18");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query07)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                print pn;
+                Select pn
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("26");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query08)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                procedure p;
+                Select p
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("proc");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query09)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                variable v;
+                Select v
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("i, x, y, z, bx");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query10)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                assign a;
+                Select a pattern a(_, _"i-1"_)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("6, 14, 17, 24, 31");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query11)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                assign a;
+                Select a pattern a(_, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 2, 3, 6, 7, 8, 9, 10, 13, 14, 15, 17, 19, 20, 21, 23, 24, 25, 27, 28, 30, 31, 32, 33, 12, 16, 22, 29, 4, 5");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query12)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                assign a;  variable v;
+                Select a pattern a(v, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 2, 3, 6, 7, 8, 9, 10, 13, 14, 15, 17, 19, 20, 21, 23, 24, 25, 27, 28, 30, 31, 32, 33, 12, 16, 22, 29, 4, 5");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query13)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                assign a;
+                Select a pattern a("i", _"i-1"_)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("6, 14, 24, 31");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query14)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                assign a;
+                Select a pattern a("i", _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 6, 9, 10, 14, 19, 20, 24, 25, 31, 32");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query15)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                assign a;
+                Select a such that Parent(12, a) pattern a("i", _"i-1"_)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query16)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                variable v; assign a, a1;
+                Select v such that Modifies(a, v) pattern a1(v, _"i+1"_)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("i");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query17)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                variable v; assign a;
+                Select a such that Uses(3, v) pattern a(v, _"i-1"_)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("6, 14, 24, 31");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query18)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                variable v; assign a, a1;
+                Select v such that Modifies(a, v) pattern a1("z", _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("i, x, y, z, bx");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query19)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; variable v;
+                Select s such that Modifies(s, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query20)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; variable v;
+                Select v such that Modifies(s, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("i, x, y, z, bx");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query21)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; 
+                Select s such that Modifies(s, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query22)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; 
+                Select s such that Modifies(s, "i")
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 6, 9, 10, 14, 19, 20, 24, 25, 31, 32");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query23)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                variable v;
+                Select v such that Modifies(6, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("i");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query24)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                procedure p; variable v;
+                Select p such that Modifies(p, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("proc");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query25)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                procedure p; variable v;
+                Select v such that Modifies(p, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("i, x, y, z, bx");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query26)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                procedure p;
+                Select p such that Modifies(p, "i")
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("proc");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query27)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                read re; variable v;
+                Select re such that Modifies(re, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("11, 18");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query28)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                read re; variable v;
+                Select v such that Modifies(re, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("x, y");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query29)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                read re; 
+                Select re such that Modifies(re, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("11, 18");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query30)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; variable v;
+                Select s such that Uses(s, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("3, 6, 7, 8, 9, 14, 17, 19, 20, 21, 24, 25, 26, 31");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query31)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; variable v;
+                Select v such that Uses(s, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("i, x, y");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query32)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; 
+                Select s such that Uses(s, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("3, 6, 7, 8, 9, 14, 17, 19, 20, 21, 24, 25, 26, 31");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query33)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                stmt s; 
+                Select s such that Uses(s, "i")
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("3, 6, 9, 14, 17, 19, 21, 24, 26, 31");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query34)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                variable v;
+                Select v such that Uses(3, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("i, x");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query35)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                procedure p; variable v;
+                Select p such that Uses(p, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("proc");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query36)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                procedure p; variable v;
+                Select v such that Uses(p, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("i, x, y");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query37)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                print pn; variable v;
+                Select pn such that Uses(pn, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("26");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query38)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                print pn; variable v;
+                Select v such that Uses(pn, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("i");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query39)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                assign a; variable v;
+                Select a such that Uses(a, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("3, 6, 7, 8, 9, 14, 17, 19, 20, 21, 24, 25, 31");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query40)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                assign a; variable v;
+                Select v such that Uses(a, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("i, x, y");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query41)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                variable v;
+                Select v such that Uses("proc", "i")
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("bx, i, x, y, z");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query42)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                stmt s, s1;
+                Select s such that Parent(s, s1)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query43)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                stmt s, s1;
+                Select s1 such that Parent*(s, s1)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2a_Query44)
+        {
+            initializeIteration2a();
+
+            // create the input string
+            std::string query = R"(
+                stmt s;
+                Select s such that Parent(s, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query01)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                stmt s;
+                Select s
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2, 20, 21, 3, 4, 5, 6, 7, 8, 9");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query02)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                read r;
+                Select r
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 11, 15, 17, 20, 5");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query03)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                print pr;
+                Select pr
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("12, 18, 21, 3, 7, 9");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query04)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                while w;
+                Select w
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("16, 4");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query05)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                if ifs;
+                Select ifs
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("8");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query06)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                assign a;
+                Select a
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("10, 13, 14, 19, 2, 6");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query07)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                variable v;
+                Select v
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("a, b, c, code9, coding7, d, test001, test002, test02");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query08)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                constant c;
+                Select c
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("10, 20, 30");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query09)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                procedure p;
+                Select p
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("NonNesting01");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query10)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                read r;
+                Select r such that Parent(_, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 11, 15, 17, 20, 5");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query11)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                while w;
+                Select w such that Parent(_, 3)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query12)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                if ifs;
+                Select ifs such that Parent(8, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("8");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query13)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                assign a;
+                Select a such that Parent(_, a)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("10, 13, 14, 19, 6");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query14)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                stmt s;
+                Select s such that Parent(s, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("16, 4, 8");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query15)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                constant c;
+                Select c such that Parent(8, 12)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("10, 20, 30");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query16)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                if ifs; stmt s;
+                Select ifs such that Parent(ifs, s)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("8");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query17)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                while w; print pr;
+                Select pr such that Parent(w, pr)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("18, 21, 7");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query18)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                stmt s;
+                Select s such that Parent(4, s)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("5, 6, 7");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query19)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                while w;
+                Select w such that Parent(w, 18)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("16");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query20)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                variable v;
+                Select v such that Parent*(_, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("a, b, c, code9, coding7, d, test001, test002, test02");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query21)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                print pr;
+                Select pr such that Parent*(_, 3)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query22)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                read r;
+                Select r such that Parent*(16, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 11, 15, 17, 20, 5");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query23)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                while w;
+                Select w such that Parent*(_, w)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query24)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                if ifs;
+                Select ifs such that Parent*(ifs, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("8");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query25)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                variable v;
+                Select v such that Parent*(4, 10)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query26)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                if ifs; print p;
+                Select ifs such that Parent*(ifs, p)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("8");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query27)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                if ifs; print p;
+                Select p such that Parent*(ifs, p)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("12, 9");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query28)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                if ifs;
+                Select ifs such that Parent*(8, ifs)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query29)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                while w;
+                Select w such that Parent*(w, 7)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("4");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query30)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                stmt s;
+                Select s such that Modifies(s, "a")
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 10, 13, 14, 16, 17, 4, 5, 8");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query31)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                variable v;
+                Select v such that Modifies(4, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("a, test02");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query32)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                read r;
+                Select r such that Modifies(r, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 11, 15, 17, 20, 5");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query33)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                while w; variable v;
+                Select w such that Modifies(w, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("16, 4");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query34)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                stmt s;
+                Select s such that Uses(s, "b")
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("10, 13, 14, 16, 18, 2, 4, 6, 7, 8");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query35)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                variable v;
+                Select v such that Uses(8, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("a, b, c, coding7, d, test001");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query36)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                print pr;
+                Select pr such that Uses(pr, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("12, 18, 21, 3, 7, 9");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query37)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                if ifs; variable v;
+                Select ifs such that Uses(ifs, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("8");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query38)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                assign a;
+                Select a pattern a(_, _"30%d"_)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query39)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                assign a; variable v;
+                Select v pattern a(v, "30")
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query40)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                assign a;
+                Select a pattern a("d", _"20"_)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query41)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                assign a;
+                Select a pattern a("test001", "a + b + c + d")
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("2");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query42)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                assign a; if ifs;
+                Select a such that Parent(ifs, a) pattern a("a", _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("10, 13, 14");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query43)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                assign a; while w; variable v;
+                Select v  such that Parent*(w, a) pattern a(v, _"b"_)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("test02");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query44)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                assign a; while w; variable v;
+                Select v such that Modifies(w, v) pattern a(v, _"b+c"_)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("a");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query45)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                assign a; stmt s; variable v;
+                Select s such that Modifies(s, _) pattern a(v, _"a-b"_)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 10, 11, 13, 14, 15, 16, 17, 19, 2, 20, 4, 5, 6, 8");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query46)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                assign a; variable v;
+                Select a such that Uses(a, v) pattern a("a", _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("10, 13, 14");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query47)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                assign a; variable v;
+                Select v such that Uses(a, v) pattern a(_, _"a"_)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("a, b, c, d");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2b_Query48)
+        {
+            initializeIteration2b();
+
+            // create the input string
+            std::string query = R"(
+                assign a; while w;
+                Select w such that Parent*(w, a) pattern a("test002", _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("16");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query01)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                stmt s;
+                Select s
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 2, 3, 4, 5, 6, 7, 8, 9");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query02)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                read r;
+                Select r
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query03)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                print pr;
+                Select pr
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("13, 16, 18, 19, 3");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query04)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                while w;
+                Select w
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("12, 4, 6");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query05)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                if ifs;
+                Select ifs
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("17, 8, 9");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query06)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                assign a;
+                Select a
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("10, 11, 14, 15, 2, 5, 7");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query07)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                variable v;
+                Select v
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("a, add, b, c, d, nonzero, zero");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query08)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                constant c;
+                Select c
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("0, 10, 20, 30");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query09)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                procedure p;
+                Select p
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("NestedWhileIf");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query10)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                read r;
+                Select r such that Parent(_, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query11)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                while w;
+                Select w such that Parent(_, 19)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("12, 4, 6");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query12)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                if ifs;
+                Select ifs such that Parent(12, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("17, 8, 9");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query13)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                assign a;
+                Select a such that Parent(_, a)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("10, 11, 14, 5, 7");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query14)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                stmt s;
+                Select s such that Parent(s, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("12, 17, 4, 6, 8, 9");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query15)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                constant c;
+                Select c such that Parent(4, 7)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query16)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                if ifs; while w;
+                Select ifs such that Parent(ifs, w)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("8");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query17)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                while w; print pr;
+                Select pr such that Parent(w, pr)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("13");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query18)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                stmt s;
+                Select s such that Parent(4, s)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("5, 6, 8");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query19)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                while w;
+                Select w such that Parent(w, 14)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query20)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                variable v;
+                Select v such that Parent*(_, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("a, add, b, c, d, nonzero, zero");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query21)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                print pr;
+                Select pr such that Parent*(_, 14)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("13, 16, 18, 19, 3");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query22)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                read r;
+                Select r such that Parent*(8, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query23)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                while w;
+                Select w such that Parent*(_, w)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("12, 6");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query24)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                if ifs;
+                Select ifs such that Parent*(ifs, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("17, 8, 9");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query25)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                variable v;
+                Select v such that Parent*(4, 10)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("a, add, b, c, d, nonzero, zero");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query26)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                if ifs; while w;
+                Select ifs such that Parent*(ifs, w)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("8");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query27)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                if ifs; while w;
+                Select w such that Parent*(ifs, w)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("12");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query28)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                if ifs;
+                Select ifs such that Parent*(4, ifs)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("8, 9");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query29)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                while w;
+                Select w such that Parent*(w, 7)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("4, 6");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query30)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                stmt s;
+                Select s such that Modifies(s, "a")
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 4, 5, 6, 7");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query31)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                variable v;
+                Select v such that Modifies(5, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("a");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query32)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                read r;
+                Select r such that Modifies(r, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query33)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                while w; variable v;
+                Select w such that Modifies(w, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("4, 6");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query34)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                stmt s;
+                Select s such that Uses(s, "b")
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("10, 11, 14, 15, 4, 5, 8, 9");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query35)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                variable v;
+                Select v such that Uses(4, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("a, b, c");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query36)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                print pr;
+                Select pr such that Uses(pr, _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("13, 16, 18, 19, 3");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query37)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                if ifs; variable v;
+                Select ifs such that Uses(ifs, v)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("17, 8, 9");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query38)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                assign a;
+                Select a pattern a(_, _"d"_)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query39)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                assign a; variable v;
+                Select v pattern a(v, "10")
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("a");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query40)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                assign a;
+                Select a pattern a("d", _"20"_)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query41)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                assign a;
+                Select a pattern a("add", "a * b * c")
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("15");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query42)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                assign a; if ifs;
+                Select a such that Parent(ifs, a) pattern a("a", _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query43)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                assign a; while w; variable v;
+                Select v  such that Parent*(w, a) pattern a(v, _"b"_)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("a, c, d");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query44)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                assign a; while w; variable v;
+                Select v such that Modifies(w, v) pattern a(v, _"b+c"_)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("a");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query45)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                assign a; stmt s; variable v;
+                Select s such that Modifies(s, _) pattern a(v, "10")
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("1, 10, 11, 14, 15, 2, 4, 5, 6, 7, 8, 9");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query46)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                assign a; variable v;
+                Select a such that Uses(a, v) pattern a("a", _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("5");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query47)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                assign a; variable v;
+                Select v such that Uses(a, v) pattern a(_, _"a"_)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("a, b, c");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
+        TEST_METHOD(CheckSPA_Iteration2c_Query48)
+        {
+            initializeIteration2c();
+
+            // create the input string
+            std::string query = R"(
+                assign a; while w;
+                Select w such that Parent*(w, a) pattern a("a", _)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("4, 6");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -4162,7 +7942,7 @@ namespace SPATests
             initializeSource(source);
         }
 
-        static void initializeSimple4() {
+        static void initializeMidterm() {
             std::string source = R"(
                 procedure A {
                   print HelloWorld;
@@ -4183,6 +7963,121 @@ namespace SPATests
                   x = x + y + z;
                   z = x % 123;
                   read y;
+                }
+            )";
+            initializeSource(source);
+        }
+
+        static void initializeIteration2a() {
+            std::string source = R"(
+                procedure proc {
+	                i = 5;
+	                x = 2;
+	                y = x + 1 + i* 3/(5-7);
+	                bx = 0;
+	                bx = 0;
+	                i = i - 1;
+	                z = x;
+	                x = y;
+	                i = i + 1;
+	                i = 5;
+	                read x;
+	                bx = 0;
+	                y = 3;
+	                i = i - 1;
+	                y = 3; 
+	                bx = 0;
+	                z = i - 1; 
+	                read y;			
+	                i = i + 1; 
+	                i = x + y * 3;
+	                y = y + x + i; 
+	                bx = 0;
+	                y = 3;
+	                i = i - 1;
+	                i = x;
+	                print i;
+	                y = 3;
+	                y= 3;
+	                bx = 0;
+	                y = 3;
+	                i = i - 1;
+	                i = 5; 
+	                y= 3;
+                }
+            )";
+            initializeSource(source);
+        }
+
+        static void initializeIteration2b() {
+            std::string source = R"(
+                procedure NonNesting01 {
+                    read a;
+                    test001 =  a + b + c + d;
+                    print code9;
+
+                    while (10 < a) {
+                        read a;
+                        test02 = 20 + (a - b) * (c % d);
+                        print b;
+                    }
+
+                    if (10 > a) then {
+                        print coding7;
+                        a = b + c + d;
+                        read coding7;
+                    } else {
+                        print test001;
+                        a = b + c + d;
+                        a = b + c + d;
+                        read b;
+                    }
+
+                    while (a > c) {
+                        read a;
+                        print b;
+                        test002 = (c / 30 % d);
+                        read b;
+                        print a;
+                    }
+                }
+            )";
+            initializeSource(source);
+        }
+
+        static void initializeIteration2c() {
+            std::string source = R"(
+                procedure NestedWhileIf {
+                    read a;
+                    b = 20;
+                    print d;
+
+                    while (a < 30) {
+                        a = b + c;
+                        while (a < 10) {
+                            a = 10;
+                        }
+                        if (a > 10) then {
+                            if (c < 30) then {
+                                d = b;
+                            } else {
+                                c = a + b;
+                            }
+                        } else {
+                            while (a < 10) {
+                                print c;
+                            }
+                            c = a + b;
+                        }
+                    }
+
+                    add = a * b * c;                
+                    print add;
+                    if (add < 0) then {
+                        print negative;
+                    } else {
+                        print positive;
+                    }
                 }
             )";
             initializeSource(source);
