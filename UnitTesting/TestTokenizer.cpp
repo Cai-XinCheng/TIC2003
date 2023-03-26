@@ -843,6 +843,75 @@ namespace TokenizerTests
             // and hence the assertion would be true.
         }
 
+        TEST_METHOD(CheckTokenizeQuery_Bug02_01)
+        {
+            // create the input string
+            std::string testInput = "a* b";
+
+            // create the test output string from a string
+            std::string testOutput;
+            generateTestOutput(testInput, testOutput);
+
+            // create the expected output string
+            std::string expectedOutput = "a$*$b$";
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+
+            // The test output should match with the expected output 
+            // and hence the assertion would be true.
+        }
+
+        TEST_METHOD(CheckTokenizeQuery_Bug02_02_Expression)
+        {
+            // create the input string
+            std::string testInput = "Next* (b * 2)";
+
+            // create the test output string from a string
+            std::string testOutput;
+            generateTestOutput(testInput, testOutput);
+
+            // create the expected output string
+            std::string expectedOutput = "Next$*$($b$*$2$)$";
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+
+            // The test output should match with the expected output 
+            // and hence the assertion would be true.
+        }
+
+        TEST_METHOD(CheckTokenizeQuery_Bug02_02_Query)
+        {
+            // create the input string
+            std::string testInput = "Next* (b , 2)";
+
+            // create the test output string from a string
+            std::string testOutput;
+            generateTestOutput(testInput, testOutput);
+
+            // create the expected output string
+            std::string expectedOutput = "Next*$($b$,$2$)$";
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+
+            // The test output should match with the expected output 
+            // and hence the assertion would be true.
+        }
+
     // Some private helper functions can be added below.
     private:
         // method to generate tokenized test output

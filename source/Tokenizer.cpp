@@ -1,6 +1,7 @@
 #include "Tokenizer.h"
 #include <iostream>
 #include <set>
+#include <regex>
 
 // constructor
 Tokenizer::Tokenizer() {}
@@ -44,24 +45,29 @@ void Tokenizer::tokenize(std::string text, std::vector<std::string>& tokens) {
         }
         else if (isalpha(ch)) { // scan for an alphanumeric sequence starting with a letter 
             token.push_back(ch);
-            bool isUpper = isupper(ch);
             i++;
            
             while (i < text.length()) {
                 ch = text.at(i);
-                if (isalpha(ch)
-                    || isdigit(ch)
-                    || (ch == '*' && isUpper) // scan for Next*, Parent*, Calls* etc...
-                ) {
+                if (isalnum(ch)) {
                     token.push_back(ch);
                     i++;
+                }
+                else if (ch == '*') { // scan for Next*, Parent*, Calls* etc...
+                    std::string content = token + text.substr(i);
+                    std::regex function_pattern(R"(^[A-Za-z][A-Za-z0-9]*\*?\s*?\(\s*("[^"]*?"|[A-Za-z][A-Za-z0-9]*|\d+|_)(\s*,\s*("[^"]*?"|[A-Za-z][A-Za-z0-9]*|\d+|_))*\s*\))");
+                    if (std::regex_search(content, function_pattern)) {
+                        token.push_back(ch);
+                        i++;
+                    }
+                    break;
                 }
                 else {
                     break;
                 }
             }
 
-            tokens.push_back(token);
+            tokens.push_back(token); 
             token.clear();
         }
         else if (ch == '"') { // scan for string sequence starting with " and ending with "
