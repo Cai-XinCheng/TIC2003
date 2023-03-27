@@ -60,6 +60,7 @@ void Database::sqlite3_check_parent(sqlite3_context* context, int argc, sqlite3_
         return;
     }
 
+    /*
     if (arg0Type == SQLITE_NULL && arg1Type == SQLITE_NULL) {
         std::string sql = "SELECT 1 FROM parents LIMIT 1;";
         std::vector<int> results = db.selectFirstColumn<int>(sql);
@@ -67,14 +68,15 @@ void Database::sqlite3_check_parent(sqlite3_context* context, int argc, sqlite3_
         sqlite3_result_int(context, result);
         return;
     }
+    */
 
     uint32_t parentStmtNo = arg0Type == SQLITE_INTEGER ? static_cast<unsigned>(sqlite3_value_int64(argv[0])) : 0;
     uint32_t stmtNo = arg1Type == SQLITE_INTEGER ? static_cast<unsigned>(sqlite3_value_int64(argv[1])) : 0;
 
     std::string sql = std::format(
-        "SELECT 1 FROM parents WHERE parentStmtNo = ? AND (? = {} OR stmtNo = ?) LIMIT 1;",
-        std::to_string(SQLITE_NULL));
-    std::vector<int> results = db.selectFirstColumn<int>(sql, parentStmtNo, arg1Type, stmtNo);
+        "SELECT 1 FROM parents WHERE (? = {} OR parentStmtNo = ?) AND (? = {} OR stmtNo = ?) LIMIT 1;",
+        std::to_string(SQLITE_NULL), std::to_string(SQLITE_NULL));
+    std::vector<int> results = db.selectFirstColumn<int>(sql,arg0Type, parentStmtNo, arg1Type, stmtNo);
 
     int result = results.size() >= 1 ? 1 : 0;
     sqlite3_result_int(context, result);
@@ -105,9 +107,11 @@ void Database::sqlite3_check_parent_t(sqlite3_context* context, int argc, sqlite
     uint32_t parentStmtNo = arg0Type == SQLITE_INTEGER ? static_cast<unsigned>(sqlite3_value_int64(argv[0])) : 0;
     uint32_t stmtNo = arg1Type == SQLITE_INTEGER ? static_cast<unsigned>(sqlite3_value_int64(argv[1])) : 0;
 
-    if (arg1Type == SQLITE_NULL) {
-        std::string sql = "SELECT 1 FROM parents WHERE parentStmtNo = ? LIMIT 1;";
-        std::vector<int> results = db.selectFirstColumn<int>(sql, parentStmtNo);
+    if (arg0Type == SQLITE_NULL || arg1Type == SQLITE_NULL) {
+        std::string sql = std::format(
+            "SELECT 1 FROM parents WHERE (? = {} OR stmtNo = ?) AND (? = {} OR parentStmtNo = ?) LIMIT 1;",
+            std::to_string(SQLITE_NULL), std::to_string(SQLITE_NULL));
+        std::vector<int> results = db.selectFirstColumn<int>(sql,arg1Type, stmtNo, arg0Type, parentStmtNo);
         int result = results.size() >= 1 ? 1 : 0;
         sqlite3_result_int(context, result);
         return;
@@ -144,6 +148,7 @@ void Database::sqlite3_check_next(sqlite3_context* context, int argc, sqlite3_va
         return;
     }
 
+    /*
     if (arg0Type == SQLITE_NULL && arg1Type == SQLITE_NULL) {
         std::string sql = "SELECT 1 FROM nexts LIMIT 1;";
         std::vector<int> results = db.selectFirstColumn<int>(sql);
@@ -151,14 +156,15 @@ void Database::sqlite3_check_next(sqlite3_context* context, int argc, sqlite3_va
         sqlite3_result_int(context, result);
         return;
     }
+    */
 
     uint32_t stmtNo = static_cast<unsigned>(sqlite3_value_int64(argv[0]));
     uint32_t nextStmtNo = arg1Type == SQLITE_INTEGER ? static_cast<unsigned>(sqlite3_value_int64(argv[1])) : 0;
 
     std::string sql = std::format(
-        "SELECT 1 FROM nexts WHERE stmtNo = ? AND (? = {} OR nextStmtNo = ?) LIMIT 1;",
-        std::to_string(SQLITE_NULL));
-    std::vector<int> results = db.selectFirstColumn<int>(sql, stmtNo, arg1Type, nextStmtNo);
+        "SELECT 1 FROM nexts WHERE (? = {} OR stmtNo = ?) AND (? = {} OR nextStmtNo = ?) LIMIT 1;",
+        std::to_string(SQLITE_NULL), std::to_string(SQLITE_NULL));
+    std::vector<int> results = db.selectFirstColumn<int>(sql,arg0Type, stmtNo, arg1Type, nextStmtNo);
 
     int result = results.size() >= 1 ? 1 : 0;
     sqlite3_result_int(context, result);
