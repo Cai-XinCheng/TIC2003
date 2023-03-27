@@ -168,12 +168,15 @@ std::string PQL2SQLTransformer::transformPattern(const PatternClause* pattern, s
         std::string temp = right;
         std::string beginningWildcard;
         std::string endWildcard;
+        bool hasPlaceholder = false;
 
         if (temp.at(0) == '_') {
+            hasPlaceholder = true;
             beginningWildcard = "%";
             temp = temp.substr(1);
         }
         if (temp.at(temp.length() - 1) == '_') {
+            hasPlaceholder = true;
             endWildcard = "%";
             temp = temp.substr(0, temp.length() - 1);
         }
@@ -200,7 +203,9 @@ std::string PQL2SQLTransformer::transformPattern(const PatternClause* pattern, s
         }
         delete expressionNode;
 
-        transformedRight = std::format("{}.expression LIKE '{}{}{}'", synonymAssignment, beginningWildcard, normalizedStringContent, endWildcard);
+        transformedRight = !hasPlaceholder
+            ? std::format("{}.expression = '{}'", synonymAssignment, normalizedStringContent)
+            : std::format("{}.expression LIKE '{}{}{}'", synonymAssignment, beginningWildcard, normalizedStringContent, endWildcard);
     }
 
     return !transformedLeft.empty() && !transformedRight.empty()
