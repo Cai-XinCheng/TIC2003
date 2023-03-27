@@ -3781,7 +3781,7 @@ namespace SPATests
 
             // create the expected output string
 
-            std::string expectedOutput = TestHelper::reorderOutput("");
+            std::string expectedOutput = TestHelper::reorderOutput("1, 11");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -3970,7 +3970,7 @@ namespace SPATests
 
             // create the expected output string
 
-            std::string expectedOutput = TestHelper::reorderOutput("");
+            std::string expectedOutput = TestHelper::reorderOutput("y");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -6643,7 +6643,7 @@ namespace SPATests
 
             // create the expected output string
 
-            std::string expectedOutput = TestHelper::reorderOutput("a, add, b, c, d, nonzero, zero");
+            std::string expectedOutput = TestHelper::reorderOutput("a, add, b, c, d, negative, positive");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -6994,7 +6994,7 @@ namespace SPATests
 
             // create the expected output string
 
-            std::string expectedOutput = TestHelper::reorderOutput("a, add, b, c, d, nonzero, zero");
+            std::string expectedOutput = TestHelper::reorderOutput("a, add, b, c, d, negative, positive");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
@@ -7129,7 +7129,7 @@ namespace SPATests
 
             // create the expected output string
 
-            std::string expectedOutput = TestHelper::reorderOutput("a, add, b, c, d, nonzero, zero");
+            std::string expectedOutput = TestHelper::reorderOutput("a, add, b, c, d, negative, positive");
 
             // Logger messages can be viewed in the Test Explorer 
             // under "open additional output for this result" for each test case
