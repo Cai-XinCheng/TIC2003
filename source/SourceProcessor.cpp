@@ -71,7 +71,8 @@ void SourceProcessor::processStatement(const int& i, const std::string& procedur
         // process expression
         processExp(expression, stmtNo, procedureName);
         // insert assignemnt into DB
-        std::string expStr = "(" + expression->toString() + ")";
+        //std::string expStr = "(" + expression->toString() + ")";
+        std::string expStr = expression->toString();
         Database::insertAssignment(stmtNo, variableName, expStr);
 
     }
