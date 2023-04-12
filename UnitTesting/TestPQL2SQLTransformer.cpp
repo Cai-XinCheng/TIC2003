@@ -681,7 +681,7 @@ namespace PQL2SQLTransformerTests
             // create the expected output string
             std::string expectedOutput = "SELECT DISTINCT v.name";
             expectedOutput += " FROM assignments AS a, variables AS v";
-            expectedOutput += " WHERE a.variable = v.name AND a.expression LIKE '((y) + (1))'";
+            expectedOutput += " WHERE a.variable = v.name AND a.expression = '((y) + (1))'";
 
             // Logger messages can be viewed in the Test Explorer
             // under "open additional output for this result" for each test case
