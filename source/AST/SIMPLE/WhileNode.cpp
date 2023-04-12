@@ -3,7 +3,7 @@
 
 const std::string& WhileNode::type = "while";
 
-WhileNode::WhileNode(const uint32_t& stmtNo, const ExpressionNode* conExp, const std::vector<const StatementNode*>& statements, const std::string& indentation)
+WhileNode::WhileNode(const uint32_t& stmtNo, const ConExpNode* conExp, const std::vector<const StatementNode*>& statements, const std::string& indentation)
     : StatementNode(stmtNo, type, indentation), conExp(conExp), statements(statements) {
 }
 
@@ -23,7 +23,7 @@ std::string WhileNode::toString() const {
     return str;
 }
 
-const ExpressionNode* WhileNode::getConExp() const {
+const ConExpNode* WhileNode::getConExp() const {
     return this->conExp;
 }
 

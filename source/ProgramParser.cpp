@@ -123,7 +123,7 @@ const WhileNode* ProgramParser::parseWhile(const std::string& indentation) {
     i--;
     i--;
     const ExpressionNode* rhs = ep.parse(tempTokens);
-    const ExpressionNode* conExp = new ConExpNode(op, lhs, rhs);
+    const ConExpNode* conExp = new ConExpNode(op, lhs, rhs);
     i++; // ")"
 
     i++; // "{"
@@ -172,7 +172,7 @@ const IfNode* ProgramParser::parseIf(const std::string& indentation) {
     i--;
     i--;
     const ExpressionNode* rhs = ep.parse(tempTokens);
-    const ExpressionNode* conExp = new ConExpNode(op, lhs, rhs);
+    const ConExpNode* conExp = new ConExpNode(op, lhs, rhs);
     i++; // ")"
     i++; // "then"
     i++; // "{"

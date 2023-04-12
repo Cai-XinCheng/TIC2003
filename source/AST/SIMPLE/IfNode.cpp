@@ -5,7 +5,7 @@ const std::string& IfNode::type = "if";
 
 IfNode::IfNode(
     const uint32_t& stmtNo,
-    const ExpressionNode* conExp,
+    const ConExpNode* conExp,
     const std::vector<const StatementNode*>& ifStatements,
     const std::vector<const StatementNode*>& elseStatements,
     const std::string& indentation)
@@ -35,7 +35,7 @@ std::string IfNode::toString() const {
     return str;
 }
 
-const ExpressionNode* IfNode::getConExp() const {
+const ConExpNode* IfNode::getConExp() const {
     return this->conExp;
 }
 

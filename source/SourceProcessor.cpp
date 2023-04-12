@@ -83,7 +83,7 @@ void SourceProcessor::processStatement(const int& i, const std::string& procedur
     else if (stmtType == "while") {
         const WhileNode* whileNode = static_cast<const WhileNode*>(stmtNode);
         parent.push(whileNode);
-        const ConExpNode* conExpNode = static_cast<const ConExpNode*>(whileNode->getConExp());
+        const ConExpNode* conExpNode = whileNode->getConExp();
         // process condition expression
         processExp(conExpNode, stmtNo, procedureName);
         // get statement list from while node
@@ -106,7 +106,7 @@ void SourceProcessor::processStatement(const int& i, const std::string& procedur
             nextStmt = statements.at(i + 1)->getStmtNo();
         }
 
-        const ConExpNode* conExpNode = static_cast<const ConExpNode*>(ifNode->getConExp());
+        const ConExpNode* conExpNode = ifNode->getConExp();
         // process condition expression
         processExp(conExpNode, stmtNo, procedureName);
         // get statement list from if node
