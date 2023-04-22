@@ -7760,6 +7760,33 @@ namespace SPATests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
+        TEST_METHOD(CheckSPA_Iteration3_query12100)
+        {
+            initializeIteration3();
+
+            // create the input string
+            std::string query = R"(
+                call cl; 
+                Select cl such that Next*(_, cl)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("18, 23, 26, 5, 9");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
     // Some private helper functions can be added below.
     private:
         static void initializeSource(const std::string& source) {
@@ -8078,6 +8105,70 @@ namespace SPATests
                     } else {
                         print positive;
                     }
+                }
+            )";
+            initializeSource(source);
+        }
+
+        static void initializeIteration3() {
+            std::string source = R"(
+                procedure main {
+	                i = 5;
+	                x = 2;
+	                y = x+(1+i)*3/(5-7);
+	                while (i < x) {
+		                call call1;
+		                while (i > 0) {
+			                y = 3;
+			                print i;
+		                }
+	                }
+	                call call4;
+	                read a;
+	                print answer;
+                }
+
+                procedure call1 {
+	                call call2;
+	                while (epsilon < (b-a)) {
+	                        c = (a+b)/20;
+	                        s = x*c+y-c/2*c;
+	                        read s;
+	                        a = s+2; 
+	                }
+	                call call5;
+	                count = count+1;
+	                b = s; 
+                }
+
+                procedure call2 {
+	                y = i-1+y+x;
+	                count = 0;
+	                call call3;
+                }
+
+                procedure call3 {
+	                if(x > 0) then {
+            	                y = 3;
+	                } else {
+		                call call4;
+		                while(x > 0) {
+			                b = 3+re; 
+		                }
+	                }
+	                read b;
+                }
+
+                procedure call4 {
+	                call call5;
+                }
+
+                procedure call5 {
+	                x = 5*(5*(5+55)*x/55);
+                }
+
+                procedure call6 {
+	                read pn;
                 }
             )";
             initializeSource(source);

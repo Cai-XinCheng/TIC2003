@@ -161,7 +161,7 @@ void Database::sqlite3_check_next_t(sqlite3_context* context, int argc, sqlite3_
     uint32_t stmtNo = arg0Type == SQLITE_INTEGER ? static_cast<unsigned>(sqlite3_value_int64(argv[0])) : 0;
     uint32_t nextStmtNo = arg1Type == SQLITE_INTEGER ? static_cast<unsigned>(sqlite3_value_int64(argv[1])) : 0;
 
-    if (arg0Type == NULL || arg1Type == SQLITE_NULL) {
+    if (arg0Type == SQLITE_NULL || arg1Type == SQLITE_NULL) {
         std::string sql = std::format(
             "SELECT 1 FROM nexts WHERE (? = {} OR stmtNo = ?) AND (? = {} OR nextStmtNo = ?) LIMIT 1;",
             std::to_string(SQLITE_NULL), std::to_string(SQLITE_NULL));
