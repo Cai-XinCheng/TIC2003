@@ -80,18 +80,26 @@ std::string PQL2SQLTransformer::transformResult(const std::vector<std::string>& 
 std::string PQL2SQLTransformer::transformFilters(const std::vector<const FilterClause*>& filters, std::vector<StatefulDeclaration>& statefulDeclarations) const {
     std::string andSeparatedFilters = "";
     for (const FilterClause* filter : filters) {
-        if (!andSeparatedFilters.empty()) {
-            andSeparatedFilters += " AND ";
-        }
-
         std::string filterType = filter->getType();
         if (filterType == SuchThatClause::nodeType) {
             const auto* suchThat = dynamic_cast<const SuchThatClause*>(filter);
-            andSeparatedFilters += transformSuchThat(suchThat, statefulDeclarations);
+            const std::string suchThatFilter = transformSuchThat(suchThat, statefulDeclarations);
+            if (andSeparatedFilters.empty()) {
+                andSeparatedFilters = suchThatFilter;
+            }
+            else if (!suchThatFilter.empty()) {
+                andSeparatedFilters += std::format(" AND {}", suchThatFilter);
+            }
         }
         else if (filterType == PatternClause::nodeType) {
             const auto* pattern = dynamic_cast<const PatternClause*>(filter);
-            andSeparatedFilters += transformPattern(pattern, statefulDeclarations);
+            const std::string patternFilter = transformPattern(pattern, statefulDeclarations);
+            if (andSeparatedFilters.empty()) {
+                andSeparatedFilters = patternFilter;
+            }
+            else if (!patternFilter.empty()) {
+                andSeparatedFilters += std::format(" AND {}", patternFilter);
+            }
         }
         else {
             throw std::invalid_argument("PQL2SQLTransformer: unknown filter type");

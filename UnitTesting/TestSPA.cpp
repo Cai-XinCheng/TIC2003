@@ -7787,6 +7787,33 @@ namespace SPATests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
+        TEST_METHOD(CheckSPA_Iteration3_query13410)
+        {
+            initializeIteration3();
+
+            // create the input string
+            std::string query = R"(
+                stmt s, s1, s2, s3; assign a, a1, a2, a3; while w; if ifs; variable v, v1, v2, v3; procedure p, q; constant c; call cl; read re; print pn;
+                Select v such that Next*(17, 14) such that Uses(s2, v) such that Modifies(s2, v) pattern a(_,_)
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("a, b, c, count, s, x, y");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
     // Some private helper functions can be added below.
     private:
         static void initializeSource(const std::string& source) {
