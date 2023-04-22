@@ -70,15 +70,16 @@ void Tokenizer::tokenize(std::string text, std::vector<std::string>& tokens) {
             tokens.push_back(token); 
             token.clear();
         }
-        else if (ch == '"') { // scan for string sequence starting with " and ending with "
+        else if (ch == '"' || ch == '\'') { // scan for string sequence starting with " and ending with ", or starting with ' and ending with '
             token.push_back(ch);
             i++;
 
+            char left = ch;
             while (i < text.length()) {
                 ch = text.at(i);
                 token.push_back(ch);
                 i++;
-                if (ch == '"') {
+                if (ch == left) {
                     break;
                 }
             }

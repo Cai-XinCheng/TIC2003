@@ -126,7 +126,7 @@ std::string PQL2SQLTransformer::transformSuchThat(const SuchThatClause* suchThat
             // nubmer
             return arg;
         }
-        else if (firstChar == '"') {
+        else if (firstChar == '"' || firstChar == '\'') {
             // string
             std::string stringContent = arg.substr(1, arg.length() - 2);
             return std::format("'{}'", stringContent);
@@ -154,7 +154,7 @@ std::string PQL2SQLTransformer::transformPattern(const PatternClause* pattern, s
         // entRef is _
         transformedLeft = "";
     }
-    else if (left.at(0) == '"') {
+    else if (left.at(0) == '"' || left.at(0) == '\'') {
         // entRef is string
         std::string stringContent = left.substr(1, left.length() - 2);
         transformedLeft = std::format("{}.variable = '{}'", synonymAssignment, stringContent);

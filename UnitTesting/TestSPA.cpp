@@ -7787,6 +7787,33 @@ namespace SPATests
             Assert::IsTrue(testOutput == expectedOutput);
         }
 
+        TEST_METHOD(CheckSPA_Iteration3_query12510)
+        {
+            initializeIteration3();
+
+            // create the input string
+            std::string query = R"(
+                procedure p; variable v;
+                Select p such that Uses('call1', 'c')
+            )";
+
+            // create the test output string from the query
+            std::string testOutput;
+            generateTestOutput(query, testOutput);
+            testOutput = TestHelper::reorderOutput(testOutput);
+
+            // create the expected output string
+
+            std::string expectedOutput = TestHelper::reorderOutput("");
+
+            // Logger messages can be viewed in the Test Explorer 
+            // under "open additional output for this result" for each test case
+            TestHelper::LogActualAndExpected(testOutput, expectedOutput);
+
+            // compare the testOutput with expected output
+            Assert::IsTrue(testOutput == expectedOutput);
+        }
+
         TEST_METHOD(CheckSPA_Iteration3_query13410)
         {
             initializeIteration3();
